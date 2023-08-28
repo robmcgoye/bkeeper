@@ -1,0 +1,30 @@
+
+/*------------------------------------*\
+  #SETTINGS
+\*------------------------------------*/
+
+$dark-blue-color:    #0d1949;
+$white-color:        #ffffff;
+$blue-color:         #006697;
+$light-blue-color:   #00B6B5;
+$light-purple-color: #F9F7FF;
+
+
+
+
+/*------------------------------------*\
+  #UNAUTHENTICATED PAGES
+\*------------------------------------*/
+
+.secondary-main {
+  background-color: $dark-blue-color;
+}
+
+#login-header{
+  background: #ABA9BB;
+  color: #FFFADE;
+  text-align: center;
+  font-weight: 450;
+  font-size: 1.3em;
+}
+

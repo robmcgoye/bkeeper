@@ -1,0 +1,21 @@
+<% if resource.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show pb-1" role="alert" id="error_explanation">
+    <div class="row">
+      <div class="col-auto pe-1">
+        <i class="bi bi-exclamation-triangle fs-1"></i>
+      </div>
+      <div class="col ps-1">
+        <h5 class="alert-heading">
+          The following <%= pluralize(resource.errors.count, "error") %> prevented the 
+          <%= resource.class.name.downcase %> from being saved.          
+        </h5>
+      </div>
+    </div>
+    <ul>
+      <% resource.errors.full_messages.each do |message| %>
+        <li class="small"><%= message %></li>
+      <% end %>
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

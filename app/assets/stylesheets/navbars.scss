@@ -1,10 +1,30 @@
+/*------------------------------------*\
+  #NAVBAR
+\*------------------------------------*/
+// change to .main-navbar
+#main_nav {
+  background-color: $light-purple-color;
+}
 
+#main_nav a:hover {
+  color: $blue-color;
+  font-weight: 450;
+  // background: #00B6B5;
+}
+
+
+
+// foo > .bar {}
+/*------------------------------------*\
+  #SIDEBAR
+\*------------------------------------*/
+// change to .main-sidebar .main-sidebar-sm
 #sidebar {
   min-width: 250px;
   max-width: 250px;
   // background: #7386D5;
-  background: #0d1949;
-  color: #fff;
+  background: $dark-blue-color;
+  color: $white-color;
   transition: all 0.3s;
   height: 100vh;
   // position: fixed;
@@ -27,23 +47,13 @@
 }
 
 #sidebar .list-group a.active {
-  background: #006697;
+  background: $blue-color;
 }
 
 #sidebar .list-group a:hover,
 #sidebarCollapse:hover {
-  color: #ffffff;
-  background: #00B6B5;
-}
-
-#main_nav {
-  background-color: #F9F7FF;
-}
-
-#main_nav a:hover {
-  color: #006697;
-  font-weight: 450;
-  // background: #00B6B5;
+  color: $white-color;
+  background: $light-blue-color;
 }
 
 @media (max-width: 768px) {

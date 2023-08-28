@@ -1,0 +1,43 @@
+<div class="col-auto ms-1 pe-1" id="sidebar">        
+
+    <div class="d-flex justify-content-center my-2" data-controller="sidebar">
+      <button type="button" id="sidebarCollapse" data-action="click->sidebar#toggle" class="btn btn-outline-light">
+          <span class="show-xl pe-2">Foundation</span><i class="bi bi-list"></i>
+      </button>
+    </div>
+
+  <!-- Sidebar nav -->
+  <div class="list-group">
+    <a href="#" class="list-group-item active">
+      <i class="bi bi-speedometer2 me-2"></i>
+      <span class="show-xl">Dashboard</span>
+    </a>
+    <!-- nav item -->
+    <div class="dropdown dropend">
+      <a href="#" role="button" id="orgsubmenu" data-bs-toggle="dropdown" aria-expanded="false" class="list-group-item-action list-group-item dropdown-toggle">
+          <i class="bi bi-people me-2"></i><span class="show-xl">Organizations</span>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="orgsubmenu">
+        <li>
+            <a class="dropdown-item" href="#">New</a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="#">Manage</a>
+        </li>
+      </ul>
+    </div>
+    <!-- nav item -->
+      <a href="#" class="list-group-item list-group-item-action">
+          <i class="bi bi-credit-card me-2"></i><span class="show-xl">Contributions</span>
+      </a>
+    <!-- nav item -->
+      <a href="#" class="list-group-item list-group-item-action">
+          <i class="bi bi-bank me-2"></i><span class="show-xl">Accounting</span>
+      </a>
+    <!-- nav item -->
+      <a href="#" class="list-group-item list-group-item-action">
+          <i class="bi bi-printer me-2"></i><span class="show-xl">Reports</span>
+      </a>
+    <!-- end nav items -->
+  </div>
+</div>
