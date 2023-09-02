@@ -1,6 +1,11 @@
 class PagesController < ApplicationController
 
-  def home
+  def dashboard
+    goto_dashboard
   end
   
+  def index
+    
+  end
+
 end

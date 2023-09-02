@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   before_action :set_session, only: :destroy
 
   def index
-    @sessions = Current.user.sessions.order(created_at: :desc)
+    load_sessions
   end
 
   def new
@@ -24,10 +24,23 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    @session.destroy; redirect_to(sessions_path, notice: "That session has been logged out")
+    this_session_id = @session.id
+    @session.destroy
+    if this_session_id != cookies.signed[:session_token]
+      flash.now[:notice] = "That session has been logged out."
+      load_sessions
+    else
+      redirect_to(sign_in_path, notice: "That session has been logged out")
+    end
   end
 
   private
+
+    def load_sessions
+      @sessions = Current.user.sessions.order(created_at: :desc)
+      goto_sessions
+    end 
+
     def set_session
       @session = Current.user.sessions.find(params[:id])
     end

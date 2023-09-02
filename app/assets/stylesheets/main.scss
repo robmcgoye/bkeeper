@@ -7,7 +7,11 @@ $dark-blue-color:    #0d1949;
 $white-color:        #ffffff;
 $blue-color:         #006697;
 $light-blue-color:   #00B6B5;
-$light-purple-color: #F9F7FF;
+$light-purple-color: #ECE7FF;
+// $light-purple-color: #F9F7FF;
+$dark-purple-color:  #662A63;
+$my-purple:          #BDBAFA;
+$my-dark-gray:       #464555;
 
 
 
@@ -17,14 +21,28 @@ $light-purple-color: #F9F7FF;
 \*------------------------------------*/
 
 .secondary-main {
-  background-color: $dark-blue-color;
+  background-color: $blue-900;
 }
 
-#login-header{
-  background: #ABA9BB;
-  color: #FFFADE;
-  text-align: center;
-  font-weight: 450;
-  font-size: 1.3em;
+.primary-main {
+  background-color: $gray-100;
 }
 
+
+
+
+/*------------------------------------*\
+  #GENERIC
+\*------------------------------------*/
+
+.primary-highlight {
+  // color: $dark-blue-color;
+  // color: #7C1924;
+  color: $light-purple-color;
+  font-weight: 550;
+}
+
+.my-text-bg-secondary {
+  background-color: $light-purple-color;
+  color: $black;
+}

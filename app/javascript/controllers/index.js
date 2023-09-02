@@ -6,5 +6,12 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import MnnavController from "./mnnav_controller"
+application.register("mnnav", MnnavController)
+
+import SbnavController from "./sbnav_controller"
+application.register("sbnav", SbnavController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)

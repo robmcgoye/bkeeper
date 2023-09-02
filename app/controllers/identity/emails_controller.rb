@@ -2,15 +2,17 @@ class Identity::EmailsController < ApplicationController
   before_action :set_user
 
   def edit
+    goto_edit_email
   end
 
   def update
     if !@user.authenticate(params[:current_password])
-      redirect_to edit_identity_email_path, alert: "The password you entered is incorrect"
+      flash.now[:alert] = "The password you entered is incorrect."
+      goto_edit_email
     elsif @user.update(email: params[:email])
       redirect_to_root
     else
-      render :edit, status: :unprocessable_entity
+      goto_edit_email
     end
   end
 
@@ -22,10 +24,9 @@ class Identity::EmailsController < ApplicationController
     def redirect_to_root
       if @user.email_previously_changed?
         resend_email_verification
-        redirect_to root_path, notice: "Your email has been changed"
-      else
-        redirect_to root_path
+        flash.now[:notice] = "Your email has been changed."
       end
+      goto_dashboard
     end
 
     def resend_email_verification

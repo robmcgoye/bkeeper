@@ -14,7 +14,9 @@
         </div>
         <div class="row">
           <div class="d-grid col-sm-10 offset-sm-2">
-            <%= form.submit "Send password reset email", class: "btn btn-primary" %>
+            <%= form.button nil, class: "btn btn-secondary" do %>
+              <i class="bi bi-send pe-2"></i>Send password reset email
+            <% end %>
           </div>
         </div>
       <% end %>

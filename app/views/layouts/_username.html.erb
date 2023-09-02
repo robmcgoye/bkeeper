@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "username" do %>
+  <span class="navbar-text ps-1 text-white">
+    WELCOME: <i class="primary-highlight ps-1"><%= Current.user.email %></i>
+  </span>    
+<% end %>

@@ -5,14 +5,13 @@ Rails.application.routes.draw do
   post "sign_up", to: "registrations#create"
   resources :sessions, only: [:index, :show, :destroy]
   resource  :password, only: [:edit, :update]
+  resources :users
   namespace :identity do
     resource :email,              only: [:edit, :update]
     resource :email_verification, only: [:show, :create]
     resource :password_reset,     only: [:new, :edit, :create, :update]
   end
-  root "home#index"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "pages#home"
+  root "pages#index"
+  get "dashboard", to: "pages#dashboard"
 end

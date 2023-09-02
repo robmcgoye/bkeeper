@@ -1,13 +1,30 @@
 /*------------------------------------*\
   #NAVBAR
 \*------------------------------------*/
-// change to .main-navbar
-#main_nav {
-  background-color: $light-purple-color;
+.main-navbar {
+  // background-color: $light-purple-color;
+  background-color: $dark-blue-color;
 }
 
-#main_nav a:hover {
-  color: $blue-color;
+.main-navbar-link {
+  color: $white;
+}
+
+.main-navbar-dropdown-item {
+  color: $black;
+}
+
+.main-navbar-link:hover {
+  // color: $blue-color;
+  color: $light-blue-color;
+  font-weight: 450;
+  // background: #00B6B5;
+}
+
+.main-navbar-dropdown-item:hover  {
+  // color: $blue-color;
+  color: $white;
+  background-color: $dark-blue-color;
   font-weight: 450;
   // background: #00B6B5;
 }
@@ -20,8 +37,8 @@
 \*------------------------------------*/
 // change to .main-sidebar .main-sidebar-sm
 #sidebar {
-  min-width: 250px;
-  max-width: 250px;
+  min-width: 220px;
+  max-width: 220px;
   // background: #7386D5;
   background: $dark-blue-color;
   color: $white-color;
@@ -47,6 +64,12 @@
 }
 
 #sidebar .list-group a.active {
+  // background: $my-dark-gray;
+  background: $blue-color;
+}
+
+#sidebar .list-group a.active:hover {
+  // background: $my-dark-gray;
   background: $blue-color;
 }
 

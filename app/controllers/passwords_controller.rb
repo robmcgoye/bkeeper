@@ -2,15 +2,18 @@ class PasswordsController < ApplicationController
   before_action :set_user
 
   def edit
+    goto_edit_password
   end
 
   def update
     if !@user.authenticate(params[:current_password])
-      redirect_to edit_password_path, alert: "The current password you entered is incorrect"
+      flash.now[:alert] = "The current password you entered is incorrect."
+      goto_edit_password
     elsif @user.update(user_params)
-      redirect_to root_path, notice: "Your password has been changed"
+      flash.now[:notice] = "Your password has been changed."
+      goto_dashboard
     else
-      render :edit, status: :unprocessable_entity
+      goto_edit_password
     end
   end
 

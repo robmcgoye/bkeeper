@@ -11,7 +11,6 @@ export default class extends Controller {
     side_bar.classList.toggle('active');
     const org_sub_menu = document.getElementById("orgsubmenu");
     org_sub_menu.classList.toggle('dropdown-toggle');
-    
-    
  }
+ 
 }

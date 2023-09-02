@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bkeeper</title>
+    <title>Bookeeper: <%= yield(:title) %></title>
     <%# <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /> %>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -11,7 +11,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body <%= 'class="secondary-main"'.html_safe unless Current.user.present? %> >
+  <body class="<%= Current.user.present? ? "primary-main" : "secondary-main" %>" >
     <% if Current.user.present? %>
       <div class="container-fluid ps-0">
         <div class="row">
@@ -19,8 +19,9 @@
           <div class="col ps-0">
             <%= render "layouts/navbar" %>
 
-            <div class="container mx-2">
-              <%= yield %>
+            <div class="container mx-2 pt-3">
+              <%= render 'layouts/messages' %>             
+                <%= yield %>
             </div>
 
           </div>

@@ -1,11 +1,12 @@
-<div class="container py-1">
+<%= turbo_frame_tag "messages" do %>
+<div class="container">
   <% flash.each do |name, msg| %>
-    <div class="py-2 alert alert-<%= name == "notice" ? "success" : "danger" %> alert-dismissible fade show" role="alert">
+    <div class="mt-1 py-2 alert alert-<%= name == "notice" ? "success" : "danger" %> alert-dismissible fade show" role="alert">
       <div class="row">
         <div class="col-auto pe-1 ">
-          <i class="<%= "fs-1 bi pe-2 bi-#{name == "notice" ? "info-circle" : "exclamation-triangle" }" %>"></i>
+          <i class="<%= "fs-2 bi pe-2 bi-#{name == "notice" ? "info-circle" : "exclamation-triangle" }" %>"></i>
         </div>
-        <div class="col ps-1 fs-6 lh-sm pt-2">
+        <div class="col align-self-center ps-1 fs-6 lh-sm pt-1">
           <%= msg %>
         </div>
       </div>
@@ -13,3 +14,4 @@
     </div>
   <% end %>
 </div>
+<% end %>
