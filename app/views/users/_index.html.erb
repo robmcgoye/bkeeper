@@ -1,19 +1,16 @@
-<%#= turbo_frame_tag "main_content" do %>
 <div id="main_content">
-<p style="color: green"><%= notice %></p>
 
-<h1>Users</h1>
-
-<div id="users">
-  <% @users.each do |user| %>
-    <%= render user %>
-    <p>
-      <%= link_to "Show this user", user %>
-    </p>
-  <% end %>
+  <%= render 'new' %>
+  <div class="container-fluid mt-3">
+    <%# Table Header %>
+    <div class="row tb-header pt-1">
+      <div class="col">Email</div>
+      <div class="col">Info</div>
+      <div class="col-auto">Actions</div>
+    </div>
+    <%# Table Content %>
+    <% @users.each_with_index do |user, index| %>
+      <%= render 'user', user: user, index: index %>
+    <% end %>  
+  </div>
 </div>
-
-<%= link_to "New user", new_user_path %>
-
-</div>
-<%# end %>

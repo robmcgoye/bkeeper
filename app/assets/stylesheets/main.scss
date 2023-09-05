@@ -12,6 +12,7 @@ $light-purple-color: #ECE7FF;
 $dark-purple-color:  #662A63;
 $my-purple:          #BDBAFA;
 $my-dark-gray:       #464555;
+$my-light-grey:      #eeee;
 
 
 
@@ -45,4 +46,29 @@ $my-dark-gray:       #464555;
 .my-text-bg-secondary {
   background-color: $light-purple-color;
   color: $black;
+}
+
+.tb-bg-dark {
+  background-color: $my-light-grey;
+}
+
+.tb-bg-light {
+  background-color: $white;
+}
+
+
+.tb-header {
+  background-color: $my-light-grey;
+  border-bottom: 2px solid $black;
+  font-weight: bold;
+}
+
+.grid-striped .grid:nth-child(odd) {
+    // background-color: rgba(0,0,0,.05);
+    background-color: $my-light-grey;
+  }
+
+
+.my-dropdown-toggle::after {
+  content: none;
 }

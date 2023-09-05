@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  rolify
   has_secure_password
 
   has_many :email_verification_tokens, dependent: :destroy
@@ -16,7 +17,27 @@ class User < ApplicationRecord
     self.verified = false
   end
 
+  after_create :assign_default_role
+  
   after_update if: :password_digest_previously_changed? do
     sessions.where.not(id: Current.session).delete_all
+  end
+
+  def get_roles
+    roles.where(resource_type: nil).pluck(:name)
+  end
+
+  def admin
+    has_role? :admin
+  end
+
+  private
+
+  def assign_default_role
+    if User.count == 1
+      add_role(:admin) if roles.blank?
+    else
+      add_role(:user) if roles.blank?
+    end
   end
 end

@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   post "sign_up", to: "registrations#create"
   resources :sessions, only: [:index, :show, :destroy]
   resource  :password, only: [:edit, :update]
-  resources :users
+  resources :users, excpet: [:show]
+  get "users/cancel/:id", to: "users#cancel", as: 'cancel'
   namespace :identity do
     resource :email,              only: [:edit, :update]
     resource :email_verification, only: [:show, :create]

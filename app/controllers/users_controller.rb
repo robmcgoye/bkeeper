@@ -1,23 +1,35 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
 
-  # GET /users or /users.json
   def index
     @users = User.all
     goto_users
   end
 
-  # GET /users/1 or /users/1.json
-  def show
-  end
-
-  # GET /users/new
   def new
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+  end
+
+  def cancel
+    
+    # binding.break
+
+    if params[:id].to_i == -1
+      render turbo_stream: [
+        # turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace(User.new, partial: "users/new")
+      ]
+    else
+      set_user
+      render turbo_stream: [
+        # turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace(@user, partial: "users/user", locals: { user: @user, index: params[:index].to_i })
+      ]
+    end
   end
 
   # POST /users or /users.json
@@ -54,7 +66,6 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
