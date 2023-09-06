@@ -25,7 +25,7 @@
         <%= form.label :password, "Password", class: "col-md-3 col-form-label-sm" %>
         <div class="col-md-9">
           <div class="row">
-            <div class="col"><%= form.password_field :password, required: true, class: "form-control" %></div>
+            <div class="col"><%= form.password_field :password, class: "form-control" %></div>
           </div>
           <div class="row">
             <div class="col"><span class="small">6 characters minimum.</span></div>
@@ -36,7 +36,7 @@
       <div class="row mb-2">
         <%= form.label :password_confirmation, "Confirm password", class: "col-md-3 col-form-label-sm" %>
         <div class="col-md-9">
-          <%= form.password_field :password_confirmation, required: true, class: "form-control" %>
+          <%= form.password_field :password_confirmation, class: "form-control" %>
         </div>
       </div>    
     </div>

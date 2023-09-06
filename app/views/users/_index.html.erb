@@ -1,16 +1,6 @@
 <div id="main_content">
 
   <%= render 'new' %>
-  <div class="container-fluid mt-3">
-    <%# Table Header %>
-    <div class="row tb-header pt-1">
-      <div class="col">Email</div>
-      <div class="col">Info</div>
-      <div class="col-auto">Actions</div>
-    </div>
-    <%# Table Content %>
-    <% @users.each_with_index do |user, index| %>
-      <%= render 'user', user: user, index: index %>
-    <% end %>  
-  </div>
+  <%= render 'user_list' %>
+
 </div>

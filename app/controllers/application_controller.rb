@@ -4,9 +4,18 @@ class ApplicationController < ActionController::Base
   before_action :set_current_request_details
   before_action :authenticate
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
+  def current_user
+    Current.user
+  end
 
   private
+    def user_not_authorized
+      flash.now[:alert] = "You are not authorized to perform this action."
+      goto_dashboard
+    end
+    
     def authenticate
       if session_record = Session.find_by_id(cookies.signed[:session_token])
         Current.session = session_record

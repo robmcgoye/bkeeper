@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :check_permissions
 
   def index
     @users = User.all
@@ -10,73 +11,87 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
-  # GET /users/1/edit
   def edit
   end
 
   def cancel
-    
-    # binding.break
-
     if params[:id].to_i == -1
       render turbo_stream: [
-        # turbo_stream.replace("messages", partial: "layouts/messages"),
         turbo_stream.replace(User.new, partial: "users/new")
       ]
     else
       set_user
       render turbo_stream: [
-        # turbo_stream.replace("messages", partial: "layouts/messages"),
         turbo_stream.replace(@user, partial: "users/user", locals: { user: @user, index: params[:index].to_i })
       ]
     end
   end
 
-  # POST /users or /users.json
   def create
     @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
+    if @user.save
+      flash.now[:notice] = "User was successfully created."
+      @users = User.all
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        turbo_stream.replace(User.new, partial: "users/new"), 
+        turbo_stream.replace("user_list", partial: "users/user_list")
+      ]
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
   def update
-    respond_to do |format|
+    if Current.user == @user && params[:user][:admin].to_i == 0
+      flash.now[:alert] = "Can't remove admin rights from the currently logged on user."
+      render_update(@user, params[:user][:index].to_i)
+    else
       if @user.update(user_params)
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
+        flash.now[:notice] = "User was successfully updated."
+        render_update(@user, params[:user][:index].to_i)
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity
       end
     end
+
   end
 
-  # DELETE /users/1 or /users/1.json
   def destroy
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
+    if @user != Current.user
+      @user.destroy
+      flash.now[:notice] = "User was successfully deleted."
+      @users = User.all
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        turbo_stream.replace("user_list", partial: "users/user_list")
+      ]
+    else
+      flash.now[:alert] = "Can't delete your account."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]      
     end
+
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def user_params
-      params.fetch(:user, {})
+      params.require(:user).permit(:email, :password, :password_confirmation, :admin)
+    end
+   
+    def check_permissions
+      authorize :user, :crud_actions?
+    end
+
+    def render_update(user, index)
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        turbo_stream.replace(user, partial: "users/user", locals: { user: user, index: index })
+      ]
     end
 end
