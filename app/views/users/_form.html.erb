@@ -9,8 +9,8 @@
     <div class="row mb-2">
       <div class="col-md-9 offset-md-3">
         <div class="form-check form-switch">
-          <%= form.check_box :admin, class: "form-check-input", id: "flexSwitchCheckAdmin" %>
-          <%= form.label :admin,  class: "form-check-label", for: "flexSwitchCheckAdmin" %>        
+          <%= form.check_box :admin, class: "form-check-input", id: "flexSwitchCheckAdmin_#{user.id}" %>
+          <%= form.label :admin,  class: "form-check-label", for: "flexSwitchCheckAdmin_#{user.id}" %>        
         </div>
       </div>
     </div>

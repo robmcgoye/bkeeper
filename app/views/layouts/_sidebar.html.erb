@@ -1,4 +1,4 @@
-<div class="col-auto ms-2 pe-2" id="sidebar">        
+<div class="col-auto ms-2 pe-2 pt-1" id="sidebar">        
 
     <div class="d-flex justify-content-center my-2" data-controller="sidebar">
       <button type="button" id="sidebarCollapse" data-action="click->sidebar#toggle" class="btn btn-outline-light">
@@ -16,19 +16,9 @@
     <% end %>
 
     <!-- nav item -->
-    <div class="dropdown dropend">
-      <a href="#" role="button" id="orgsubmenu" data-bs-toggle="dropdown" aria-expanded="false" class="list-group-item-action list-group-item dropdown-toggle" data-sbnav-target="btn" data-action="click->sbnav#organization">
-          <i class="bi bi-buildings me-2"></i><span class="show-xl">Organizations</span>
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="orgsubmenu">
-        <li>
-            <a class="dropdown-item" href="#">New</a>
-        </li>
-        <li>
-            <a class="dropdown-item" href="#">Manage</a>
-        </li>
-      </ul>
-    </div>
+    <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#organization">
+        <i class="bi bi-credit-card me-2"></i><span class="show-xl">Organizations</span>
+    </a>    
     <!-- nav item -->
     <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#contribution">
         <i class="bi bi-credit-card me-2"></i><span class="show-xl">Contributions</span>

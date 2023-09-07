@@ -1,5 +1,4 @@
-<%= turbo_frame_tag "messages" do %>
-<div class="container">
+<div class="container" data-controller="flash" id="messages">
   <% flash.each do |name, msg| %>
     <div class="mt-1 py-2 alert alert-<%= name == "notice" ? "success" : "danger" %> alert-dismissible fade show" role="alert">
       <div class="row">
@@ -14,4 +13,3 @@
     </div>
   <% end %>
 </div>
-<% end %>
