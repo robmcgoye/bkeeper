@@ -36,7 +36,7 @@
   #SIDEBAR
 \*------------------------------------*/
 // change to .main-sidebar .main-sidebar-sm
-#sidebar {
+#sidebar-controller {
   min-width: 220px;
   max-width: 220px;
   // background: #7386D5;
@@ -49,47 +49,51 @@
   // left: 0;
 }
 
-#sidebar.active {
+#sidebar-controller.active {
   min-width: 80px;
   max-width: 80px;
   text-align: center;
 }
 
-#sidebar.active .show-xl {
+#sidebar-controller.active .show-xl,
+#sidebarCollapse .show-xl {
   display: none;
 }
 
-#sidebar .show-xl {
+#sidebar-controller .show-xl,
+#sidebarCollapse .show-xl {
   display: inline;
 }
 
-#sidebar .list-group a.active {
+#sidebar-controller .list-group a.active {
   // background: $my-dark-gray;
   background: $blue-color;
 }
 
-#sidebar .list-group a.active:hover {
+#sidebar-controller .list-group a.active:hover {
   // background: $my-dark-gray;
   background: $blue-color;
 }
 
-#sidebar .list-group a:hover,
+#sidebar-controller .list-group a:hover,
 #sidebarCollapse:hover {
   color: $white-color;
   background: $light-blue-color;
 }
 
-@media (max-width: 768px) {
-  #sidebar {
+// 768px
+@media (max-width: 576px) {
+  #sidebar-controller {
       min-width: 80px;
       max-width: 80px;
       text-align: center;
       // margin-left: -80px !important;
   }
-  #sidebar.active {
+  #sidebar-controller.active {
       margin-left: 0 !important;
   }
-  #sidebar .show-xl {
+  #sidebar-controller .show-xl,
+  #sidebarCollapse {
       display: none;
   }
 }

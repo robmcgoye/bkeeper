@@ -1,11 +1,11 @@
 module Navigation
   extend ActiveSupport::Concern
 
-  def goto_dashboard
+  def goto_dashboard(foundation)
     render turbo_stream: [
       turbo_stream.replace("username", partial: "layouts/username"), 
       turbo_stream.replace("messages", partial: "layouts/messages"), 
-      turbo_stream.replace("main_content", partial: "pages/dashboard")
+      turbo_stream.replace("main_content", partial: "pages/dashboard", locals: { foundation: foundation })
     ]
   end
 

@@ -1,16 +1,61 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = [ "btn" ]
+  static values = { selected: { type: Number, default: -1 } }
+
+  initialize() {
+    // this.selectedValue = 0;
+    const side_bar = document.getElementById("sidebar-controller");
+    side_bar.classList.toggle('active');
+  }
+
   connect() {
     // console.log("Yo... hello!")
   }
 
-  toggle() {
-    // console.log("hello!")
-    const side_bar = document.getElementById("sidebar");
-    side_bar.classList.toggle('active');
-    const org_sub_menu = document.getElementById("orgsubmenu");
-    org_sub_menu.classList.toggle('dropdown-toggle');
- }
- 
+  organization() {
+    this.selectedValue = 1;
+  }
+
+  contribution() {
+    this.selectedValue = 2;
+  }
+
+  accounting() {
+    this.selectedValue = 3;
+  }
+
+  report() {
+    this.selectedValue = 4;
+  }
+
+  selectedValueChanged() {
+    this.setButtonState();
+    if (this.selectedValue == 0) {
+      document.title = "FDN: Dashboard";
+    } else if (this.selectedValue == 1) {
+      document.title = "FDN: Organizations";
+    } else if (this.selectedValue == 2) {
+      document.title = "FDN: Contributions";
+    } else if (this.selectedValue == 3) {
+      document.title = "FDN: Accounting";
+    } else if (this.selectedValue == 4) {
+      document.title = "FDN: Reports";
+    } else if (this.selectedValue == 5) {
+      document.title = "FDN: Settings";
+    }
+  }
+
+  setButtonState() {
+    this.btnTargets.forEach((element, index) => {
+      if (index == this.selectedValue) {
+        element.classList.add('active');
+      } else {
+        element.classList.remove('active');
+      }
+    });
+  }
+
+
 }

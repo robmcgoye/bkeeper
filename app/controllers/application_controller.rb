@@ -13,7 +13,9 @@ class ApplicationController < ActionController::Base
   private
     def user_not_authorized
       flash.now[:alert] = "You are not authorized to perform this action."
-      goto_dashboard
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
     end
     
     def authenticate

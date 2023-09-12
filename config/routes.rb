@@ -6,13 +6,18 @@ Rails.application.routes.draw do
   resources :sessions, only: [:index, :show, :destroy]
   resource  :password, only: [:edit, :update]
   resources :users, excpet: [:show]
-  get "users/cancel/:id", to: "users#cancel", as: 'cancel'
+  get "users/cancel/:id", to: "users#cancel", as: "users_cancel"
   namespace :identity do
     resource :email,              only: [:edit, :update]
     resource :email_verification, only: [:show, :create]
     resource :password_reset,     only: [:new, :edit, :create, :update]
   end
 
-  root "pages#index"
-  get "dashboard", to: "pages#dashboard"
+  root "foundations#index"
+  get "foundation/cancel", to: "foundations#cancel"
+  resources :foundations, excpet: [:show] do
+    get "dashboard", to: "foundations#dashboard"
+  end
+
+
 end

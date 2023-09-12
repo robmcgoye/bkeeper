@@ -26,13 +26,15 @@ class User < ApplicationRecord
   end
   
   after_save do |user|
-    if user.admin? != (user.has_any_role? :admin)
-      if user.admin?
-        user.add_role(:admin)
-      else
-        user.remove_role :admin
+    if User.count > 1
+      if user.admin? != (user.has_any_role? :admin)
+        if user.admin?
+          user.add_role(:admin)
+        else
+          user.remove_role :admin
+        end
+        user.add_role(:user) if roles.blank?
       end
-      user.add_role(:user) if roles.blank?
     end
   end
 

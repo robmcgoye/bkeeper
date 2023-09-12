@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_02_202226) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_07_225402) do
   create_table "email_verification_tokens", force: :cascade do |t|
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_email_verification_tokens_on_user_id"
+  end
+
+  create_table "foundations", force: :cascade do |t|
+    t.string "short_name"
+    t.string "long_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "password_reset_tokens", force: :cascade do |t|

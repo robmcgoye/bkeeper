@@ -1,44 +1,35 @@
-<div class="col-auto ms-2 pe-2 pt-1" id="sidebar">        
 
-    <div class="d-flex justify-content-center my-2" data-controller="sidebar">
-      <button type="button" id="sidebarCollapse" data-action="click->sidebar#toggle" class="btn btn-outline-light">
-          <span class="show-xl pe-2">Foundation</span><i class="bi bi-list"></i>
-      </button>
-    </div>
-
+<%= turbo_frame_tag "sidebar" do %>    
   <!-- Sidebar nav -->
-  <div class="list-group pt-1" data-controller="sbnav" id="sbnav-controller">
-    <%= link_to dashboard_path, class: "list-group-item", 
-        "data-action": "click->sbnav#dashboard", 
-        "data-sbnav-target": "btn" do %>
+  <div class="list-group pt-1">
+    <%= link_to foundation_dashboard_path(foundation), class: "list-group-item",  
+        "data-sidebar-target": "btn" do %>
       <i class="bi bi-speedometer2 me-2"></i>
       <span class="show-xl">Dashboard</span>
     <% end %>
 
     <!-- nav item -->
-    <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#organization">
-        <i class="bi bi-credit-card me-2"></i><span class="show-xl">Organizations</span>
+    <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#organization">
+        <i class="bi bi-buildings me-2"></i><span class="show-xl">Organizations</span>
     </a>    
     <!-- nav item -->
-    <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#contribution">
+    <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#contribution">
         <i class="bi bi-credit-card me-2"></i><span class="show-xl">Contributions</span>
     </a>
     <!-- nav item -->
-    <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#accounting">
+    <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#accounting">
         <i class="bi bi-bank me-2"></i><span class="show-xl">Accounting</span>
     </a>
     <!-- nav item -->
-    <a href="#" class="list-group-item list-group-item-action" data-sbnav-target="btn" data-action="click->sbnav#report">
+    <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#report">
         <i class="bi bi-printer me-2"></i><span class="show-xl">Reports</span>
     </a>
-    <!-- nav item -->
-    <%= link_to users_path, class: "list-group-item list-group-item-action", 
-                          "data-action": "click->sbnav#user", 
-                          "data-sbnav-target": "btn" do %>
-
-      <i class="bi bi-people me-2"></i>
-      <span class="show-xl">User Accounts</span>
+    <!-- nav item --> 
+    <%= link_to edit_foundation_path(foundation), class: "list-group-item list-group-item-action", 
+                          "data-sidebar-target": "btn" do %>
+      <i class="bi bi-gear me-2"></i>
+      <span class="show-xl">Settings</span>
     <% end %>
     <!-- end nav items -->
   </div>
-</div>
+<% end %>

@@ -15,11 +15,12 @@
   <body class="<%= Current.user.present? ? "primary-main" : "secondary-main" %>" >
     <% if Current.user.present? %>
       <div class="container-fluid ps-0">
+        <%= render "layouts/navbar" %>
         <div class="row">
-          <%= render "layouts/sidebar" %>
-          <div class="col ps-0">
-            <%= render "layouts/navbar" %>
-
+          <div class="col-auto ms-2 pe-2 pt-1" id="sidebar-controller" data-controller="sidebar">   
+            <%= turbo_frame_tag "sidebar" %>
+          </div>
+          <div class="col ps-0">           
             <div class="container-fluid mx-2 pt-3">
               <%= render 'layouts/messages' %>             
                 <%= yield %>
@@ -40,6 +41,7 @@
         </div>
       </div>
     <% end %>
+    <%= turbo_frame_tag "modal" %>
   </body>
 </html>
 

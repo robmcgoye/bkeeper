@@ -1,6 +1,9 @@
-<nav class="main-navbar navbar navbar-expand-lg navbar-dark">
-  <div class="container-fluid">
-    <div class="ms-auto" data-controller="mnnav" data-mnnav-sbnav-outlet="#sbnav-controller">
+<nav class="main-navbar navbar navbar-expand-md navbar-dark py-1">
+  <div class="container-fluid" data-controller="mnnav" data-mnnav-sidebar-outlet="#sidebar-controller">
+      <div class="d-flex justify-content-center">
+        <%= turbo_frame_tag "sidebar-button" %>
+      </div>
+      <%= render 'layouts/username' %>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
               data-bs-target="#navbarSupportedContent" 
               aria-controls="navbarSupportedContent" 
@@ -8,8 +11,8 @@
               data-mnnav-target="navbartoggler">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse pt-2" id="navbarSupportedContent">
-        <%= render 'layouts/username' %>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        
       
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item dropdown">
@@ -19,18 +22,21 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item main-navbar-dropdown-item" href="#">
-                <i class="bi bi-folder-plus pe-2"></i>New</a>
+                <%= link_to root_path, target:"_top", class: "dropdown-item main-navbar-dropdown-item" do %>
+                  <i class="bi bi-list-stars pe-2"></i>Foundations
+                <% end %>
+                
               </li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item main-navbar-dropdown-item" href="#">Carwill</a></li>
+              <%= render "layouts/foundations_list", foundations: @foundations %>
             </ul>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link main-navbar-link" aria-current="page" href="#">
-              <i class="bi bi-gear pe-1"></i>Settings
-            </a>
+            <%= link_to users_path, class: "nav-link main-navbar-link", 
+                      :"data-action" => "click->mnnav#view_accounts" do %>
+              <i class="bi bi-people pe-1"></i>Accounts
+            <% end %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle main-navbar-link" href="#" 
@@ -64,6 +70,6 @@
           </li>
         </ul>
       </div>
-    </div>
+    
   </div>
 </nav>
