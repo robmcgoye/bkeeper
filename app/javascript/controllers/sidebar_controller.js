@@ -14,20 +14,24 @@ export default class extends Controller {
     // console.log("Yo... hello!")
   }
 
-  organization() {
+  organization(e) {
     this.selectedValue = 1;
+    e.preventDefault();
   }
 
-  contribution() {
+  contribution(e) {
     this.selectedValue = 2;
+    e.preventDefault();
   }
 
-  accounting() {
+  accounting(e) {
     this.selectedValue = 3;
+    e.preventDefault();
   }
 
-  report() {
+  report(e) {
     this.selectedValue = 4;
+    e.preventDefault();
   }
 
   selectedValueChanged() {
