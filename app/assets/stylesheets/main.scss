@@ -29,7 +29,9 @@ $my-light-grey:      #eeee;
   background-color: $gray-100;
 }
 
-
+.my-bg-gray {
+  background-color: $gray-200;
+}
 
 
 /*------------------------------------*\
@@ -67,9 +69,16 @@ $my-light-grey:      #eeee;
     background-color: $my-light-grey;
   }
 
+.my-small-text {
+  font-size: small;
+} 
 
 .my-dropdown-toggle::after {
   content: none;
+}
+
+.my-table-row:hover{
+  background-color: $my-light-grey;
 }
 
 .my-modal {

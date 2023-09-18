@@ -9,7 +9,7 @@
       <tbody class="table-group-divider">
         <% @foundations.each do |foundation| %>
           <tr>
-            <td><%= link_to foundation.short_name, foundation_dashboard_path(foundation) %></td>
+            <td><%= link_to foundation.short_name, dashboard_foundation_path(foundation) %></td>
             <td><%=foundation.long_name %></td>
             <td>
               <div class="dropstart" role="group">
@@ -19,7 +19,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-dark">
                   <li>
-                    <%= link_to foundation_dashboard_path(foundation), class: "dropdown-item" do %>
+                    <%= link_to dashboard_foundation_path(foundation), class: "dropdown-item" do %>
                       <i class="bi bi-folder2-open pe-1"></i>open
                     <% end %>
                   </li>

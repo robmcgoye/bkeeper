@@ -1,12 +1,11 @@
 class FoundationsController < ApplicationController
-  before_action :set_foundation, only: %i[ edit update destroy ]
+  before_action :set_foundation, only: %i[ edit update destroy settings dashboard ]
   before_action :check_permissions, only: %i[ new create edit update destroy ]
   def index
     @foundations = Foundation.all
   end
 
   def dashboard
-    @foundation = Foundation.find(params[:foundation_id])
     render turbo_stream: [
       turbo_stream.replace("sidebar", partial: "layouts/sidebar", locals: {foundation: @foundation} ),      
       turbo_stream.replace("sidebar-button", partial: "layouts/sidebar_button", locals: { name: @foundation.short_name }),
@@ -14,20 +13,30 @@ class FoundationsController < ApplicationController
     ]
   end
 
+  def settings
+    render turbo_stream: [
+      turbo_stream.replace("main_content", partial: "settings/index")
+    ]  
+  end
+
   def new
     @foundation = Foundation.new
   end
 
   def edit
-    render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "foundations/edit_page")
-    ]
   end
 
   def cancel
+    target = request.headers["Turbo-Frame"]
+    if target.start_with? "foundation_"
+      partial = "settings/show_foundation"
+      @foundation = Foundation.find(target[11].to_i)
+    else
+      partial = "foundations/create"
+    end
     render turbo_stream: [
-      turbo_stream.replace(Foundation.new, partial: "foundations/create")
-    ]    
+      turbo_stream.replace(target, partial: partial)
+    ]
   end 
 
   def create
@@ -52,12 +61,11 @@ class FoundationsController < ApplicationController
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         turbo_stream.replace("sidebar-button", partial: "layouts/sidebar_button", locals: { name: @foundation.short_name }),
-        turbo_stream.replace("main_content", partial: "foundations/edit_page")
+        turbo_stream.replace("foundations-nav-list", partial: "layouts/foundations_list", locals: {foundations: Foundation.all} ),
+        turbo_stream.replace(@foundation, partial: "settings/show_foundation")
       ]
     else
-      render turbo_stream: [
-        turbo_stream.replace("main_content", partial: "foundations/edit_page")
-      ]
+      render :edit, status: :unprocessable_entity
     end
   end
 

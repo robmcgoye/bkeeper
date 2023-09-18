@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_07_225402) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_144500) do
+  create_table "bank_accounts", force: :cascade do |t|
+    t.string "full_name"
+    t.boolean "primary", default: false, null: false
+    t.integer "foundation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["foundation_id"], name: "index_bank_accounts_on_foundation_id"
+  end
+
+  create_table "donors", force: :cascade do |t|
+    t.string "code"
+    t.string "full_name"
+    t.integer "foundation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["foundation_id"], name: "index_donors_on_foundation_id"
+  end
+
   create_table "email_verification_tokens", force: :cascade do |t|
     t.integer "user_id", null: false
     t.index ["user_id"], name: "index_email_verification_tokens_on_user_id"
@@ -21,6 +39,44 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_225402) do
     t.string "long_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "funding_sources", force: :cascade do |t|
+    t.string "code"
+    t.string "short_name"
+    t.string "full_name"
+    t.integer "foundation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["foundation_id"], name: "index_funding_sources_on_foundation_id"
+  end
+
+  create_table "organization_types", force: :cascade do |t|
+    t.string "code"
+    t.string "description"
+    t.integer "foundation_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["foundation_id"], name: "index_organization_types_on_foundation_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "alpha"
+    t.string "tax_number"
+    t.string "contact"
+    t.string "address_1"
+    t.string "address_2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "country"
+    t.integer "foundation_id", null: false
+    t.integer "organization_type_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["foundation_id"], name: "index_organizations_on_foundation_id"
+    t.index ["organization_type_id"], name: "index_organizations_on_organization_type_id"
   end
 
   create_table "password_reset_tokens", force: :cascade do |t|
@@ -65,7 +121,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_07_225402) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "bank_accounts", "foundations"
+  add_foreign_key "donors", "foundations"
   add_foreign_key "email_verification_tokens", "users"
+  add_foreign_key "funding_sources", "foundations"
+  add_foreign_key "organization_types", "foundations"
+  add_foreign_key "organizations", "foundations"
+  add_foreign_key "organizations", "organization_types"
   add_foreign_key "password_reset_tokens", "users"
   add_foreign_key "sessions", "users"
 end

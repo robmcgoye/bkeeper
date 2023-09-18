@@ -15,9 +15,15 @@ Rails.application.routes.draw do
 
   root "foundations#index"
   get "foundation/cancel", to: "foundations#cancel"
-  resources :foundations, excpet: [:show] do
-    get "dashboard", to: "foundations#dashboard"
+  resources :foundations, except: [:show] do
+    get "dashboard", on: :member
+    get "settings", on: :member
+    namespace :settings do
+      resources :donors, except: [:show]
+      resources :funding_sources, except: [:show]
+      resources :bank_accounts, except: [:show]
+      resources :organization_types, except: [:show]
+    end
   end
-
 
 end
