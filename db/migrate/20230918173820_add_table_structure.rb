@@ -38,12 +38,6 @@ class AddTableStructure < ActiveRecord::Migration[7.0]
       t.timestamps      
     end
 
-    create_table :payouts do |t|
-      t.timestamps      
-      t.references :register, null: false, foreign_key: true
-      t.references :commitment, null: false, foreign_key: true
-    end
-
     create_table :commitments do |t|
       t.string :code
       t.integer :number_payments
@@ -53,6 +47,12 @@ class AddTableStructure < ActiveRecord::Migration[7.0]
 
       t.references :organization, null: false, foreign_key: true
       t.timestamps      
+    end
+    
+    create_table :payouts do |t|
+      t.timestamps      
+      t.references :register, null: false, foreign_key: true
+      t.references :commitment, null: false, foreign_key: true
     end
 
   end
