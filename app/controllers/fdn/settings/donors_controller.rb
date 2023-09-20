@@ -1,9 +1,9 @@
-class Settings::DonorsController < Settings::BaseController
+class Fdn::Settings::DonorsController < Fdn::BaseController
   before_action :set_donor, only: %i[ edit update destroy ]
 
   def index
     render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "settings/donors/index")
+      turbo_stream.replace("main_content", partial: "index")
     ]  
   end
 
@@ -21,7 +21,7 @@ class Settings::DonorsController < Settings::BaseController
       render turbo_stream: [ 
         turbo_stream.prepend("donors", @donor),
         turbo_stream.replace("form_donor",
-          partial: "settings/donors/form", 
+          partial: "form", 
           locals: { donor: Donor.new, form_url: foundation_settings_donors_path(@foundation)} ),
         turbo_stream.replace("messages", partial: "layouts/messages")
       ]

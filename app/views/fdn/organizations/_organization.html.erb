@@ -1,0 +1,37 @@
+<%= turbo_frame_tag organization do %>
+  <div class="row my-1 my-table-row">
+    <div class="col-sm-5">
+      <%= organization.name %>
+    </div>
+    <div class="col-sm-3">
+      <%= organization.contact %>
+    </div>
+    <div class="col-sm-3">
+      <%= organization.organization_type.code %>
+    </div>
+    <div class="col-sm-1">
+      <div class="dropstart" role="group">
+        <button type="button" class="btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-dark">
+          <li>
+            <%= link_to foundation_organization_path(@foundation, organization), class: "dropdown-item" do %>
+              <i class="bi bi-folder-symlink pe-1"></i>Show
+            <% end %>
+          </li>
+          <li>
+            <%= link_to edit_foundation_organization_path(@foundation, organization), class: "dropdown-item" do %>
+              <i class="bi bi-pencil-square pe-1"></i>Edit
+            <% end %>
+          </li>
+          <li>
+            <%= button_to foundation_organization_path(@foundation, organization), method: :delete, class: "dropdown-item", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+              <i class="bi bi-trash pe-1"></i>Delete
+            <% end %>          
+          </li>
+        </ul>
+      </div>  
+    </div>
+  </div>
+<% end %>

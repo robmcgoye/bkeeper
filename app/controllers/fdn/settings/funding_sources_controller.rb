@@ -1,9 +1,9 @@
-class Settings::FundingSourcesController < Settings::BaseController
+class Fdn::Settings::FundingSourcesController < Fdn::BaseController
   before_action :set_funding_source, only: %i[ edit update destroy ]
 
   def index
     render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "settings/funding_sources/index")
+      turbo_stream.replace("main_content", partial: "index")
     ]
   end
   
@@ -21,7 +21,7 @@ class Settings::FundingSourcesController < Settings::BaseController
       render turbo_stream: [ 
         turbo_stream.prepend("funding_sources", @funding_source),
         turbo_stream.replace("form_funding_source",
-          partial: "settings/funding_sources/form", 
+          partial: "form", 
           locals: { funding_source: FundingSource.new, form_url: foundation_settings_funding_sources_path(@foundation)} ),
         turbo_stream.replace("messages", partial: "layouts/messages")
       ]

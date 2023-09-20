@@ -38,7 +38,6 @@
             <% end %>
           </li>
           <li>
-<%# turbo_frame: "filter_results", %>
             <%= button_to user, method: :delete, class: "dropdown-item", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
               <i class="bi bi-trash pe-1"></i>Delete
             <% end %>          

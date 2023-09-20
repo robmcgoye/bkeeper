@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
   get  "sign_up", to: "registrations#new"
@@ -13,16 +14,22 @@ Rails.application.routes.draw do
     resource :password_reset,     only: [:new, :edit, :create, :update]
   end
 
-  root "foundations#index"
-  get "foundation/cancel", to: "foundations#cancel"
-  resources :foundations, except: [:show] do
-    get "dashboard", on: :member
-    get "settings", on: :member
-    namespace :settings do
-      resources :donors, except: [:show]
-      resources :funding_sources, except: [:show]
-      resources :bank_accounts, except: [:show]
-      resources :organization_types, except: [:show]
+  root "fdn/foundations#index"
+
+  scope module: 'fdn' do
+    get "foundation/cancel", to: "foundations#cancel"
+    resources :foundations, except: [:show] do
+      get "dashboard", on: :member
+      get "settings", on: :member
+      resources :organizations do
+        get "cancel", on: :member
+      end
+      namespace :settings do
+        resources :donors, except: [:show]
+        resources :funding_sources, except: [:show]
+        resources :bank_accounts, except: [:show]
+        resources :organization_types, except: [:show]
+      end
     end
   end
 

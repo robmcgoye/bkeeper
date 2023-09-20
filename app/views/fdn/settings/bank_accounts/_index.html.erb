@@ -4,26 +4,27 @@
 
   <div class="card">
     <div class="card-header">
-      <%= render "settings/nav" %>
+      <%= render "fdn/settings/nav" %>
     </div>
 
     <div class="container py-3">
       <div class="row text-center">
-        <div class="col"><h5>Organization Types list</h5></div>
+        <div class="col"><h5>Bank Accounts list</h5></div>
       </div>
 
       <div class="container-fluid mt-3">
        
         <%# Table Header %>
         <div class="row tb-header pt-1">
-          <div class="col-sm-4">Code</div>
-          <div class="col-sm-6">Description</div>
+          <div class="col-sm-1">Pri</div>
+          <div class="col-sm-6">Full Name</div>
+          <div class="col-sm-3">Balance</div>
           <div class="col-sm-2">Actions</div>
         </div>
-        <%= turbo_frame_tag "new-organization-type-form", src: new_foundation_settings_organization_type_path(@foundation) %>
+        <%= turbo_frame_tag "new-bank-account-form", src: new_foundation_settings_bank_account_path(@foundation) %>
         <%# Table Content %>
-        <div id="organization_types">
-          <%= render @foundation.organization_types %>
+        <div id="bank_accounts">
+          <%= render @foundation.bank_accounts %>
         </div>
       </div>
 

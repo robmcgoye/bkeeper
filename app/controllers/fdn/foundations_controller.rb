@@ -1,4 +1,4 @@
-class FoundationsController < ApplicationController
+class Fdn::FoundationsController < ApplicationController
   before_action :set_foundation, only: %i[ edit update destroy settings dashboard ]
   before_action :check_permissions, only: %i[ new create edit update destroy ]
   def index
@@ -9,13 +9,13 @@ class FoundationsController < ApplicationController
     render turbo_stream: [
       turbo_stream.replace("sidebar", partial: "layouts/sidebar", locals: {foundation: @foundation} ),      
       turbo_stream.replace("sidebar-button", partial: "layouts/sidebar_button", locals: { name: @foundation.short_name }),
-      turbo_stream.replace("main_content", partial: "foundations/dashboard")
+      turbo_stream.replace("main_content", partial: "dashboard")
     ]
   end
 
   def settings
     render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "settings/index")
+      turbo_stream.replace("main_content", partial: "fdn/settings/index")
     ]  
   end
 
@@ -29,10 +29,10 @@ class FoundationsController < ApplicationController
   def cancel
     target = request.headers["Turbo-Frame"]
     if target.start_with? "foundation_"
-      partial = "settings/show_foundation"
+      partial = "fdn/settings/show_foundation"
       @foundation = Foundation.find(target[11].to_i)
     else
-      partial = "foundations/create"
+      partial = "create"
     end
     render turbo_stream: [
       turbo_stream.replace(target, partial: partial)
@@ -46,9 +46,9 @@ class FoundationsController < ApplicationController
         @foundations = Foundation.all
         render turbo_stream: [
           turbo_stream.replace("messages", partial: "layouts/messages"), 
-          turbo_stream.replace(Foundation.new, partial: "foundations/create"), 
+          turbo_stream.replace(Foundation.new, partial: "create"), 
           turbo_stream.replace("foundations-nav-list", partial: "layouts/foundations_list", locals: {foundations: @foundations} ),
-          turbo_stream.replace("foundation_list", partial: "foundations/foundation_list")
+          turbo_stream.replace("foundation_list", partial: "foundation_list")
         ]
       else
         render :new, status: :unprocessable_entity

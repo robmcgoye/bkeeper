@@ -7,4 +7,7 @@ class OrganizationType < ApplicationRecord
             length: { minimum: 2, maximum: 3 }, 
             uniqueness: { scope: :foundation_id } 
 
+  scope :sort_code_up, -> { order(:code) }
+  scope :sort_code_down, -> { order(code: :desc) }
+
 end

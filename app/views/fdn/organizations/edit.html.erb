@@ -1,0 +1,9 @@
+<%= turbo_frame_tag @organization do %>
+  <div class="card mb-2 border border-warning">
+    <div class="card-header">Edit Organization</div>
+    <div class="card-body pb-2">
+      <%= render "form", organization: @organization, form_url: foundation_organization_path(@foundation, @organization) %>
+    </div>
+  </div>
+<% end %>
+

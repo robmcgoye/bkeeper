@@ -1,4 +1,4 @@
-class Settings::BaseController < ApplicationController
+class Fdn::BaseController < ApplicationController
   before_action :set_foundation
 
   private

@@ -1,9 +1,9 @@
-class Settings::BankAccountsController < Settings::BaseController
+class Fdn::Settings::BankAccountsController < Fdn::BaseController
   before_action :set_bank_account, only: %i[ edit update destroy ]
 
   def index
     render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "settings/bank_accounts/index")
+      turbo_stream.replace("main_content", partial: "index")
     ]  
   end
 
@@ -21,7 +21,7 @@ class Settings::BankAccountsController < Settings::BaseController
       render turbo_stream: [ 
         turbo_stream.prepend("bank_accounts", @bank_account),
         turbo_stream.replace("form_bank_account",
-          partial: "settings/bank_accounts/form", 
+          partial: "form", 
           locals: { bank_account: BankAccount.new, form_url: foundation_settings_bank_accounts_path(@foundation)} ),
         turbo_stream.replace("messages", partial: "layouts/messages")
       ]
