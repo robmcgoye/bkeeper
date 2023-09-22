@@ -8,5 +8,7 @@ class Organization < ApplicationRecord
   
   scope :sort_name_up, -> { order(:name) }
   scope :sort_name_down, -> { order(name: :desc) }
+  scope :filter_by_name, -> (query) { where("name LIKE ?", "%#{sanitize_sql_like(query)}%") }
+
 
 end

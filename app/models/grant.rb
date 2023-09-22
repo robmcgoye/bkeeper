@@ -3,5 +3,7 @@ class Grant < ApplicationRecord
   belongs_to :register
   belongs_to :donor
   belongs_to :funding_source
+  has_many :payouts
 
+  accepts_nested_attributes_for :register
 end

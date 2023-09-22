@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_18_173820) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_22_211149) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -67,8 +67,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_173820) do
   end
 
   create_table "grants", force: :cascade do |t|
-    t.string "grant_number"
-    t.datetime "granted_at"
     t.string "note"
     t.integer "donor_id", null: false
     t.integer "funding_source_id", null: false
@@ -118,10 +116,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_173820) do
   create_table "payouts", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "register_id", null: false
-    t.integer "commitment_id", null: false
+    t.integer "grant_id"
+    t.integer "commitment_id"
     t.index ["commitment_id"], name: "index_payouts_on_commitment_id"
-    t.index ["register_id"], name: "index_payouts_on_register_id"
+    t.index ["grant_id"], name: "index_payouts_on_grant_id"
   end
 
   create_table "reconciliations", force: :cascade do |t|
@@ -204,7 +202,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_18_173820) do
   add_foreign_key "organizations", "organization_types"
   add_foreign_key "password_reset_tokens", "users"
   add_foreign_key "payouts", "commitments"
-  add_foreign_key "payouts", "registers"
+  add_foreign_key "payouts", "grants"
   add_foreign_key "reconciliations", "bank_accounts"
   add_foreign_key "registers", "bank_accounts"
   add_foreign_key "registers", "reconciliations"

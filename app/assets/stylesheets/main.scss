@@ -81,6 +81,11 @@ $my-light-grey:      #eeee;
   background-color: $my-light-grey;
 }
 
+.scroll {
+  max-height: 100px;
+  overflow-y: auto;
+}
+
 .my-modal {
   position: fixed;
   z-index: 2;

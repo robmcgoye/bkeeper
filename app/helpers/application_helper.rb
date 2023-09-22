@@ -9,6 +9,15 @@ module ApplicationHelper
     }
   end
 
+  def get_select_options_for_donors(foundation)
+    foundation.donors.sort_full_name_up.collect{
+      |p| [ 
+        p.full_name, 
+        p.id 
+      ]
+    }
+  end
+
   def truncate(string, max)
     string.length > max ? "#{string[0...max]}..." : string
   end

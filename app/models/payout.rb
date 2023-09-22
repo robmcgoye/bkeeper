@@ -1,4 +1,4 @@
 class Payout < ApplicationRecord
   belongs_to :commitment
-  belongs_to :register
+  belongs_to :grant
 end

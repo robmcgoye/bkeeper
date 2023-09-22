@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+    
   get  "sign_in", to: "sessions#new"
   post "sign_in", to: "sessions#create"
   get  "sign_up", to: "registrations#new"
@@ -21,8 +21,17 @@ Rails.application.routes.draw do
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
+      get "organizations/filter", to: "organizations#filter"
+      
       resources :organizations do
         get "cancel", on: :member
+      end
+      scope module: 'contributions' do
+        get "grants/new_next", to: "grants#new_next"
+        resources :grants do
+          get "cancel", on: :member
+        end
+        resources :commitments
       end
       namespace :settings do
         resources :donors, except: [:show]

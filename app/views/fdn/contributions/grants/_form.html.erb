@@ -1,0 +1,19 @@
+
+<%= render 'shared/error_messages', resource: grant %>
+<%= form_with model: grant, url: form_url do |f| %>
+  <div class="row">
+    <div class="col pe-0">
+
+    </div>
+    <div class="col-auto" role="group">
+      <div class="btn-group-vertical">
+        <%= f.button class: "btn btn-sm btn-outline-secondary text-start" do %>
+          <i class="bi bi-save pe-1"></i>Save
+        <% end %>
+        <%#= link_to cancel_foundation_organization_path(@foundation, get_id(organization)), class: "btn btn-sm btn-outline-secondary text-start" do %>
+          <i class="bi bi-x-square pe-1"></i>Cancel
+        <% #end %>
+      </div>
+    </div>
+  </div>
+<% end %>
