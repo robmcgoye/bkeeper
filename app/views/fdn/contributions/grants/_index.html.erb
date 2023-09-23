@@ -16,18 +16,16 @@
         <%= render "new_button" %> 
         <%# Table Header %>
         <div class="row tb-header pt-1">
-          <div class="col-sm-1">Date</div>
-          <div class="col-sm-2">Grant #</div>
-          <div class="col-sm-4">Organization</div>
-          <div class="col-sm-2">Donor</div>
-          <div class="col-sm-2">Amount</div>
+          <div class="col-sm-2">Date</div>
+          <div class="col-sm-2 text-center">Check #</div>
+          <div class="col-sm-2 text-center">Amt</div>
+          <div class="col-sm-5">Organization</div>
+
           <div class="col-sm-1"></div>
         </div>
-        <%#= turbo_frame_tag "new-donor-form", src: new_foundation_settings_donor_path(@foundation) %>
         <%# Table Content %>
-        <div id="grants">
-          <%#= render @foundation.donors %>
-        </div>
+        <%= render "grant_list", grants: @grants %>
+
       </div>
 
     </div>

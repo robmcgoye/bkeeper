@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_22_211149) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -143,7 +143,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_22_211149) do
     t.integer "amount_cents", default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.boolean "cleared", default: false, null: false
-    t.integer "reconciliation_id", null: false
+    t.integer "reconciliation_id"
     t.integer "bank_account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

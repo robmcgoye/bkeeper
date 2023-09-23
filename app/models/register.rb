@@ -7,5 +7,5 @@ class Register < ApplicationRecord
 
   enum :transaction_type, { debit: 0, credit: 1 }, default: :debit
 
-  validates :transaction_at, presence: true 
+  validates :transaction_at, presence: { message: "must have date of transaction" } 
 end
