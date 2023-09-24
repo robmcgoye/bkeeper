@@ -1,4 +1,4 @@
-<%= form_with model: funding_source, url: form_url, id: dom_id(funding_source, "form"), class: "align-items-center pb-1" do |form| %>
+<%= form_with model: funding_source, url: form_url, id: dom_id(funding_source, "form"), class: "align-items-center pb-1 ps-4" do |form| %>
   <div class="container pt-2">
     <div class="row justify-content-center">
       <div class="col-md-9">
@@ -17,12 +17,12 @@
     <div class="col-sm-5 px-1 my-1">
       <%= form.text_field :full_name, class: "form-control form-control-sm" %>
     </div>
-    <div class="col-sm-2 px-1 my-1">
-      <%= form.button class: "btn btn-sm btn-outline-secondary text-start" do %>
+    <div class="col-sm-2 px-1 my-1 text-center">
+      <%= form.button class: "btn btn-sm text-start #{funding_source.id.nil? ? "btn-outline-success" : "btn-outline-primary"}" do %>
         <% if funding_source.id.nil? %>
           <i class="bi bi-plus-circle pe-1"></i>New
         <% else %>
-          <i class="bi bi-save pe-1"></i>Save
+          <i class="bi bi-floppy pe-1"></i>Save
         <% end %>
       <% end %>
     </div>

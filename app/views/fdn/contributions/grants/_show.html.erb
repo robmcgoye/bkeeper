@@ -1,0 +1,43 @@
+<div id="main_content" data-controller="pages" 
+      data-pages-sbnum-value="2"
+      data-pages-sidebar-outlet="#sidebar-controller">
+
+
+
+  <div class="card">
+    <div class="card-header">Grant for <%= @grant.organization.name %></div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col"><%= @grant.organization.name %></div>
+        <div class="col"><%= @grant.organization.contact %></div>
+            <div class="col">
+              <span class="text-primary">TYPE:</span> <%= @grant.organization.organization_type.code %>
+            </div>
+      </div>
+    <div class="row">
+      <div class="col"><%= @grant.register.transaction_at %></div>
+      <div class="col"><span class="text-primary">Check #:</span><%= @grant.register.check_number %></div>
+      <div class="col"><%= @grant.register.amount_cents %></div>
+    </div>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col text-start">
+          <%= link_to foundation_grants_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
+          Back to grants
+          <% end %>
+        </div>
+        <div class="col text-center">
+            <%= button_to foundation_grant_path(@foundation, @grant), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+              <i class="bi bi-trash pe-1"></i>Delete
+            <% end %>         
+        </div>
+        <div class="col text-end">
+          <%= link_to edit_foundation_grant_path(@foundation, @grant), class: "btn btn-sm btn-outline-secondary" do %>
+            Edit
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

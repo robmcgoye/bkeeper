@@ -37,6 +37,9 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
   end
 
   def show
+    render turbo_stream: [
+      turbo_stream.replace("main_content", partial: "show")
+    ]      
   end
 
   def new

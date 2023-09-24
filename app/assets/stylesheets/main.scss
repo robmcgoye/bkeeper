@@ -61,6 +61,9 @@ $my-light-grey:      #eeee;
 .tb-header {
   background-color: $my-light-grey;
   border-bottom: 2px solid $black;
+  border-top: 1px solid $dark-blue-color;
+  // border-left: 1px solid $dark-blue-color;
+  // border-right: 1px solid $light-purple-color;
   font-weight: bold;
 }
 
@@ -78,7 +81,8 @@ $my-light-grey:      #eeee;
 }
 
 .my-table-row:hover{
-  background-color: $my-light-grey;
+  background-color: $light-purple-color;
+  // background-color: $my-light-grey;
 }
 
 .scroll {

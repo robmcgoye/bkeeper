@@ -22,7 +22,7 @@
         <%= turbo_frame_tag "new-donor-form", src: new_foundation_settings_donor_path(@foundation) %>
         <%# Table Content %>
         <div id="donors">
-          <%= render @foundation.donors %>
+          <%= render @foundation.donors.sort_full_name_up %>
         </div>
       </div>
 

@@ -20,9 +20,9 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-dark">
           <li>
-            <%#= link_to foundation_organization_path(@foundation, organization), class: "dropdown-item" do %>
+            <%= link_to foundation_grant_path(@foundation, grant), class: "dropdown-item" do %>
               <i class="bi bi-folder-symlink pe-1"></i>Show
-            <%# end %>
+            <% end %>
           </li>
           <li>
             <%#= link_to edit_foundation_organization_path(@foundation, organization), class: "dropdown-item" do %>
