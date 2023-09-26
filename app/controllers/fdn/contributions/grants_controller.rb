@@ -7,15 +7,14 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
       turbo_stream.replace("main_content", partial: "index")
     ]  
   end
-
+  
   def cancel
     if params[:id].to_i != -1
-      # set_organization
-      # render turbo_stream: [
-      #   turbo_stream.replace(@organization, partial: "organization", locals: {organization: @organization})
-      # ]
+      set_grant
+      render turbo_stream: [
+        params[:show].to_i == 0 ? turbo_stream.replace(@grant, partial: "grant", locals: {grant: @grant}) : turbo_stream.replace(@grant, partial: "show")
+      ]
     else
-      # @grant = Grant.new
       flash.now[:notice] = "New Grant Wizard canceled."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
@@ -25,15 +24,19 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
   end
 
   def new_next
-    @organization = @foundation.organizations.where(id: params[:organization_id].to_i).take
-    if @organization.present?
-      @grant = @organization.grants.new
-      @grant.build_register
+    if !params[:organization_id].blank?
+      @organization = @foundation.organizations.where(id: params[:organization_id].to_i).take
+      if @organization.present?
+        @grant = @organization.grants.new
+        @grant.build_register
+      else
+        flash.now[:alert] = "Organization selected was not found!!."
+        render :cancel
+      end
     else
-      flash.now[:alert] = "Organization selected was not found!!."
+      flash.now[:alert] = "Error with wizard no organization selected!"
       render :cancel
     end
-    
   end
 
   def show
@@ -47,6 +50,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
   end
 
   def edit
+    @param_show = params[:show].to_i
   end
 
   def create
@@ -58,28 +62,33 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
         turbo_stream.replace(Grant.new, partial: "new_button"), 
         turbo_stream.replace("grant-list", partial: "grant_list", locals: {grants: Grant.foundation_grants(@foundation.organization_ids)})
       ]  
-      # format.html { redirect_to grant_url(@grant), notice: "Grant was successfully created." }
     else
       render :new_next, status: :unprocessable_entity
     end
   end
 
   def update
-    respond_to do |format|
-      if @grant.update(grant_params)
-        format.html { redirect_to grant_url(@grant), notice: "Grant was successfully updated." }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-      end
+    if @grant.update(grant_params)
+      flash.now[:notice] = "Grant was successfully updated."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        params[:grant][:show] == "1" ? 
+        turbo_stream.replace(@grant, partial: "show") : turbo_stream.replace(@grant, partial: "grant", locals: {grant: @grant})
+      ]
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @grant.destroy
-
-    respond_to do |format|
-      format.html { redirect_to grants_url, notice: "Grant was successfully destroyed." }
-    end
+    @grants = Grant.foundation_grants(@foundation.organization_ids)
+    flash.now[:notice] = "Grant was successfully destroyed."
+    render turbo_stream: [
+      turbo_stream.replace("messages", partial: "layouts/messages"), 
+      params[:show].to_i == 1 ? 
+      turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("grant-list", partial: "grant_list", locals: {grants: @grants})
+    ] 
   end
 
   private
@@ -90,7 +99,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
     def grant_params
       params.require(:grant).permit(:donor_id, :funding_source_id, :organization_id, 
           register_attributes: [ 
-            :check_number, :transaction_at, :description, :amount_cents, :bank_account_id
+            :check_number, :transaction_at, :description, :amount, :bank_account_id
             ])
     end
 end

@@ -2,24 +2,101 @@
       data-pages-sbnum-value="2"
       data-pages-sidebar-outlet="#sidebar-controller">
 
-
-
+<%= turbo_frame_tag @grant do %>
   <div class="card">
-    <div class="card-header">Grant for <%= @grant.organization.name %></div>
-    <div class="card-body">
+    <div class="card-header">
       <div class="row">
-        <div class="col"><%= @grant.organization.name %></div>
-        <div class="col"><%= @grant.organization.contact %></div>
-            <div class="col">
-              <span class="text-primary">TYPE:</span> <%= @grant.organization.organization_type.code %>
-            </div>
+        <div class="col">
+          <b>Grant:</b> <span class="badge my-text-bg-secondary mx-2">Donor :</span><%= @grant.donor.full_name %>
+        </div>
+        <div class="col-auto text-end">
+          <span class="badge my-text-bg-secondary me-1">Check #</span><%= @grant.register.check_number %>
+        </div>
       </div>
-    <div class="row">
-      <div class="col"><%= @grant.register.transaction_at %></div>
-      <div class="col"><span class="text-primary">Check #:</span><%= @grant.register.check_number %></div>
-      <div class="col"><%= @grant.register.amount_cents %></div>
     </div>
+    <div class="card-body">
+
+      <div class="row">
+     
+        <div class="col-sm-7">
+          <div class="card bg-warning bg-opacity-10 border-warning p-2 h-100">
+            <div class="row">
+              <div class="col-auto text-end">
+                <span class="badge bg-warning">To : </span>
+              </div>  
+              <div class="col border-start border-warning">
+
+                <div class="row">          
+                  <div class="col">
+                    <%= @grant.organization.contact %>
+                  </div>
+                  <div class="col">
+                    <span class="badge bg-warning">TYPE : </span>
+                    <%= @grant.organization.organization_type.code %>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col"><hr class="my-1 text-warning"></div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <%= @grant.organization.name %><br>
+                    <span class="my-text-small">
+                      <%= @grant.organization.address_1 %><br>
+                      <% if !@grant.organization.address_2.blank? %>
+                        <%= @grant.organization.address_2 %><br>
+                        <% end %>
+                      <%= "#{@grant.organization.city}, #{@grant.organization.state} #{@grant.organization.zip}" %><br>
+                      <%= @grant.organization.country %>
+                    </span>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-sm-5">
+          <div class="card border bg-success bg-opacity-10 border-success p-2">
+            <div class="row">
+              <div class="col"><span class="badge bg-success">Date : </span></div>
+              <div class="col"><%= @grant.register.transaction_at.strftime("%m/%d/%Y") %></div>
+            </div>
+            <div class="row">
+              <div class="col"><span class="badge bg-success">Amt : </span></div>
+              <div class="col"><%= humanized_money_with_symbol(@grant.register.amount) %></div>
+            </div>
+          </div>
+          <div class="card border border-info mt-1 p-2">
+            <div class="row">
+              <div class="col">
+                <span class="badge bg-info">Source : </span>
+              </div>
+              <div class="col">
+                <%= @grant.funding_source.code %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <span class="badge bg-info">Account : </span>
+              </div>
+              <div class="col">
+                <%= @grant.register.bank_account.full_name %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-auto"> <span class="badge bg-secondary">Notes : </span></div>
+        <div class="col border-start border-secondary">
+          <%= @grant.register.description %>
+        </div>
+      </div>
     </div>
+
     <div class="card-footer">
       <div class="row">
         <div class="col text-start">
@@ -28,16 +105,17 @@
           <% end %>
         </div>
         <div class="col text-center">
-            <%= button_to foundation_grant_path(@foundation, @grant), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+            <%= button_to foundation_grant_path(@foundation, @grant, :show => "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
               <i class="bi bi-trash pe-1"></i>Delete
             <% end %>         
         </div>
         <div class="col text-end">
-          <%= link_to edit_foundation_grant_path(@foundation, @grant), class: "btn btn-sm btn-outline-secondary" do %>
+          <%= link_to edit_foundation_grant_path(@foundation, @grant, :show => "1"), class: "btn btn-sm btn-outline-secondary" do %>
             Edit
           <% end %>
         </div>
       </div>
     </div>
   </div>
+  <% end %>
 </div>

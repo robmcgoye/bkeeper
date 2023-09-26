@@ -1,90 +1,11 @@
 <%= turbo_frame_tag Grant.new do %>
   <div class="card mb-2">
-    <div class="card-header">
-      New Grant Wizard for <%= @grant.organization.name %>
+    <div class="card-header my-text-bg-secondary">
+      New Grant Wizard for <span class="text-primary"><%= @grant.organization.name %></span>
     </div>
-    <%= render 'shared/error_messages', resource: @grant %>
-    <%= form_with model: @grant, url: foundation_grants_path(@foundation) do |f| %>
-      <%= f.hidden_field :organization_id, value: @grant.organization.id %>
-      <%= f.fields_for :register do |register_builder| %>
-        <div class="card-body">
-          
-          <div class="row mb-2 border-bottom border-3 border-primary">
-            <div class="col"><%= @grant.organization.name %></div>
-            <div class="col"><%= @grant.organization.contact %></div>
-            <div class="col">
-              <span class="text-primary">TYPE:</span> <%= @grant.organization.organization_type.code %>
-            </div>
-          </div>
+    <%= render "form", grant: @grant, form_url: foundation_grants_path(@foundation), show: "-1" %>
 
-          <div class="row mb-2">
-            <div class="col-sm-3 px-0">
-              <%= register_builder.date_field :transaction_at, class: "form-control form-control-sm" %>
-            </div>
-            <div class="col-sm-2 text-end">
-              <%= register_builder.label :check_number, "Check #" %>
-            </div>
-            <div class="col-sm 3 px-0">
-              <%= register_builder.text_field :check_number, class: "form-control form-control-sm" %>
-            </div>
-            <div class="col-sm-1 text-end">
-              <%= register_builder.label :amount_cents, "Amt" %>
-            </div>
-            <div class="col-sm 3 px-0">
-              <%= register_builder.text_field :amount_cents, class: "text-end form-control form-control-sm" %>
-            </div>
-          </div>
-
-          <div class="row mb-2">
-            <div class="col-sm-2">
-              <%= f.label :funding_source_id, "Funding" %>
-            </div>
-            <div class="col-sm 4 px-0">
-              <%= f.collection_select :funding_source_id, @foundation.funding_sources, :id, :code,  
-                {include_blank: 'Choose...'}, {class: "form-select form-select-sm"}  %>
-            </div>
-            <div class="col-sm-2 text-end">
-              <%= f.label :bank_account_id, "Account" %>
-            </div>
-            <div class="col-sm 4 px-0">
-              <%= register_builder.collection_select :bank_account_id, @foundation.bank_accounts, :id, :full_name,  
-                {include_blank: 'Choose...'}, {class: "form-select form-select-sm"}  %>
-            </div>          
-          </div>
-
-          <div class="row mb-2">
-            <div class="col-sm-2">
-              <%= f.label :donor_id, "Donor" %>
-            </div>
-            <div class="col-sm 4 px-0">
-              <%= f.collection_select :donor_id, @foundation.donors.sort_full_name_up, :id, :full_name,  
-                {include_blank: 'Choose...'}, {class: "form-select form-select-sm"}  %>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <%= register_builder.label :description %><br />
-              <%= register_builder.text_area :description, class: "form-control", rows: 3 %>          
-            </div>
-          </div>
-
-        </div>
-        <div class="card-footer">
-          <div class="row">
-            <div class="col text-start">
-              <%= link_to cancel_foundation_grant_path(@foundation, get_id(@grant)), class: "btn btn-sm btn-outline-secondary text-start" do %>
-                <i class="bi bi-x-square pe-1"></i>Cancel
-              <% end %>  
-            </div>
-            <div class="col text-end"> 
-              <%= f.button class: "btn btn-sm btn-outline-secondary text-start" do %>
-                Finish<i class="bi bi-arrow-right-circle ps-1"></i>
-              <% end %>
-            </div>
-          </div>        
-        </div>
-      <% end %>
-    <% end %>
   </div>
 <% end %>
+
+

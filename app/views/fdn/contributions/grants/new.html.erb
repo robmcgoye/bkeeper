@@ -1,27 +1,24 @@
 <%= turbo_frame_tag Grant.new do %>
   <div class="card mb-2">
-    <div class="card-header">
+    <div class="card-header my-text-bg-secondary">
       <div class="row">
         <div class="col">New Grant Wizard (Choose an Organization)</div>
         <div class="col-auto">[New Organization]</div>
-      </div>
-      
+      </div>      
     </div>
    
     <div class="card-body pb-2">
       <div class="row">
         <div class="col">
-
           <%= form_tag new_foundation_grant_path(@foundation), method: :get, data: { turbo_frame: "organizations-filter" } do |f| %>
-                      <div class="input-group mb-3">
-            <%= text_field_tag "query", nil, placeholder: "Search ...", class: "form-control" %>
-            <%= submit_tag "Filter", class: "btn btn-outline-secondary" %>
+            <div class="input-group mb-3">
+              <%= text_field_tag "query", nil, placeholder: "Search ...", class: "form-control" %>
+              <%= submit_tag "Filter", class: "btn btn-outline-secondary" %>
             </div>
           <% end %>
-
-        
         </div>
       </div>
+
       <div class="row">
         <div class="col">
           <%= form_with url: foundation_grants_new_next_path(@foundation), method: :get do |form| %>
@@ -51,12 +48,12 @@
                   <% end %>
                </div>
               </div>
-            </div>            
+            </div>
+
           <% end %>
         </div>
       </div>        
     </div>
-
-
+    
   </div>
 <% end %>

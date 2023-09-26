@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_26_170435) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -25,13 +25,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
   create_table "commitments", force: :cascade do |t|
     t.string "code"
     t.integer "number_payments"
-    t.integer "amount_cents", default: 0, null: false
+    t.integer "amount_cents", limit: 8, default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.datetime "start_at"
     t.datetime "end_at"
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "grant_id"
+    t.index ["grant_id"], name: "index_commitments_on_grant_id"
     t.index ["organization_id"], name: "index_commitments_on_organization_id"
   end
 
@@ -113,21 +115,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
     t.index ["user_id"], name: "index_password_reset_tokens_on_user_id"
   end
 
-  create_table "payouts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "grant_id"
-    t.integer "commitment_id"
-    t.index ["commitment_id"], name: "index_payouts_on_commitment_id"
-    t.index ["grant_id"], name: "index_payouts_on_grant_id"
-  end
-
   create_table "reconciliations", force: :cascade do |t|
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.integer "starting_balance_cents", default: 0, null: false
+    t.integer "starting_balance_cents", limit: 8, default: 0, null: false
     t.string "starting_balance_currency", default: "USD", null: false
-    t.integer "ending_balance_cents", default: 0, null: false
+    t.integer "ending_balance_cents", limit: 8, default: 0, null: false
     t.string "ending_balance_currency", default: "USD", null: false
     t.integer "bank_account_id", null: false
     t.datetime "created_at", null: false
@@ -140,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
     t.datetime "transaction_at"
     t.integer "transaction_type"
     t.string "description"
-    t.integer "amount_cents", default: 0, null: false
+    t.integer "amount_cents", limit: 8, default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.boolean "cleared", default: false, null: false
     t.integer "reconciliation_id"
@@ -201,8 +194,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_23_143942) do
   add_foreign_key "organizations", "foundations"
   add_foreign_key "organizations", "organization_types"
   add_foreign_key "password_reset_tokens", "users"
-  add_foreign_key "payouts", "commitments"
-  add_foreign_key "payouts", "grants"
   add_foreign_key "reconciliations", "bank_accounts"
   add_foreign_key "registers", "bank_accounts"
   add_foreign_key "registers", "reconciliations"

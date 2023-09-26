@@ -8,14 +8,13 @@ $white-color:        #ffffff;
 $blue-color:         #006697;
 $light-blue-color:   #00B6B5;
 $light-purple-color: #ECE7FF;
-// $light-purple-color: #F9F7FF;
+$lht-purple2-color:  #F9F7FF;
 $dark-purple-color:  #662A63;
 $my-purple:          #BDBAFA;
 $my-dark-gray:       #464555;
 $my-light-grey:      #eeee;
-
-
-
+$my-light-yellow:    #FFFADE;
+$my-light-green:     #C9FCE9;
 
 /*------------------------------------*\
   #UNAUTHENTICATED PAGES
@@ -37,6 +36,23 @@ $my-light-grey:      #eeee;
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
+
+// .my-bg-lht-purple {
+//   background-color: $lht-purple2-color;
+//   color: $black;
+// }
+
+// .my-bg-dark-blue {
+//   background-color: $dark-blue-color;
+// }
+
+// .my-bg-lght {
+//   background-color: $my-light-yellow;
+// }
+
+.my-text-small {
+  font-size: 0.875em;
+}
 
 .primary-highlight {
   // color: $dark-blue-color;
