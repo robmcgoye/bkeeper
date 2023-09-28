@@ -1,10 +1,5 @@
-<h1>Editing commitment</h1>
-
-<%= render "form", commitment: @commitment %>
-
-<br>
-
-<div>
-  <%= link_to "Show this commitment", @commitment %> |
-  <%= link_to "Back to commitments", commitments_path %>
-</div>
+<%= turbo_frame_tag @commitment do %>
+  <div class="card">
+      <%= render "form", commitment: @commitment, form_url: foundation_commitment_path(@foundation, @commitment), show: @param_show %>
+  </div>
+<% end %>

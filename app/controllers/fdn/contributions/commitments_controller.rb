@@ -71,7 +71,7 @@ class Fdn::Contributions::CommitmentsController < Fdn::BaseController
       flash.now[:notice] = "Commitment was successfully updated."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
-        params[:grant][:show] == "1" ? 
+        params[:commitment][:show] == "1" ? 
         turbo_stream.replace(@commitment, partial: "show") : turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment})
       ]
     else
