@@ -1,0 +1,82 @@
+<div id="commitments-main" class="container py-3">
+
+  <%= turbo_frame_tag @commitment do %>
+    <div class="card">
+      <div class="card-header">Commitment</div>
+      <div class="card-body">
+
+        <div class="row">
+      
+          <div class="col-sm-7">
+            <div class="card bg-warning bg-opacity-10 border-warning p-2 h-100">
+              <div class="row">
+                <div class="col-auto text-end">
+                  <span class="badge rounded-pill bg-warning">Org : </span>
+                </div>  
+                <%= render "fdn/contributions/show_organization", organization: @commitment.organization %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-5">
+            <div class="card border bg-info bg-opacity-10 border-info p-2">
+              <div class="row">
+                <div class="col-sm-4"><span class="badge rounded-pill bg-info">Start Date : </span></div>
+                <div class="col-sm-8 text-end"><%= @commitment.start_at.strftime("%m/%d/%Y") %></div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><span class="badge rounded-pill bg-info">End Date : </span></div>
+                <div class="col-sm-8 text-end"><%= @commitment.end_at.strftime("%m/%d/%Y") %></div>
+              </div>
+              </div>
+              <div class="card border bg-success bg-opacity-10 border-success p-2 mt-1">
+              <div class="row">
+              
+                <div class="col-sm-4"><span class="badge rounded-pill bg-success">Payment : </span></div>
+                <div class="col-sm-8 text-end">
+                  <div class="border-bottom border-success">
+                    <span class="text-success"><%= @commitment.number_payments %> X </span>
+                    <%= humanized_money_with_symbol(@commitment.amount) %>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4"><span class="badge rounded-pill bg-success">Total : </span></div>
+                <div class="col-sm-8 text-end">
+                  <%= humanized_money_with_symbol(@commitment.amount * @commitment.number_payments)%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-auto"> <span class="badge rounded-pill bg-secondary">Code : </span></div>
+          <div class="col border-start border-secondary">
+            <%= @commitment.code %>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="row">
+          <div class="col text-start">
+            <%= link_to foundation_commitments_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
+            Back to commitments
+            <% end %>
+          </div>
+          <div class="col text-center">
+              <%= button_to foundation_commitment_path(@foundation, @commitment, :show => "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+                <i class="bi bi-trash pe-1"></i>Delete
+              <% end %>         
+          </div>
+          <div class="col text-end">
+            <%= link_to edit_foundation_commitment_path(@foundation, @commitment, :show => "1"), class: "btn btn-sm btn-outline-secondary" do %>
+              Edit
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+</div>

@@ -28,10 +28,13 @@ Rails.application.routes.draw do
       end
       scope module: 'contributions' do
         get "grants/new_next", to: "grants#new_next"
+        get "commitments/new_next", to: "commitments#new_next"
         resources :grants do
           get "cancel", on: :member
         end
-        resources :commitments
+        resources :commitments do
+          get "cancel", on: :member
+        end
       end
       namespace :settings do
         resources :donors, except: [:show]

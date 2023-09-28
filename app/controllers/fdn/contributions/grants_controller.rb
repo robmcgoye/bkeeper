@@ -2,7 +2,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
   before_action :set_grant, only: %i[ show edit update destroy ]
 
   def index
-    @grants = Grant.foundation_grants(@foundation.organization_ids)
+    @grants = Grant.organization_grants(@foundation.organization_ids)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]  
@@ -41,7 +41,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
 
   def show
     render turbo_stream: [
-      turbo_stream.replace("main_content", partial: "show")
+      turbo_stream.replace("grants-main", partial: "show")
     ]      
   end
 
@@ -60,7 +60,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         turbo_stream.replace(Grant.new, partial: "new_button"), 
-        turbo_stream.replace("grant-list", partial: "grant_list", locals: {grants: Grant.foundation_grants(@foundation.organization_ids)})
+        turbo_stream.replace("grant-list", partial: "grant_list", locals: {grants: Grant.organization_grants(@foundation.organization_ids)})
       ]  
     else
       render :new_next, status: :unprocessable_entity
@@ -82,7 +82,7 @@ class Fdn::Contributions::GrantsController < Fdn::BaseController
 
   def destroy
     @grant.destroy
-    @grants = Grant.foundation_grants(@foundation.organization_ids)
+    @grants = Grant.organization_grants(@foundation.organization_ids)
     flash.now[:notice] = "Grant was successfully destroyed."
     render turbo_stream: [
       turbo_stream.replace("messages", partial: "layouts/messages"), 

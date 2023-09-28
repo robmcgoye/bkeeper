@@ -7,6 +7,6 @@ class Grant < ApplicationRecord
 
   accepts_nested_attributes_for :register
   
-  scope :foundation_grants, -> (organization_ids) { where(organization_id: organization_ids) }
+  scope :organization_grants, -> (organization_ids) { where(organization_id: organization_ids) }
 
 end

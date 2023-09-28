@@ -7,25 +7,7 @@
       <%= render "fdn/contributions/nav" %>
     </div>
 
-    <div class="container py-3">
-
-      <div class="container-fluid mt-0">
-        <%= render "new_button" %> 
-        <%# Table Header %>
-        <div class="row tb-header pt-1">
-          <div class="col-sm-2">Date</div>
-          <div class="col-sm-2 text-center">Check #</div>
-          <div class="col-sm-2 text-center">Amt</div>
-          <div class="col-sm-5">Organization</div>
-
-          <div class="col-sm-1"></div>
-        </div>
-        <%# Table Content %>
-        <%= render "grant_list", grants: @grants %>
-
-      </div>
-
-    </div>
+    <%= render "main" %>
 
   </div>
   

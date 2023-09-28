@@ -1,0 +1,60 @@
+  <%# params: contribution_title, filter_url, next_page_url, cancel_url %>
+  <div class="card mb-2">
+    <div class="card-header my-text-bg-secondary">
+      <div class="row">
+        <div class="col">
+          <%= "New #{contribution_title} Wizard (Choose an Organization)" %>
+        </div>
+        <div class="col-auto">[New Organization]</div>
+      </div>      
+    </div>
+   
+    <div class="card-body pb-2">
+      <div class="row">
+        <div class="col">
+          <%= form_tag filter_url, method: :get, data: { turbo_frame: "organizations-filter" } do |f| %>
+            <div class="input-group mb-3">
+              <%= text_field_tag "query", nil, placeholder: "Search ...", class: "form-control" %>
+              <%= submit_tag "Filter", class: "btn btn-outline-secondary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form_with url: next_page_url, method: :get do |form| %>
+            <div class="container-fluid">
+              <div class="row tb-header">
+                <div class="col-sm-5 offset-1">Name</div>
+                <div class="col-sm-4">Contact</div>
+                <div class="col-sm-2">Type</div>
+              </div>
+              <div class="container-fluid scroll">
+                <%= turbo_frame_tag "organizations-filter" do %>
+                  <%= render "fdn/contributions/organizations_filter",  organizations: @organizations %>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="card-footer">
+              <div class="row">
+                <div class="col text-start">
+                  <%= link_to cancel_url, class: "btn btn-sm btn-outline-secondary text-start" do %>
+                    <i class="bi bi-x-square pe-1"></i>Cancel
+                  <% end %>  
+                </div>
+                <div class="col text-end"> 
+                  <%= button_tag class: "btn btn-sm btn-outline-secondary text-start" do %>
+                    Next<i class="bi bi-arrow-right-circle ps-1"></i>
+                  <% end %>
+               </div>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>        
+    </div>
+    
+  </div>

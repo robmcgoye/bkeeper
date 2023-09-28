@@ -1,9 +1,9 @@
-<h1>New commitment</h1>
+<%= turbo_frame_tag Commitment.new do %>
 
-<%= render "form", commitment: @commitment %>
+  <%= render "/fdn/contributions/organization_select", 
+      contribution_title: "Commitment", 
+      filter_url: new_foundation_commitment_path(@foundation), 
+      next_page_url: foundation_commitments_new_next_path(@foundation), 
+      cancel_url: cancel_foundation_commitment_path(@foundation, get_id(Commitment.new)) %>
 
-<br>
-
-<div>
-  <%= link_to "Back to commitments", commitments_path %>
-</div>
+<% end %>
