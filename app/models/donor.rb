@@ -1,6 +1,7 @@
 class Donor < ApplicationRecord
   belongs_to :foundation
-  has_many :grants, dependent: :destroy
+  has_many :contributions
+  # , dependent: :destroy
 
   validates :full_name, presence: true, uniqueness: { scope: :foundation_id }
   validates :code , presence: :true, 

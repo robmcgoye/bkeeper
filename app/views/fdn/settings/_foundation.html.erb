@@ -18,7 +18,7 @@
             </p>
 
             <%= button_to @foundation, method: :delete, class: "btn btn-sm btn-outline-danger text-start", 
-                  form: {data: {turbo_confirm: 'Are you sure? (This cannot be undone!!)'}} do %>
+                  form: {data: {turbo_confirm: 'Are you sure? (This cannot be undone!!)',  turbo_frame: '_top'} } do %>
               <i class="bi bi-trash pe-1"></i>Delete
             <% end %> 
 

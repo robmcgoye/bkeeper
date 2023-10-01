@@ -1,0 +1,10 @@
+<%= turbo_frame_tag Contribution.new do %>
+  <div class="row mb-2 align-items-center">
+    <div class="col-sm-10 text-center"><h5 >Contributions</h5></div>
+    <div class="col-sm-2 text-end">
+      <%= link_to new_foundation_contribution_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
+        <i class="bi bi-plus-circle pe-1"></i>New
+      <% end %>
+    </div>
+  </div>
+<% end %>

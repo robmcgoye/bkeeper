@@ -58,6 +58,8 @@ gem 'authentication-zero', '~> 2.16', '>= 2.16.36'
 gem 'rolify', '~> 6.0', '>= 6.0.1'
 gem 'pundit', '~> 2.3', '>= 2.3.1'
 gem 'money-rails', '~> 1.15'
+gem 'pagy', '~> 6.1'
+gem 'faker', '~> 3.2', '>= 3.2.1'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

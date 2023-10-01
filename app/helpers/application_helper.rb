@@ -1,5 +1,6 @@
 module ApplicationHelper
-
+  include Pagy::Frontend
+  
   def get_select_options_for_organization_types(foundation)
     foundation.organization_types.sort_code_up.collect{
       |p| [ 

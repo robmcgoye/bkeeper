@@ -4,13 +4,31 @@
   
   <div class="card">
     <div class="card-header text-center"><h5>Organizations</h5></div>
-    <div class="card-body">
-      <div class="container-fluid">
+    <div class="card-body pb-0">
+      <div class="container-fluid" data-controller="organization">
         <%= render "search" %>
         <div class="row tb-header pt-1">
-          <div class="col-sm-5">Name</div>
-          <div class="col-sm-3">Contact</div>
-          <div class="col-sm-3">Type</div>
+          <div class="col-sm-5">
+            <a href="#" data-action="organization#name_sort" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "1") %>" 
+                class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+              <i class="bi" data-organization-target="sort_icon"></i>Name
+            </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" data-action="organization#contact_sort" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "2") %>" 
+                class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+              <i class="bi" data-organization-target="sort_icon"></i>Contact
+            </a>
+          </div>
+          <div class="col-sm-3">
+            <a href="#" data-action="organization#type_sort" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "3") %>" 
+                class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+              <i class="bi" data-organization-target="sort_icon"></i>Type
+            </a>          
+          </div>
           <div class="col-sm-1"></div>
         </div>
         <%= render "organizations_list", organizations: @organizations %>

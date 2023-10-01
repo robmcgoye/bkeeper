@@ -1,4 +1,4 @@
-class Fdn::Contributions::CommitmentsController < Fdn::BaseController
+class Fdn::Donations::CommitmentsController < Fdn::BaseController
   before_action :set_commitment, only: %i[ show edit update destroy ]
 
   def index

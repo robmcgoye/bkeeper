@@ -13,6 +13,9 @@ application.register("mnnav", MnnavController)
 import ModalsController from "./modals_controller"
 application.register("modals", ModalsController)
 
+import OrganizationController from "./organization_controller"
+application.register("organization", OrganizationController)
+
 import PagesController from "./pages_controller"
 application.register("pages", PagesController)
 

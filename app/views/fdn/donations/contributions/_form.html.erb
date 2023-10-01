@@ -1,15 +1,15 @@
-<%= render 'shared/error_messages', resource: grant %>
-<%= form_with model: grant, url: form_url do |f| %>
-  <%= f.hidden_field :organization_id, value: grant.organization.id %>
+<%= render 'shared/error_messages', resource: contribution %>
+<%= form_with model: contribution, url: form_url do |f| %>
+  <%= f.hidden_field :organization_id, value: contribution.organization.id %>
   <%= f.hidden_field :show, value: show %>
   <%= f.fields_for :register do |register_builder| %>
     <div class="card-body">
       
       <div class="row mb-2 border-bottom border-3 border-primary">
-        <div class="col"><%= grant.organization.name %></div>
-        <div class="col"><%= grant.organization.contact %></div>
+        <div class="col"><%= contribution.organization.name %></div>
+        <div class="col"><%= contribution.organization.contact %></div>
         <div class="col">
-          <span class="text-primary">TYPE:</span> <%= grant.organization.organization_type.code %>
+          <span class="text-primary">TYPE:</span> <%= contribution.organization.organization_type.code %>
         </div>
       </div>
 
@@ -69,13 +69,13 @@
     <div class="card-footer">
       <div class="row">
         <div class="col text-start">
-          <%= link_to cancel_foundation_grant_path(@foundation, get_id(grant), :show => show), class: "btn btn-sm btn-outline-secondary text-start" do %>
+          <%= link_to cancel_foundation_contribution_path(@foundation, get_id(contribution), :show => show), class: "btn btn-sm btn-outline-secondary text-start" do %>
             <i class="bi bi-x-square pe-1"></i>Cancel
           <% end %>  
         </div>
         <div class="col text-end"> 
           <%= f.button class: "btn btn-sm btn-outline-secondary text-start" do %>
-            <%= "#{get_id(grant) == -1 ? "Finish" : "Save" }" %>
+            <%= "#{get_id(contribution) == -1 ? "Finish" : "Save" }" %>
             <i class="bi bi-arrow-right-circle ps-1"></i>
           <% end %>
         </div>

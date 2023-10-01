@@ -1,6 +1,7 @@
 class FundingSource < ApplicationRecord
   belongs_to :foundation
-  has_many :grants, dependent: :destroy
+  has_many :contributions
+  # , dependent: :destroy
 
   validates :full_name, presence: true
   validates :short_name , presence: :true, length: { minimum: 2, maximum: 12 } 

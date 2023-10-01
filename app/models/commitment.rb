@@ -1,6 +1,6 @@
 class Commitment < ApplicationRecord
   belongs_to :organization
-  has_many :grants
+  has_many :contributions
   # , dependent: :destroy
   monetize :amount_cents, numericality:  { greater_than: 0 }
 

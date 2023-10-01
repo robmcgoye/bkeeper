@@ -1,6 +1,6 @@
 <%= turbo_frame_tag Commitment.new do %>
 
-  <%= render "/fdn/contributions/organization_select", 
+  <%= render "/fdn/donations/organization_select", 
       contribution_title: "Commitment", 
       filter_url: new_foundation_commitment_path(@foundation), 
       next_page_url: foundation_commitments_new_next_path(@foundation), 

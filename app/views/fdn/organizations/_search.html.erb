@@ -1,12 +1,17 @@
 <%= turbo_frame_tag Organization.new do %>
   <div class="row mb-2 align-items-center">
     <div class="col-sm-7">
-      <form>
-        <div class="input-group">
-          <input type="text" class="form-control form-control-sm" aria-describedby="button-search">
-          <button class="btn btn-sm btn-outline-secondary" type="button" id="button-search">Search</button>
-        </div>
-      </form>
+
+          <%= form_tag foundation_organizations_filter_path(@foundation), method: :get, data: { turbo_frame: "organizations_list" } do |f| %>
+            <div class="input-group">
+              <%= text_field_tag "query", nil, 
+                  placeholder: "Search ...", class: "form-control form-control-sm",
+                  "data-organization-target": "query" %>
+              <%= submit_tag "Filter", class: "btn btn-sm btn-outline-secondary", "data-action": "organization#filter" %>
+            </div>
+          <% end %>
+
+
     </div>
     <div class="col-sm-2 offset-sm-3">
       <%= link_to new_foundation_organization_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>

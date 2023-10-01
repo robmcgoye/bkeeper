@@ -1,7 +1,7 @@
 <ul class="nav nav-underline">
   <li class="nav-item">
-    <%= link_to "Grants", foundation_grants_path(@foundation), 
-        class: "#{request.path == foundation_grants_path(@foundation)  ? "nav-link active" : "nav-link"}" %>
+    <%= link_to "Contributions", foundation_contributions_path(@foundation), 
+        class: "#{request.path == foundation_contributions_path(@foundation)  ? "nav-link active" : "nav-link"}" %>
   </li>
   <li class="nav-item">
     <%= link_to "Commitments", foundation_commitments_path(@foundation), 

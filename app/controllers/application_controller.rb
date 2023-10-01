@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
   include Pundit::Authorization
   include Navigation
   before_action :set_current_request_details

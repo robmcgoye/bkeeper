@@ -1,0 +1,6 @@
+<%= turbo_frame_tag @contribution do %>
+  <div class="card">
+      <%= render "form", contribution: @contribution, form_url: foundation_contribution_path(@foundation, @contribution), show: @param_show %>
+  </div>
+<% end %>
+

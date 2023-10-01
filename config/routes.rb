@@ -22,14 +22,14 @@ Rails.application.routes.draw do
       get "dashboard", on: :member
       get "settings", on: :member
       get "organizations/filter", to: "organizations#filter"
-      
+      get "organizations/sort", to: "organizations#sort"
       resources :organizations do
         get "cancel", on: :member
       end
-      scope module: 'contributions' do
-        get "grants/new_next", to: "grants#new_next"
+      scope module: 'donations' do
+        get "contributions/new_next", to: "contributions#new_next"
         get "commitments/new_next", to: "commitments#new_next"
-        resources :grants do
+        resources :contributions do
           get "cancel", on: :member
         end
         resources :commitments do

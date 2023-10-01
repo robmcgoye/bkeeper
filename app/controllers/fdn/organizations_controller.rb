@@ -2,10 +2,52 @@ class Fdn::OrganizationsController < Fdn::BaseController
   before_action :set_organization, only: %i[ show edit update destroy ]
 
   def index
-    @organizations = @foundation.organizations.sort_name_up
+    @pagy, @organizations = pagy(@foundation.organizations.sort_name_up)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]  
+  end
+
+  def filter
+    if params[:query].blank?
+      @pagy, @organizations = pagy(@foundation.organizations.sort_name_up) 
+    else
+      @pagy, @organizations = pagy(@foundation.organizations.filter_by_name(params[:query]).sort_name_up)
+    end
+    render turbo_stream: [
+      turbo_stream.replace("organizations_list", partial: "organizations_list", locals: {organizations: @organizations})
+    ] 
+  end
+
+  def sort
+    if params[:query].blank?
+      orgs = @foundation.organizations
+    else
+      orgs = @foundation.organizations.filter_by_name(params[:query])
+    end
+    
+    if params[:by].to_i == 2
+      if params[:dir].to_i == 2
+        @pagy, @organizations = pagy(orgs.sort_contact_down)
+      else
+        @pagy, @organizations = pagy(orgs.sort_contact_up)
+      end 
+    elsif params[:by].to_i == 3
+      if params[:dir].to_i == 2
+        @pagy, @organizations = pagy(orgs.sort_type_down)
+      else
+        @pagy, @organizations = pagy(orgs.sort_type_up)
+      end 
+    else
+      if params[:dir].to_i == 2
+        @pagy, @organizations = pagy(orgs.sort_name_down)
+      else
+        @pagy, @organizations = pagy(orgs.sort_name_up)
+      end
+    end
+    render turbo_stream: [
+      turbo_stream.replace("organizations_list", partial: "organizations_list", locals: {organizations: @organizations})
+    ] 
   end
 
   def cancel

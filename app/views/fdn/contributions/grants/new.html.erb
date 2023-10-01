@@ -1,9 +1,0 @@
-<%= turbo_frame_tag Grant.new do %>
-
-  <%= render "/fdn/contributions/organization_select", 
-      contribution_title: "Grant", 
-      filter_url: new_foundation_grant_path(@foundation), 
-      next_page_url: foundation_grants_new_next_path(@foundation), 
-      cancel_url: cancel_foundation_grant_path(@foundation, get_id(Grant.new)) %>
-
-<% end %>

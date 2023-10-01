@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_26_170435) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_28_195032) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -32,9 +32,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_26_170435) do
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "grant_id"
-    t.index ["grant_id"], name: "index_commitments_on_grant_id"
+    t.integer "contribution_id"
+    t.index ["contribution_id"], name: "index_commitments_on_contribution_id"
     t.index ["organization_id"], name: "index_commitments_on_organization_id"
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.string "note"
+    t.integer "donor_id", null: false
+    t.integer "funding_source_id", null: false
+    t.integer "register_id", null: false
+    t.integer "organization_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "in_kind"
+    t.integer "non_deductible_cents", limit: 8, default: 0, null: false
+    t.datetime "non_deductible_check_on"
+    t.string "non_deductible_check_number"
+    t.index ["donor_id"], name: "index_contributions_on_donor_id"
+    t.index ["funding_source_id"], name: "index_contributions_on_funding_source_id"
+    t.index ["organization_id"], name: "index_contributions_on_organization_id"
+    t.index ["register_id"], name: "index_contributions_on_register_id"
   end
 
   create_table "donors", force: :cascade do |t|
@@ -66,20 +84,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_26_170435) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["foundation_id"], name: "index_funding_sources_on_foundation_id"
-  end
-
-  create_table "grants", force: :cascade do |t|
-    t.string "note"
-    t.integer "donor_id", null: false
-    t.integer "funding_source_id", null: false
-    t.integer "register_id", null: false
-    t.integer "organization_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["donor_id"], name: "index_grants_on_donor_id"
-    t.index ["funding_source_id"], name: "index_grants_on_funding_source_id"
-    t.index ["organization_id"], name: "index_grants_on_organization_id"
-    t.index ["register_id"], name: "index_grants_on_register_id"
   end
 
   create_table "organization_types", force: :cascade do |t|
@@ -183,13 +187,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_26_170435) do
 
   add_foreign_key "bank_accounts", "foundations"
   add_foreign_key "commitments", "organizations"
+  add_foreign_key "contributions", "donors"
+  add_foreign_key "contributions", "funding_sources"
+  add_foreign_key "contributions", "organizations"
+  add_foreign_key "contributions", "registers"
   add_foreign_key "donors", "foundations"
   add_foreign_key "email_verification_tokens", "users"
   add_foreign_key "funding_sources", "foundations"
-  add_foreign_key "grants", "donors"
-  add_foreign_key "grants", "funding_sources"
-  add_foreign_key "grants", "organizations"
-  add_foreign_key "grants", "registers"
   add_foreign_key "organization_types", "foundations"
   add_foreign_key "organizations", "foundations"
   add_foreign_key "organizations", "organization_types"
