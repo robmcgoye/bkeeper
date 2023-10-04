@@ -3,7 +3,7 @@
     <% if organizations.blank? %>
       No records found...
     <% else %>
-      <%= render organizations %>
+      <%= render organizations, page: @pagy.page %>
     <% end %>
   </div>
   <% if @pagy.pages > 1 %>

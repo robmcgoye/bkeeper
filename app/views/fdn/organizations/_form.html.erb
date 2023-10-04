@@ -79,7 +79,7 @@
         <%= f.button class: "btn btn-sm btn-outline-secondary text-start" do %>
           <i class="bi bi-floppy pe-1"></i>Save
         <% end %>
-        <%= link_to cancel_foundation_organization_path(@foundation, get_id(organization)), class: "btn btn-sm btn-outline-secondary text-start" do %>
+        <%= link_to cancel_foundation_organization_path(@foundation, get_id(organization), :page => page), class: "btn btn-sm btn-outline-secondary text-start" do %>
           <i class="bi bi-x-square pe-1"></i>Cancel
         <% end %>
       </div>

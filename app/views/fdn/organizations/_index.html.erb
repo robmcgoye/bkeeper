@@ -5,28 +5,32 @@
   <div class="card">
     <div class="card-header text-center"><h5>Organizations</h5></div>
     <div class="card-body pb-0">
-      <div class="container-fluid" data-controller="organization">
-        <%= render "search" %>
+      <div class="container-fluid" id="organization-controller" data-controller="organization" 
+            data-organization-url-value="<%= foundation_organizations_sort_path(@foundation, :page => page, :by => by) %>" 
+            data-organization-dir-value="<%= dir %>" 
+            data-organization-query-value="<%= query %>" 
+            data-organization-selected-value="<%= by %>">
+        <%= render "search", create: false %>
         <div class="row tb-header pt-1">
           <div class="col-sm-5">
             <a href="#" data-action="organization#name_sort" 
-                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "1") %>" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "0") %>" 
                 class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
-              <i class="bi" data-organization-target="sort_icon"></i>Name
+              Name<i class="ps-1 bi" data-organization-target="sort_icon"></i>
             </a>
           </div>
           <div class="col-sm-3">
             <a href="#" data-action="organization#contact_sort" 
-                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "2") %>" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "1") %>" 
                 class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
-              <i class="bi" data-organization-target="sort_icon"></i>Contact
+              Contact<i class="ps-1 bi" data-organization-target="sort_icon"></i>
             </a>
           </div>
           <div class="col-sm-3">
             <a href="#" data-action="organization#type_sort" 
-                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "3") %>" 
+                data-url="<%= foundation_organizations_sort_path(@foundation, :by => "2") %>" 
                 class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
-              <i class="bi" data-organization-target="sort_icon"></i>Type
+              Type<i class="ps-1 bi" data-organization-target="sort_icon"></i>
             </a>          
           </div>
           <div class="col-sm-1"></div>

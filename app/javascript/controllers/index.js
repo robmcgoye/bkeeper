@@ -16,6 +16,9 @@ application.register("modals", ModalsController)
 import OrganizationController from "./organization_controller"
 application.register("organization", OrganizationController)
 
+import OsearchController from "./osearch_controller"
+application.register("osearch", OsearchController)
+
 import PagesController from "./pages_controller"
 application.register("pages", PagesController)
 

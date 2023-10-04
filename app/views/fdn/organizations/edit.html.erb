@@ -2,7 +2,7 @@
   <div class="card mb-2 border-info">
     <div class="card-header my-text-bg-secondary">Edit Organization</div>
     <div class="card-body pb-2">
-      <%= render "form", organization: @organization, form_url: foundation_organization_path(@foundation, @organization) %>
+      <%= render "form", organization: @organization, form_url: foundation_organization_path(@foundation, @organization, :page => params[:page]), page: params[:page] %>
     </div>
   </div>
 <% end %>

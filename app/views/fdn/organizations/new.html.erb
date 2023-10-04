@@ -2,7 +2,7 @@
   <div class="card mb-2 border-info">
     <div class="card-header my-text-bg-secondary">New Organization</div>
     <div class="card-body pb-2">
-      <%= render "form", organization: @organization, form_url: foundation_organizations_path(@foundation) %>
+      <%= render "form", organization: @organization, form_url: foundation_organizations_path(@foundation), page: 1 %>
     </div>
   </div>
 <% end %>
