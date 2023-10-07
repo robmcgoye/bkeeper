@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       scope module: 'donations' do
         get "contributions/new_next", to: "contributions#new_next"
         get "commitments/new_next", to: "commitments#new_next"
+        get "contributions/sort", to: "contributions#sort"
+        get "commitments/sort", to: "commitments#sort"
         resources :contributions do
           get "cancel", on: :member
         end

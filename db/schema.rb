@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_28_195032) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -119,6 +119,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_195032) do
     t.index ["user_id"], name: "index_password_reset_tokens_on_user_id"
   end
 
+  create_table "reconciliation_items", force: :cascade do |t|
+    t.integer "reconciliation_id", null: false
+    t.integer "register_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reconciliation_id"], name: "index_reconciliation_items_on_reconciliation_id"
+    t.index ["register_id"], name: "index_reconciliation_items_on_register_id"
+  end
+
   create_table "reconciliations", force: :cascade do |t|
     t.datetime "started_at"
     t.datetime "ended_at"
@@ -133,19 +142,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_195032) do
   end
 
   create_table "registers", force: :cascade do |t|
-    t.string "check_number"
+    t.integer "check_number"
     t.datetime "transaction_at"
     t.integer "transaction_type"
     t.string "description"
     t.integer "amount_cents", limit: 8, default: 0, null: false
     t.string "amount_currency", default: "USD", null: false
     t.boolean "cleared", default: false, null: false
-    t.integer "reconciliation_id"
     t.integer "bank_account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bank_account_id"], name: "index_registers_on_bank_account_id"
-    t.index ["reconciliation_id"], name: "index_registers_on_reconciliation_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -198,8 +205,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_28_195032) do
   add_foreign_key "organizations", "foundations"
   add_foreign_key "organizations", "organization_types"
   add_foreign_key "password_reset_tokens", "users"
+  add_foreign_key "reconciliation_items", "reconciliations"
+  add_foreign_key "reconciliation_items", "registers"
   add_foreign_key "reconciliations", "bank_accounts"
   add_foreign_key "registers", "bank_accounts"
-  add_foreign_key "registers", "reconciliations"
   add_foreign_key "sessions", "users"
 end

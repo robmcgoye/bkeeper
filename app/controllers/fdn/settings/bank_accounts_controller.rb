@@ -58,6 +58,6 @@ class Fdn::Settings::BankAccountsController < Fdn::BaseController
     end
 
     def bank_account_params
-      params.require(:bank_account).permit(:full_name, :primary, :starting_balance_cents)
+      params.require(:bank_account).permit(:full_name, :primary, :starting_balance)
     end
 end

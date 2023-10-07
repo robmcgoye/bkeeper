@@ -1,13 +1,45 @@
 <div id="contributions-main" class="container py-3">
 
-  <div class="container-fluid mt-0">
+  <div class="container-fluid mt-0" data-controller="sortmgmt" 
+            data-sortmgmt-url-value="<%= foundation_contributions_sort_path(@foundation, :page => page, :by => by) %>" 
+            data-sortmgmt-dir-value="<%= dir %>" 
+            data-sortmgmt-query-value="<%#= query %>" 
+            data-sortmgmt-selected-value="<%= by %>">
     <%= render "new_button" %> 
     <%# Table Header %>
     <div class="row tb-header pt-1">
-      <div class="col-sm-2">Date</div>
-      <div class="col-sm-2 text-center">Check #</div>
-      <div class="col-sm-2 text-center">Amt</div>
-      <div class="col-sm-5">Organization</div>
+      <div class="col-sm-2">
+        <a href="#" data-action="sortmgmt#sort"
+            data-value="0"  
+            data-url="<%= foundation_contributions_sort_path(@foundation, :by => "0") %>" 
+            class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+          Date<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+        </a>
+      </div>
+      <div class="col-sm-2 text-center">
+        <a href="#" data-action="sortmgmt#sort"
+            data-value="1"  
+            data-url="<%= foundation_contributions_sort_path(@foundation, :by => "1") %>" 
+            class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+          Check #<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+        </a>
+      </div>
+      <div class="col-sm-2 text-center">
+        <a href="#" data-action="sortmgmt#sort"
+            data-value="2"  
+            data-url="<%= foundation_contributions_sort_path(@foundation, :by => "2") %>" 
+            class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+          Amt<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+        </a>
+      </div>
+      <div class="col-sm-5">
+        <a href="#" data-action="sortmgmt#sort"
+            data-value="3"  
+            data-url="<%= foundation_contributions_sort_path(@foundation, :by => "3") %>" 
+            class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+          Organization<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+        </a>
+      </div>
 
       <div class="col-sm-1"></div>
     </div>

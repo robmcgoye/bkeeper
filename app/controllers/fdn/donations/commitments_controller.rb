@@ -2,7 +2,8 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
   before_action :set_commitment, only: %i[ show edit update destroy ]
 
   def index
-    @commitments = Commitment.organization_commitments(@foundation.organization_ids)
+    @pagy, @commitments = pagy(Commitment.none)
+    # @commitments = Commitment.organization_commitments(@foundation.organization_ids)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]      
@@ -21,6 +22,38 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
         turbo_stream.replace(Commitment.new, partial: "new_placeholder")
       ]
     end
+  end
+
+  def sort
+    commitments = Commitment.organization_commitments(@foundation.organization_ids)
+    if params[:by].to_i == 1
+      if params[:dir].to_i == 2
+        @pagy, @commitments = pagy(commitments.sort_end_date_down)
+      else
+        @pagy, @commitments = pagy(commitments.sort_end_date_up)
+      end 
+    elsif params[:by].to_i == 2
+      if params[:dir].to_i == 2
+        @pagy, @commitments = pagy(commitments.sort_payment_down)
+      else
+        @pagy, @commitments = pagy(commitments.sort_payment_up)
+      end 
+    elsif params[:by].to_i == 3
+      if params[:dir].to_i == 2
+        @pagy, @commitments = pagy(commitments.sort_organization_down)
+      else
+        @pagy, @commitments = pagy(commitments.sort_organization_up)
+      end 
+    else
+      if params[:dir].to_i == 2
+        @pagy, @commitments = pagy(commitments.sort_start_date_down)
+      else
+        @pagy, @commitments = pagy(commitments.sort_start_date_up)
+      end
+    end
+    render turbo_stream: [
+      turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: @commitments})
+    ] 
   end
 
   def new_next

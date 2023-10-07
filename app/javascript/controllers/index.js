@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import AppController from "./app_controller"
+application.register("app", AppController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
@@ -12,6 +15,9 @@ application.register("mnnav", MnnavController)
 
 import ModalsController from "./modals_controller"
 application.register("modals", ModalsController)
+
+import NewContributionController from "./new_contribution_controller"
+application.register("new-contribution", NewContributionController)
 
 import OrganizationController from "./organization_controller"
 application.register("organization", OrganizationController)
@@ -24,3 +30,6 @@ application.register("pages", PagesController)
 
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
+
+import SortmgmtController from "./sortmgmt_controller"
+application.register("sortmgmt", SortmgmtController)

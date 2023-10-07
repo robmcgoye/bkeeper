@@ -19,9 +19,9 @@
     </div>
     <div class="col-sm-3 px-1 my-1">
       <% if bank_account.id.nil? %>
-      <%= form.text_field :starting_balance_cents, class: "form-control form-control-sm" %>
+      <%= form.text_field :starting_balance, class: "form-control form-control-sm" %>
       <% else %>
-        <%= bank_account.balance_cents %>
+        <%= bank_account.balance %>
       <% end %>
     </div>
     <div class="col-sm-2 px-1 my-1 text-center">

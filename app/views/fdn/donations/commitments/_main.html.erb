@@ -1,24 +1,60 @@
 <div id="commitments-main" class="container py-3">
 
-  <div class="row text-center">
-    <div class="col"><h5>Commitments</h5></div>
-  </div>
-  <%= render "new_placeholder" %> 
-  <div class="container-fluid mt-3">       
-    <%# Table Header %>
-    <div class="row tb-header pt-1 pe-1 align-items-center">
-      <div class="col-sm-2">Start</div>
-      <div class="col-sm-2">End</div>
-      <div class="col-sm-3">Payment</div>
-      <div class="col-sm-4">Organization</div>
-      <div class="col-sm-1 pb-1">
-        <%= link_to new_foundation_commitment_path(@foundation), class: "btn btn-sm btn-outline-secondary", data: { turbo_frame: "new_commitment" } do %>
-          New
-        <% end %>
-      </div>
+  <div data-controller="sortmgmt" 
+        data-sortmgmt-url-value="<%= foundation_commitments_sort_path(@foundation, :page => page, :by => by) %>" 
+        data-sortmgmt-dir-value="<%= dir %>" 
+        data-sortmgmt-query-value="<%#= query %>" 
+        data-sortmgmt-selected-value="<%= by %>">
+
+    <div class="row text-center">
+      <div class="col"><h5>Commitments</h5></div>
     </div>
-    <%# Table Content %>
-    <%= render "commitment_list", commitments: @commitments %>
+    <%= render "new_placeholder" %> 
+    <div class="container-fluid mt-3">       
+      <%# Table Header %>
+      <div class="row tb-header pt-1 pe-1 align-items-center">
+        <div class="col-sm-2">
+          <a href="#" data-action="sortmgmt#sort"
+              data-value="0"  
+              data-url="<%= foundation_commitments_sort_path(@foundation, :by => "0") %>" 
+              class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+            Start<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+          </a>
+        </div>
+        <div class="col-sm-2">
+          <a href="#" data-action="sortmgmt#sort"
+              data-value="1"  
+              data-url="<%= foundation_commitments_sort_path(@foundation, :by => "1") %>" 
+              class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+            End<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+          </a>
+        </div>
+        <div class="col-sm-3">
+          <a href="#" data-action="sortmgmt#sort"
+              data-value="2"  
+              data-url="<%= foundation_commitments_sort_path(@foundation, :by => "2") %>" 
+              class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+            Payment<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+          </a>
+        </div>
+        <div class="col-sm-4">
+          <a href="#" data-action="sortmgmt#sort"
+              data-value="3"  
+              data-url="<%= foundation_commitments_sort_path(@foundation, :by => "3") %>" 
+              class="link-dark link-underline link-underline-opacity-0 link-underline-opacity-100-hover">
+            Organization<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
+          </a>        
+        </div>
+        <div class="col-sm-1 pb-1">
+          <%= link_to new_foundation_commitment_path(@foundation), class: "btn btn-sm btn-outline-secondary", data: { turbo_frame: "new_commitment" } do %>
+            New
+          <% end %>
+        </div>
+      </div>
+      <%# Table Content %>
+      <%= render "commitment_list", commitments: @commitments %>
+    </div>
+
   </div>
 
 </div>

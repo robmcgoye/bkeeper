@@ -2,7 +2,8 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   before_action :set_contribution, only: %i[ show edit update destroy ]
 
   def index
-    @contributions = Contribution.organization_contributions(@foundation.organization_ids)
+    @pagy, @contributions = pagy(Contribution.none)
+    # @contributions = Contribution.organization_contributions(@foundation.organization_ids)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]  
@@ -22,6 +23,38 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
         turbo_stream.replace(Contribution.new, partial: "new_button")
       ]
     end
+  end
+
+  def sort
+    contributions = Contribution.organization_contributions(@foundation.organization_ids)
+    if params[:by].to_i == 1
+      if params[:dir].to_i == 2
+        @pagy, @contributions = pagy(contributions.sort_check_num_down)
+      else
+        @pagy, @contributions = pagy(contributions.sort_check_num_up)
+      end 
+    elsif params[:by].to_i == 2
+      if params[:dir].to_i == 2
+        @pagy, @contributions = pagy(contributions.sort_amt_down)
+      else
+        @pagy, @contributions = pagy(contributions.sort_amt_up)
+      end 
+    elsif params[:by].to_i == 3
+      if params[:dir].to_i == 2
+        @pagy, @contributions = pagy(contributions.sort_organization_down)
+      else
+        @pagy, @contributions = pagy(contributions.sort_organization_up)
+      end 
+    else
+      if params[:dir].to_i == 2
+        @pagy, @contributions = pagy(contributions.sort_date_down)
+      else
+        @pagy, @contributions = pagy(contributions.sort_date_up)
+      end
+    end
+    render turbo_stream: [
+      turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
+    ] 
   end
 
   def new_next
