@@ -88,11 +88,12 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
   def create
     @commitment = Commitment.new(commitment_params)
     if @commitment.save
+      @pagy, @commitments = pagy(Commitment.organization_commitments(@foundation.organization_ids))
       flash.now[:notice] = "Commitment was successfully created."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         turbo_stream.replace(Commitment.new, partial: "new_placeholder"), 
-        turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: Commitment.organization_commitments(@foundation.organization_ids)})
+        turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: @commitments})
       ]        
     else
       render :new_next, status: :unprocessable_entity

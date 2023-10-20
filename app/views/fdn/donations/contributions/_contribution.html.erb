@@ -1,13 +1,13 @@
 <%= turbo_frame_tag contribution do %>
   <div class="row my-1 my-table-row align-items-center">
     <div class="col-sm-2 px-0">
-      <%= contribution.register.transaction_at.strftime("%m/%d/%Y") %>
+      <%= contribution.check.transaction_at.strftime("%m/%d/%Y") %>
     </div>
     <div class="col-sm-2">
-      <%= contribution.register.check_number %>
+      <%= contribution.check.check_number %>
     </div>
     <div class="col-sm-2 pe-3 text-end">
-      <%= humanized_money_with_symbol(contribution.register.amount) %>
+      <%= contribution.check.amount.format %>
     </div>
     <div class="col-sm-5">
       <%= contribution.organization.name %>

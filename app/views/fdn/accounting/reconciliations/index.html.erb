@@ -1,0 +1,12 @@
+<%= turbo_frame_tag "bank-account-sub" do %>
+  <%= render "fdn/accounting/nav" %>
+
+  <div class="border border-top-0">
+    <div class="container-fluid pt-4">
+
+      Reconcilations done here!
+      <%= @bank_account.full_name %>
+
+    </div>
+  </div>
+<% end %>

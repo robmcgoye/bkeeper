@@ -26,6 +26,13 @@ Rails.application.routes.draw do
       resources :organizations do
         get "cancel", on: :member
       end
+      scope module: 'accounting' do
+        resources :bank_accounts do 
+          get "cancel", on: :member
+          resources :checks, shallow: true, except: [:show]
+          resources :reconciliations, shallow: true, except: [:show]
+        end
+      end
       scope module: 'donations' do
         get "contributions/new_next", to: "contributions#new_next"
         get "commitments/new_next", to: "commitments#new_next"
@@ -41,7 +48,6 @@ Rails.application.routes.draw do
       namespace :settings do
         resources :donors, except: [:show]
         resources :funding_sources, except: [:show]
-        resources :bank_accounts, except: [:show]
         resources :organization_types, except: [:show]
       end
     end

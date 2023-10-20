@@ -1,14 +1,35 @@
-class Fdn::Settings::BankAccountsController < Fdn::BaseController
-  before_action :set_bank_account, only: %i[ edit update destroy ]
+class Fdn::Accounting::BankAccountsController < Fdn::BaseController
+  before_action :set_bank_account, only: %i[ show edit update destroy ]
 
   def index
+    @bank_accounts = @foundation.bank_accounts
+    @primary_account = @bank_accounts.where(primary: true).take
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]  
   end
 
+  def show
+    render turbo_stream: [
+      turbo_stream.replace("bank_account_main", partial: "main", locals: { bank_account: @bank_account })
+    ]
+  end
+
   def new
     @bank_account = BankAccount.new
+  end
+
+  def cancel
+    if params[:id].to_i != -1
+      set_bank_account
+      render turbo_stream: [
+        turbo_stream.replace(@bank_account, partial: "bank_account", locals: {bank_account: @bank_account})
+      ]
+    else
+      render turbo_stream: [
+        turbo_stream.replace(BankAccount.new, partial: "new_button", locals: {bank_accounts: @foundation.bank_accounts})
+      ]
+    end
   end
 
   def edit
@@ -19,10 +40,7 @@ class Fdn::Settings::BankAccountsController < Fdn::BaseController
     if @bank_account.save
       flash.now[:notice] = "Bank account was successfully created."
       render turbo_stream: [ 
-        turbo_stream.prepend("bank_accounts", @bank_account),
-        turbo_stream.replace("form_bank_account",
-          partial: "form", 
-          locals: { bank_account: BankAccount.new, form_url: foundation_settings_bank_accounts_path(@foundation)} ),
+        turbo_stream.replace(BankAccount.new, partial: "new_button", locals: {bank_accounts: @foundation.bank_accounts} ),
         turbo_stream.replace("messages", partial: "layouts/messages")
       ]
     else
@@ -34,7 +52,8 @@ class Fdn::Settings::BankAccountsController < Fdn::BaseController
     if @bank_account.update(bank_account_params)
       flash.now[:notice] = "Bank account was successfully updated."
       render turbo_stream: [
-        turbo_stream.replace(@bank_account, @bank_account),
+        turbo_stream.replace(BankAccount.new, partial: "new_button", locals: {bank_accounts: @foundation.bank_accounts} ),
+        turbo_stream.replace("bank_account_main", partial: "main", locals: {bank_account: @bank_account, checks: @bank_account.checks}),
         turbo_stream.replace("messages", partial: "layouts/messages")
       ]   
     else
@@ -46,7 +65,7 @@ class Fdn::Settings::BankAccountsController < Fdn::BaseController
     @bank_account.destroy
     flash.now[:notice] = "Bank account was successfully deleted."
     render turbo_stream: [
-      turbo_stream.remove(@bank_account),
+      turbo_stream.replace("bank_account_main", partial: "main_empty"),
       turbo_stream.replace("messages", partial: "layouts/messages")
     ]
   end

@@ -23,9 +23,12 @@
     <% end %>
 
     <!-- nav item -->
-    <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#accounting">
-        <i class="bi bi-bank me-2"></i><span class="show-xl">Accounting</span>
-    </a>
+    <%= link_to foundation_bank_accounts_path(foundation), class: "list-group-item list-group-item-action",  
+        "data-sidebar-target": "btn" do %>
+      <i class="bi bi-bank me-2"></i>
+      <span class="show-xl">Accounting</span>
+    <% end %>
+
     <!-- nav item -->
     <a href="#" class="list-group-item list-group-item-action" data-sidebar-target="btn" data-action="sidebar#report">
         <i class="bi bi-printer me-2"></i><span class="show-xl">Reports</span>

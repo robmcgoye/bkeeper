@@ -1,0 +1,14 @@
+<div id="main_content" data-controller="pages" 
+      data-pages-sbnum-value="3"
+      data-pages-sidebar-outlet="#sidebar-controller">
+
+  <div class="card">
+    <div class="card-header text-center"><h5>Accounting</h5></div>
+    <div class="container-fluid mx-1 py-3">
+
+      <%= render "new_button", bank_accounts: @bank_accounts %>
+      <hr>
+      <%= @primary_account.nil? ? (render "main_empty") : (render "main", bank_account: @primary_account) %>
+     
+  </div>
+</div>

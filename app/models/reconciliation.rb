@@ -1,7 +1,7 @@
 class Reconciliation < ApplicationRecord
   belongs_to :bank_account
   has_many :reconciliation_items
-  has_many :registers, through: :reconciliation_items
+  has_many :checks, through: :reconciliation_items
 
   monetize :starting_balance_cents, numericality: true
   monetize :ending_balance_cents, numericality: true

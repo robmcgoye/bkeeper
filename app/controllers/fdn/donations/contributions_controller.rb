@@ -62,7 +62,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
       @organization = @foundation.organizations.where(id: params[:organization_id].to_i).take
       if @organization.present?
         @contribution = @organization.contributions.new
-        @contribution.build_register
+        @contribution.build_check
       else
         flash.now[:alert] = "Organization selected was not found!!."
         render :cancel
@@ -132,7 +132,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
 
     def contribution_params
       params.require(:contribution).permit(:donor_id, :funding_source_id, :organization_id, 
-          register_attributes: [ 
+        check_attributes: [ 
             :check_number, :transaction_at, :description, :amount, :bank_account_id
             ])
     end

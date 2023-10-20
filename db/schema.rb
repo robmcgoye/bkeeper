@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_17_231929) do
   create_table "bank_accounts", force: :cascade do |t|
     t.string "full_name"
     t.boolean "primary", default: false, null: false
@@ -20,6 +20,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
     t.integer "starting_balance_cents", default: 0, null: false
     t.integer "balance_cents", default: 0, null: false
     t.index ["foundation_id"], name: "index_bank_accounts_on_foundation_id"
+  end
+
+  create_table "checks", force: :cascade do |t|
+    t.integer "check_number"
+    t.datetime "transaction_at"
+    t.integer "transaction_type"
+    t.string "description"
+    t.integer "amount_cents", limit: 8, default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.boolean "cleared", default: false, null: false
+    t.integer "bank_account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bank_account_id"], name: "index_checks_on_bank_account_id"
   end
 
   create_table "commitments", force: :cascade do |t|
@@ -41,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
     t.string "note"
     t.integer "donor_id", null: false
     t.integer "funding_source_id", null: false
-    t.integer "register_id", null: false
+    t.integer "check_id", null: false
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,10 +63,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
     t.integer "non_deductible_cents", limit: 8, default: 0, null: false
     t.datetime "non_deductible_check_on"
     t.string "non_deductible_check_number"
+    t.index ["check_id"], name: "index_contributions_on_check_id"
     t.index ["donor_id"], name: "index_contributions_on_donor_id"
     t.index ["funding_source_id"], name: "index_contributions_on_funding_source_id"
     t.index ["organization_id"], name: "index_contributions_on_organization_id"
-    t.index ["register_id"], name: "index_contributions_on_register_id"
   end
 
   create_table "donors", force: :cascade do |t|
@@ -121,11 +135,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
 
   create_table "reconciliation_items", force: :cascade do |t|
     t.integer "reconciliation_id", null: false
-    t.integer "register_id", null: false
+    t.integer "check_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["check_id"], name: "index_reconciliation_items_on_check_id"
     t.index ["reconciliation_id"], name: "index_reconciliation_items_on_reconciliation_id"
-    t.index ["register_id"], name: "index_reconciliation_items_on_register_id"
   end
 
   create_table "reconciliations", force: :cascade do |t|
@@ -139,20 +153,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["bank_account_id"], name: "index_reconciliations_on_bank_account_id"
-  end
-
-  create_table "registers", force: :cascade do |t|
-    t.integer "check_number"
-    t.datetime "transaction_at"
-    t.integer "transaction_type"
-    t.string "description"
-    t.integer "amount_cents", limit: 8, default: 0, null: false
-    t.string "amount_currency", default: "USD", null: false
-    t.boolean "cleared", default: false, null: false
-    t.integer "bank_account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["bank_account_id"], name: "index_registers_on_bank_account_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -193,11 +193,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
   end
 
   add_foreign_key "bank_accounts", "foundations"
+  add_foreign_key "checks", "bank_accounts"
   add_foreign_key "commitments", "organizations"
+  add_foreign_key "contributions", "checks"
   add_foreign_key "contributions", "donors"
   add_foreign_key "contributions", "funding_sources"
   add_foreign_key "contributions", "organizations"
-  add_foreign_key "contributions", "registers"
   add_foreign_key "donors", "foundations"
   add_foreign_key "email_verification_tokens", "users"
   add_foreign_key "funding_sources", "foundations"
@@ -205,9 +206,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_05_113557) do
   add_foreign_key "organizations", "foundations"
   add_foreign_key "organizations", "organization_types"
   add_foreign_key "password_reset_tokens", "users"
+  add_foreign_key "reconciliation_items", "checks"
   add_foreign_key "reconciliation_items", "reconciliations"
-  add_foreign_key "reconciliation_items", "registers"
   add_foreign_key "reconciliations", "bank_accounts"
-  add_foreign_key "registers", "bank_accounts"
   add_foreign_key "sessions", "users"
 end

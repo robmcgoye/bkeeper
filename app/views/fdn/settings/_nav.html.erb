@@ -12,10 +12,6 @@
         class: "#{request.path == foundation_settings_organization_types_path(@foundation)  ? "nav-link active" : "nav-link"}" %>
   </li>
   <li class="nav-item">
-    <%= link_to "Bank Accounts", foundation_settings_bank_accounts_path(@foundation), 
-        class: "#{request.path == foundation_settings_bank_accounts_path(@foundation)  ? "nav-link active" : "nav-link"}" %>
-  </li>
-  <li class="nav-item">
     <%= link_to "Funding Sources", foundation_settings_funding_sources_path(@foundation), 
         class: "#{request.path == foundation_settings_funding_sources_path(@foundation)  ? "nav-link active" : "nav-link"}" %>
   </li>
