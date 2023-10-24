@@ -26,7 +26,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   def sort
-    contributions = Contribution.organization_contributions(@foundation.organization_ids)
+    contributions = Contribution.organization_contributions(@foundation.organization_ids).open_contributions
     if params[:by].to_i == 1
       if params[:dir].to_i == 2
         @pagy, @contributions = pagy(contributions.sort_check_num_down)
@@ -90,11 +90,12 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   def create
     @contribution = Contribution.new(contribution_params)
     if @contribution.save
+      @pagy, @contributions = pagy(Contribution.organization_contributions(@foundation.organization_ids).open_contributions.sort_date_up)
       flash.now[:notice] = "Contribution was successfully created."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         turbo_stream.replace(Contribution.new, partial: "new_button"), 
-        turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: Contribution.organization_contributions(@foundation.organization_ids)})
+        turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
       ]  
     else
       render :new_next, status: :unprocessable_entity
@@ -102,6 +103,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   def update
+    # binding.break
     if @contribution.update(contribution_params)
       flash.now[:notice] = "Contribution was successfully updated."
       render turbo_stream: [
@@ -115,14 +117,20 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   def destroy
-    @contribution.destroy
-    @contributions = Contribution.organization_contributions(@foundation.organization_ids)
-    flash.now[:notice] = "Contribution was successfully destroyed."
-    render turbo_stream: [
-      turbo_stream.replace("messages", partial: "layouts/messages"), 
-      params[:show].to_i == 1 ? 
-      turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
-    ] 
+    if @contribution.destroy
+      @pagy, @contributions = pagy(Contribution.organization_contributions(@foundation.organization_ids).open_contributions.sort_date_up)
+      flash.now[:notice] = "Contribution was successfully destroyed."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        params[:show].to_i == 1 ? 
+        turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
+      ] 
+    else
+      flash.now[:notice] = "Contribution is already cleared cannot be deleted."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    end
   end
 
   private
@@ -133,7 +141,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
     def contribution_params
       params.require(:contribution).permit(:donor_id, :funding_source_id, :organization_id, 
         check_attributes: [ 
-            :check_number, :transaction_at, :description, :amount, :bank_account_id
+            :id, :check_number, :transaction_at, :description, :amount, :bank_account_id
             ])
     end
 end

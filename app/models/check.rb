@@ -6,45 +6,71 @@ class Check < ApplicationRecord
     # , dependent: :destroy
   monetize :amount_cents, numericality: {greater_than: 0}
   attribute :orginal_amount_cents
+  attribute :orginal_bank_account_id
   monetize :orginal_amount_cents, allow_nil: true
-
-  after_find :set_orginal_amount
-  after_save :update_bank_account_balance
+  
+  after_initialize :set_orginals
+  after_create :update_bank_account_balance
+  after_save :check_bank_account_balance
   before_destroy :remove_amount_from_account_balance
 
   enum :transaction_type, { debit: 0, credit: 1 }, default: :debit
 
+  validates :check_number, uniqueness: { scope: :bank_account_id }, allow_nil: true
   validates :transaction_at, presence: { message: "must have date of transaction" } 
+  validates :cleared, inclusion: { in: [true, false] }
+  validate :prevent_edits_when_cleared
 
+  scope :open_transactions, -> () { where(cleared: false).order(:transaction_at) }
   scope :open_deposits, -> () { where(cleared: false).where(transaction_type: :credit).order(transaction_at: :desc) }
 
-  # after_save do
-  #   new_balance = credit? ? bank_account.balance + amount : bank_account.balance - amount
-  #   bank_account.update_balance!(new_balance)
-  # end
-
-  # after_find do |check|
-  #   check.orginal_amount = check.amount
-  # end
 
   private
 
-    def update_bank_account_balance
-      if orginal_amount.present? && orginal_amount != amount
-        balance = bank_account.balance + (credit? ? -orginal_amount : orginal_amount)
-      else
-        balance = bank_account.balance
+    def prevent_edits_when_cleared
+      if cleared?
+        errors.add(:base, "Cannot make changes after it is cleared")
       end
-      new_balance = balance + (credit? ? amount : -amount)
-      bank_account.update_balance!(new_balance)
     end
 
-    def set_orginal_amount
+    def update_bank_account_balance
+      bank_account.update_balance!(calculate_balance(bank_account.balance, credit?, amount, false))
+    end
+
+    def calculate_balance(current_balance, is_credit, transaction_amount, is_inverted)
+      if !is_inverted
+        current_balance + (is_credit ? transaction_amount : -transaction_amount)
+      else
+        current_balance + (is_credit ? -transaction_amount : transaction_amount)
+      end
+    end
+
+    def check_bank_account_balance
+      if orginal_bank_account_id != bank_account_id
+        # add funds back to orginal account
+        orginal_bank = BankAccount.find(orginal_bank_account_id)
+        orginal_bank.update_balance!(calculate_balance(orginal_bank.balance, credit?, orginal_amount, true))
+        # update balance on new bank account
+        bank_account.update_balance!(calculate_balance(bank_account.balance, credit?, amount, false))
+      else
+        if orginal_amount != amount
+          balance = calculate_balance(bank_account.balance, credit?, orginal_amount, true)
+          bank_account.update_balance!(calculate_balance(balance, credit?, amount, false))
+        end  
+      end
+    end
+
+    def set_orginals
       self.orginal_amount ||= amount
+      self.orginal_bank_account_id ||= bank_account_id
     end
 
     def remove_amount_from_account_balance
-      new_balance = bank_account.balance + (credit? ? -amount : amount)
-      bank_account.update_balance!(new_balance)
+      if !cleared?
+        bank_account.update_balance!(calculate_balance(bank_account.balance, credit?, amount, true))
+      else
+        errors.add(:base, "Cannot delete this transaction because it has already been cleared!")
+        throw(:abort)
+      end
     end
 end

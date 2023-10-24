@@ -28,6 +28,9 @@ application.register("osearch", OsearchController)
 import PagesController from "./pages_controller"
 application.register("pages", PagesController)
 
+import ReconciliationController from "./reconciliation_controller"
+application.register("reconciliation", ReconciliationController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 
