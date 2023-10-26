@@ -1,5 +1,10 @@
 class Fdn::Accounting::ReconciliationsController < Fdn::BaseController
   before_action :set_bank_account, only: %i[ index new cancel new_next create ]
+  before_action :set_reconciliation, only: %i[ show destroy ]
+
+  def show
+    
+  end 
 
   def index
     @reconciliations = @bank_account.reconciliations
@@ -10,8 +15,9 @@ class Fdn::Accounting::ReconciliationsController < Fdn::BaseController
   end
 
   def cancel
+    @reconciliations = @bank_account.reconciliations
     render turbo_stream: [
-      turbo_stream.replace(Reconciliation.new, partial: "reconciliations_list")
+      turbo_stream.replace("reconciliation-main", partial: "reconciliations_list")
     ]
   end
 
@@ -27,18 +33,34 @@ class Fdn::Accounting::ReconciliationsController < Fdn::BaseController
   def create
     @reconciliation = @bank_account.reconciliations.new(reconciliation_params)
     if @reconciliation.save
-      @reconciliation.checks << Check.where(id: params[:reconciliation][:check_ids])
+      @reconciliations = @bank_account.reconciliations
       flash.now[:notice] = "Successfully reconciled statement."
         render turbo_stream: [
           turbo_stream.replace("messages", partial: "layouts/messages"),
-          turbo_stream.replace(Reconciliation.new, partial: "reconciliations_list")
+          turbo_stream.replace("reconciliation-main", partial: "reconciliations_list")
         ]
     else
       render :new_next, status: :unprocessable_entity
     end
   end
 
+  def destroy
+    @reconciliation.destroy
+    @reconciliations = @bank_account.reconciliations
+    flash.now[:notice] = "Reconciliation was successfully removed."
+    render turbo_stream: [
+          turbo_stream.replace("messages", partial: "layouts/messages"),
+          turbo_stream.replace("reconciliation-main", partial: "reconciliations_list")
+        ]
+  end
+
   private
+
+  def set_reconciliation
+    @reconciliation = Reconciliation.find(params[:id])
+    @bank_account = @reconciliation.bank_account
+    @foundation = @bank_account.foundation
+  end
 
   def set_bank_account
     @bank_account = BankAccount.find(params[:bank_account_id])

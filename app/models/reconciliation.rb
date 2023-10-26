@@ -1,6 +1,6 @@
 class Reconciliation < ApplicationRecord
   belongs_to :bank_account
-  has_many :reconciliation_items
+  has_many :reconciliation_items, dependent: :destroy
   has_many :checks, through: :reconciliation_items
 
   monetize :starting_balance_cents, numericality: true
@@ -11,14 +11,16 @@ class Reconciliation < ApplicationRecord
   validate :validate_date_range_uniqueness
 
   after_initialize :set_starting_values
-  # after_save :update_account_balance
+  after_create :set_checks_cleared
 
   scope :bank_reconciliations, -> (bank_account_id) { where(bank_account_id: bank_account_id).order(started_at: :desc) }
 
-  # def update_account_balance
-  #   account.update_balance!(ending_balance)
-  # end
+
   private
+
+    def set_checks_cleared
+      checks.update_all(cleared: true)
+    end
 
     def set_starting_values
       if new_record? && bank_account_id.present?
@@ -31,15 +33,13 @@ class Reconciliation < ApplicationRecord
           if bank_account.present?
             self.started_at = bank_account.transaction_at
             self.starting_balance = 0
-            # bank_account.amount 
           end
         end
       end
     end
 
     def validate_date_range_uniqueness
-      return unless started_at && ended_at
-  
+      return unless started_at && ended_at  
       if Reconciliation.exists?(['(bank_account_id = ?) AND ((started_at <= ? AND ended_at >= ?) OR (started_at <= ? AND ended_at >= ?))',
               bank_account_id, started_at, started_at, ended_at, ended_at])
         errors.add(:base, 'Date range is already in use.')

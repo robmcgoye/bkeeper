@@ -32,7 +32,7 @@ Rails.application.routes.draw do
           resources :checks, shallow: true, except: [:show]
           get "reconciliations/cancel", to: "reconciliations#cancel"
           post "reconciliations/new_next", to: "reconciliations#new_next"
-          resources :reconciliations, shallow: true, except: [:show]
+          resources :reconciliations, shallow: true, except: [:edit, :update]
         end
       end
       scope module: 'donations' do

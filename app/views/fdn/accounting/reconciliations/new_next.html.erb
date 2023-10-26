@@ -1,4 +1,4 @@
-<%= turbo_frame_tag Reconciliation.new do %>
+<%= turbo_frame_tag "reconciliation-main" do %>
   <div class="card bg-info bg-opacity-10 border-info p-2" data-controller="reconciliation" 
               data-reconciliation-reconciliationbalance-value="<%= @reconciliation.ending_balance_cents - @reconciliation.starting_balance_cents  %>" >
     <div class="row align-items-center">
@@ -6,9 +6,7 @@
         <span class="badge rounded-pill bg-info">Statement Date : </span>
       </div>
       <div class="col">
-        <%= @reconciliation.started_at.strftime("%m/%d/%Y") %>
-         -- 
-        <%= @reconciliation.ended_at.strftime("%m/%d/%Y") %>
+        <%= "#{@reconciliation.started_at.strftime("%m/%d/%Y")} - #{@reconciliation.ended_at.strftime("%m/%d/%Y")}" %>
       </div>
     </div>
     <div class="row align-items-center pb-2">
