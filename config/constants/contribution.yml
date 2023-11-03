@@ -1,0 +1,12 @@
+contribution:
+  show:
+    no: 0
+    yes: 1
+  sort:
+    date: 0
+    check_num: 1
+    amount: 2
+    organization: 3
+  sort_direction:
+    up: 1
+    down: 2

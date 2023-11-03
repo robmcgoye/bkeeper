@@ -1,0 +1,13 @@
+<%= turbo_frame_tag "organization-show-sub" do %>
+  <ul class="nav nav-underline justify-content-center">
+    <li class="nav-item">
+      <%= link_to "Contributions", contributions_foundation_organization_path(@foundation, @organization), class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Commitments", commitments_foundation_organization_path(@foundation, @organization), class: "nav-link active" %>
+    </li>
+  </ul>
+  <div class="container-fluid py-2">
+    
+  </div>
+<% end %>

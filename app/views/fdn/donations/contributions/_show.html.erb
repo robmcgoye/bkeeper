@@ -75,12 +75,12 @@
             <% end %>
           </div>
           <div class="col text-center">
-              <%= button_to foundation_contribution_path(@foundation, @contribution, :show => "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+              <%= button_to foundation_contribution_path(@foundation, @contribution, show: "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
                 <i class="bi bi-trash pe-1"></i>Delete
               <% end %>         
           </div>
           <div class="col text-end">
-            <%= link_to edit_foundation_contribution_path(@foundation, @contribution, :show => "1"), class: "btn btn-sm btn-outline-secondary" do %>
+            <%= link_to edit_foundation_contribution_path(@foundation, @contribution, show: "1"), class: "btn btn-sm btn-outline-secondary" do %>
               Edit
             <% end %>
           </div>

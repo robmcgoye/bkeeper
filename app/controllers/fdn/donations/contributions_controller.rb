@@ -1,9 +1,9 @@
 class Fdn::Donations::ContributionsController < Fdn::BaseController
   before_action :set_contribution, only: %i[ show edit update destroy ]
-
+  before_action :set_filter_params, only: %i[ cancel sort]
+  
   def index
     @pagy, @contributions = pagy(Contribution.none)
-    # @contributions = Contribution.organization_contributions(@foundation.organization_ids)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]  
@@ -11,9 +11,8 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   
   def cancel
     if params[:id].to_i != -1
-      set_contribution
       render turbo_stream: [
-        params[:show].to_i == 0 ? 
+        params[:show].to_i ==  APP_CONSTANTS.contribution.show.false ? 
         turbo_stream.replace(@contribution, partial: "contribution", locals: {contribution: @contribution}) : turbo_stream.replace(@contribution, partial: "show")
       ]
     else
@@ -26,32 +25,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   def sort
-    contributions = Contribution.organization_contributions(@foundation.organization_ids).open_contributions
-    if params[:by].to_i == 1
-      if params[:dir].to_i == 2
-        @pagy, @contributions = pagy(contributions.sort_check_num_down)
-      else
-        @pagy, @contributions = pagy(contributions.sort_check_num_up)
-      end 
-    elsif params[:by].to_i == 2
-      if params[:dir].to_i == 2
-        @pagy, @contributions = pagy(contributions.sort_amt_down)
-      else
-        @pagy, @contributions = pagy(contributions.sort_amt_up)
-      end 
-    elsif params[:by].to_i == 3
-      if params[:dir].to_i == 2
-        @pagy, @contributions = pagy(contributions.sort_organization_down)
-      else
-        @pagy, @contributions = pagy(contributions.sort_organization_up)
-      end 
-    else
-      if params[:dir].to_i == 2
-        @pagy, @contributions = pagy(contributions.sort_date_down)
-      else
-        @pagy, @contributions = pagy(contributions.sort_date_up)
-      end
-    end
+    @pagy, @contributions = pagy(ContributionsFilter.new.process_request(Contribution.organization_contributions(@foundation.organization_ids).open_contributions, @by, @dir))
     render turbo_stream: [
       turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
     ] 
@@ -65,11 +39,11 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
         @contribution.build_check
       else
         flash.now[:alert] = "Organization selected was not found!!."
-        render :cancel
+        render :new, status: :unprocessable_entity
       end
     else
       flash.now[:alert] = "Error with wizard no organization selected!"
-      render :cancel
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -103,12 +77,11 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   def update
-    # binding.break
     if @contribution.update(contribution_params)
       flash.now[:notice] = "Contribution was successfully updated."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
-        params[:contribution][:show] == "1" ? 
+        params[:contribution][:show].to_i ==  APP_CONSTANTS.contribution.show.true ? 
         turbo_stream.replace(@contribution, partial: "show") : turbo_stream.replace(@contribution, partial: "contribution", locals: {contribution: @contribution})
       ]
     else
@@ -122,7 +95,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
       flash.now[:notice] = "Contribution was successfully destroyed."
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
-        params[:show].to_i == 1 ? 
+        params[:show].to_i == APP_CONSTANTS.contribution.show.true ? 
         turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("contribution-list", partial: "contribution_list", locals: {contributions: @contributions})
       ] 
     else
@@ -134,6 +107,13 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   end
 
   private
+
+    def set_filter_params
+      params[:page].blank? ? @page = "1" : @page = params[:page]
+      params[:by].blank? ? @by = APP_CONSTANTS.contribution.sort.date : @by = params[:by].to_i
+      params[:dir].blank? ? @dir = APP_CONSTANTS.contribution.sort_direction.up : @dir = params[:dir].to_i
+    end
+
     def set_contribution
       @contribution = Contribution.find(params[:id])
     end

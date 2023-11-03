@@ -15,7 +15,7 @@
 
     <div class="col-sm-1">
       <div class="dropstart" role="group">
-        <button type="button" class="btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button" class="px-1 btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-three-dots-vertical"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-dark">
@@ -25,7 +25,7 @@
             <% end %>
           </li>
           <li>
-            <%= link_to edit_foundation_contribution_path(@foundation, contribution, :show => "0"), class: "dropdown-item" do %>
+            <%= link_to edit_foundation_contribution_path(@foundation, contribution, show: "0"), class: "dropdown-item" do %>
               <i class="bi bi-pencil-square pe-1"></i>Edit
             <% end %>
           </li>

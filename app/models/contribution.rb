@@ -17,6 +17,7 @@ class Contribution < ApplicationRecord
   validate :prevent_edits_when_cleared
 
   scope :organization_contributions, -> (organization_ids) { where(organization_id: organization_ids) }
+  scope :cleared_contributions, ->() { joins(:check).where( "checks.cleared = true" ) }
   scope :open_contributions, ->() { joins(:check).where( "checks.cleared = false" ) }
   scope :sort_date_up, -> { includes(:check).order("checks.transaction_at") }
   scope :sort_date_down, -> { includes(:check).order("checks.transaction_at desc") }
@@ -24,8 +25,8 @@ class Contribution < ApplicationRecord
   scope :sort_check_num_down, -> { includes(:check).order("checks.check_number desc") }
   scope :sort_amt_up, -> { includes(:check).order("checks.amount_cents") }
   scope :sort_amt_down, -> { includes(:check).order("checks.amount_cents desc") }
-  scope :sort_organization_up, -> { includes(:check).order("organizations.name") }
-  scope :sort_organization_down, -> { includes(:check).order("organizations.name desc") }
+  scope :sort_organization_up, -> { includes(:organization).order("organizations.name") }
+  scope :sort_organization_down, -> { includes(:organization).order("organizations.name desc") }
 
   private
 

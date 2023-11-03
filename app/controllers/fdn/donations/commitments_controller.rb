@@ -63,11 +63,11 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
         @commitment = @organization.commitments.new
       else
         flash.now[:alert] = "Organization selected was not found!!."
-        render :cancel
+        render :new, status: :unprocessable_entity
       end
     else
       flash.now[:alert] = "Error with wizard no organization selected!"
-      render :cancel
+      render :new, status: :unprocessable_entity
     end
   end
 

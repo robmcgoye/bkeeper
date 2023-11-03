@@ -4,14 +4,15 @@
   <div class="border border-top-0">
     <div class="container-fluid pt-4">
     
-      <div class="row tb-header mx-2">
+      <div class="row tb-header mx-2 py-1 mb-1 align-items-end">
         <div class="col-sm-2">Date</div>
         <div class="col-sm-4">Note</div>
         <div class="col-sm-4 text-center">Amount</div>
         <div class="col-sm-2">
-          <%= link_to new_foundation_bank_account_check_path(@foundation, @bank_account), class: "link-success", data: { turbo_frame: "new_check" } do %>
+          <%= link_to new_foundation_bank_account_check_path(@foundation, @bank_account), class: "py-0 btn btn-sm btn-outline-success", data: { turbo_frame: "new_check" } do %>
             Add<i class="bi bi-cash ps-1"></i>
-          <% end %>          
+          <% end %>
+              <%#  link-success %>
         </div>
       </div>
       

@@ -2,22 +2,9 @@
       data-pages-sbnum-value="1"
       data-pages-sidebar-outlet="#sidebar-controller">
 
-  <div class="card">
-    <div class="card-header"><%= @organization.name %></div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col">
-          <div class="row">
-            <div class="col"><%= @organization.contact %></div>
-          </div>
-        </div>
-        <div class="col-auto">
-        <%# , :by => by, dir: => dir, query: => query %>
-          <%= link_to foundation_organizations_path(@foundation, :page => page, :by => by, :dir => dir, :query => query), class: "btn btn-sm btn-outline-secondary text-start" do %>
-            <i class="bi bi-folder-symlink pe-1"></i>Back to Organizations
-          <% end %>
-        </div>
-      </div>
-    </div>
+  <%= render "show_details", foundation: @foundation, organization: @organization, page: @page, by: @by, dir: @dir, query: query %>
+  
+  <div class="card border-primary mt-2">
+    <%= render "contributions" %>
   </div>
 </div>

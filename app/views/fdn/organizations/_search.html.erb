@@ -1,27 +1,12 @@
-<%= turbo_frame_tag Organization.new do %>
-  <div class="row mb-2 align-items-center">
-    <div class="col-sm-7" data-controller="osearch" 
-          data-osearch-sortmgmt-outlet="#organization-controller"
-          data-osearch-create-value="<%= create %>">
-          <%#= form_tag foundation_organizations_filter_path(@foundation), method: :get, data: { turbo_frame: "organizations_list" } do |f| %>
-<form data-turbo-frame="organizations_list">
-            <div class="input-group">
+<div class="row mb-2 align-items-center">
+  <div class="col-sm-8" data-controller="osearch" 
+        data-osearch-sortmgmt-outlet="#organization-controller"
+        data-osearch-create-value="<%= create %>">
 
-  <input type="text" class="form-control form-control-sm" placeholder="Search ..." data-sortmgmt-target="query">
-  <button class="btn btn-sm btn-outline-secondary" type="button" data-action="click->sortmgmt#filter">Filter</button>
+    <div class="input-group">
+      <input type="text" class="form-control form-control-sm" placeholder="Search ..." data-sortmgmt-target="query" data-action="keydown.enter->sortmgmt#filter">
+      <button class="btn btn-sm btn-outline-secondary" type="button" data-action="click->sortmgmt#filter">Filter</button>
+    </div>
 
-              <%#= text_field_tag "query", nil, 
-                  placeholder: "Search ...", class: "form-control form-control-sm",
-                  "data-sortmgmt-target": "query" %>
-              <%#= submit_tag "Filter", class: "btn btn-sm btn-outline-secondary", "data-action": "click->sortmgmt#filter" %>
-            </div>
-          <%# end %>
-</form>
-    </div>
-    <div class="col-sm-2 offset-sm-3">
-      <%= link_to new_foundation_organization_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
-        <i class="bi bi-plus-circle pe-1"></i>New
-      <% end %>
-    </div>
   </div>
-<% end %>
+</div>

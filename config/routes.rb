@@ -21,10 +21,12 @@ Rails.application.routes.draw do
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
-      get "organizations/filter", to: "organizations#filter"
+      # get "organizations/filter", to: "organizations#filter"
       get "organizations/sort", to: "organizations#sort"
       resources :organizations do
         get "cancel", on: :member
+        get "contributions", on: :member
+        get "commitments", on: :member
       end
       scope module: 'accounting' do
         resources :bank_accounts do 

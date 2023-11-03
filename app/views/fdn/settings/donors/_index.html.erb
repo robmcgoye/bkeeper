@@ -6,7 +6,7 @@
     <div class="card-header">
       <%= render "fdn/settings/nav" %>
     </div>
-    <div class="container py-3">
+    <div class="container-fluid py-3">
       <div class="row text-center">
         <div class="col"><h5>Donors list</h5></div>
       </div>
@@ -17,7 +17,7 @@
         <div class="row tb-header pt-1">
           <div class="col-sm-4">Code</div>
           <div class="col-sm-6">Name</div>
-          <div class="col-sm-2">Actions</div>
+          <div class="col-sm-2 text-center">Actions</div>
         </div>
         <%= turbo_frame_tag "new-donor-form", src: new_foundation_settings_donor_path(@foundation) %>
         <%# Table Content %>

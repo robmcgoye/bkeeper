@@ -4,14 +4,14 @@
       <div class="col-sm-2"><%= commitment.start_at.strftime("%m/%d/%Y") %></div>
       <div class="col-sm-2"><%= commitment.end_at.strftime("%m/%d/%Y") %></div>
       <div class="col-sm-3">
-        <%= humanized_money_with_symbol(commitment.amount) %>
+        <%= commitment.amount.format %>
         <span class="fw-medium text-primary"> X 
         <%= commitment.number_payments %></span>
       </div>
       <div class="col-sm-4"><%= commitment.organization.name %></div>
       <div class="col-sm-1 pb-1">
         <div class="dropstart" role="group">
-          <button type="button" class="btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <button type="button" class="px-1 btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-dark">

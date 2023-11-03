@@ -1,4 +1,4 @@
-<%= form_with model: organization_type, url: form_url, id: dom_id(organization_type, "form"), class: "align-items-center pb-1 ps-4" do |form| %>
+<%= form_with model: organization_type, url: form_url, id: dom_id(organization_type, "form"), class: "align-items-center pb-1 ps-2" do |form| %>
   <div class="container pt-2">
     <div class="row justify-content-center">
       <div class="col-md-9">
@@ -15,7 +15,7 @@
       <%= form.text_field :description, class: "form-control form-control-sm" %>
     </div>
     <div class="col-sm-2 px-1 my-1 text-center">
-      <%= form.button class: "btn btn-sm btn-outline-secondary text-start" do %>
+      <%= form.button class: "btn btn-sm text-start #{organization_type.id.nil? ? "btn-outline-success" : "btn-outline-primary"}" do %>
         <% if organization_type.id.nil? %>
           <i class="bi bi-plus-circle pe-1"></i>New
         <% else %>

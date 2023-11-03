@@ -1,6 +1,7 @@
   <%# params: contribution_title, filter_url, next_page_url, cancel_url %>
-  <div class="card mb-2">
-    <div class="card-header my-text-bg-secondary">
+  <div class="card border-primary bg-primary bg-opacity-10 mb-2">
+  <%# my-text-bg-secondary %>
+    <div class="card-header bg-primary bg-opacity-25 py-1">
       <div class="row">
         <div class="col">
           <%= "New #{contribution_title} Wizard (Choose an Organization)" %>
@@ -9,43 +10,43 @@
       </div>      
     </div>
    
-    <div class="card-body pb-2">
-      <div class="row">
+    <%# <div class="card-body pb-2"> %>
+      <div class="row m-2">
         <div class="col">
           <%= form_tag filter_url, method: :get, data: { turbo_frame: "organizations-filter" } do |f| %>
-            <div class="input-group mb-3">
-              <%= text_field_tag "query", nil, placeholder: "Search ...", class: "form-control" %>
-              <%= submit_tag "Filter", class: "btn btn-outline-secondary" %>
+            <div class="input-group">
+              <%= text_field_tag "query", nil, placeholder: "Search ...", class: "form-control border-primary" %>
+              <%= submit_tag "Filter", class: "btn btn-outline-primary" %>
             </div>
           <% end %>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col">
+      <div class="row m-0">
+        <div class="col px-0">
           <%= form_with url: next_page_url, method: :get do |form| %>
-            <div class="container-fluid">
-              <div class="row tb-header">
+            <div class="px-0 container-fluid">
+              <div class="mx-0 row tb-header">
                 <div class="col-sm-5 offset-1">Name</div>
                 <div class="col-sm-4">Contact</div>
                 <div class="col-sm-2">Type</div>
               </div>
-              <div class="container-fluid scroll">
+              <div class="container-fluid scroll bg-light">
                 <%= turbo_frame_tag "organizations-filter" do %>
                   <%= render "fdn/donations/organizations_filter",  organizations: @organizations %>
                 <% end %>
               </div>
             </div>
 
-            <div class="card-footer">
+            <div class="card-footer py-1">
               <div class="row">
                 <div class="col text-start">
-                  <%= link_to cancel_url, class: "btn btn-sm btn-outline-secondary text-start" do %>
+                  <%= link_to cancel_url, class: "py-0 btn btn-sm btn-outline-primary text-start" do %>
                     <i class="bi bi-x-square pe-1"></i>Cancel
                   <% end %>  
                 </div>
                 <div class="col text-end"> 
-                  <%= button_tag class: "btn btn-sm btn-outline-secondary text-start" do %>
+                  <%= button_tag class: "py-0 btn btn-sm btn-outline-primary text-start" do %>
                     Next<i class="bi bi-arrow-right-circle ps-1"></i>
                   <% end %>
                </div>
@@ -55,6 +56,6 @@
           <% end %>
         </div>
       </div>        
-    </div>
+    <%# </div> %>
     
   </div>

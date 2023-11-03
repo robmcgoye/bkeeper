@@ -10,6 +10,11 @@ CONFIG = YAML.load(File.read(File.expand_path('../application.yml', __FILE__)))
 CONFIG.merge! CONFIG.fetch(Rails.env, {})
 CONFIG.symbolize_keys!
 
+constant_hash = Dir.glob(File.join('config/constants', '*.yml')).reduce({}) do |hash, file_path|
+  hash.merge(YAML.load_file(file_path))
+end
+APP_CONSTANTS = JSON.parse(constant_hash.to_json, object_class:OpenStruct)
+
 module Bkeeper
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
