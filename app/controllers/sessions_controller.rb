@@ -38,7 +38,10 @@ class SessionsController < ApplicationController
 
     def load_sessions
       @sessions = Current.user.sessions.order(created_at: :desc)
-      goto_sessions
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace("main_content", partial: "sessions/index")
+      ]
     end 
 
     def set_session

@@ -4,7 +4,10 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    goto_users
+    render turbo_stream: [
+      turbo_stream.replace("messages", partial: "layouts/messages"),
+      turbo_stream.replace("main_content", partial: "users/index")
+    ]
   end
 
   def new

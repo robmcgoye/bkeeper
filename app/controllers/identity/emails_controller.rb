@@ -32,4 +32,11 @@ class Identity::EmailsController < ApplicationController
     def resend_email_verification
       UserMailer.with(user: @user).email_verification.deliver_later
     end
+
+    def goto_edit_email
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace("main_content", partial: "identity/emails/edit")
+      ]
+    end    
 end

@@ -18,9 +18,14 @@ Rails.application.routes.draw do
 
   scope module: 'fdn' do
     get "foundation/cancel", to: "foundations#cancel"
+
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
+      namespace :charts do
+        get "top-donors"
+        get "contribution-time-line"
+      end
       # get "organizations/filter", to: "organizations#filter"
       get "organizations/sort", to: "organizations#sort"
       resources :organizations do

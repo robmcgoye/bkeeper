@@ -25,4 +25,11 @@ class PasswordsController < ApplicationController
     def user_params
       params.permit(:password, :password_confirmation)
     end
+
+    def goto_edit_password
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace("main_content", partial: "passwords/edit")
+      ]
+    end
 end

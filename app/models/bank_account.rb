@@ -1,8 +1,7 @@
 class BankAccount < ApplicationRecord
   belongs_to :foundation
-  has_many :reconciliations
+  has_many :reconciliations, dependent: :destroy
   has_many :checks
-  # , dependent: :destroy
   
   monetize :starting_balance_cents, numericality: { greater_than: 0 }
   monetize :balance_cents
@@ -14,9 +13,7 @@ class BankAccount < ApplicationRecord
   scope :primary_account, -> (foundation_id) { where(foundation_id: foundation_id).where(primary: true).take }
   
   before_save :update_primary_bank_account
-  # before_save if: :primary do
-  #   BankAccount.foundation_accounts(foundation_id).update_all(primary: false) 
-  # end
+  before_destroy :check_for_transactions
 
   after_create do
     Check.create!(
@@ -33,6 +30,13 @@ class BankAccount < ApplicationRecord
   end
 
   private 
+
+  def check_for_transactions
+    if checks.size > 0
+      errors.add(:base, "Cannot delete this bank account because it has transactions!")
+      throw(:abort)    
+    end
+  end
 
   def update_primary_bank_account
     if primary_changed? && primary

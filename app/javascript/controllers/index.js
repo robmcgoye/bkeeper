@@ -4,8 +4,6 @@
 
 import { application } from "./application"
 
-import AppController from "./app_controller"
-application.register("app", AppController)
 
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
@@ -18,9 +16,6 @@ application.register("modals", ModalsController)
 
 import NewContributionController from "./new_contribution_controller"
 application.register("new-contribution", NewContributionController)
-
-import OrganizationController from "./organization_controller"
-application.register("organization", OrganizationController)
 
 import OsearchController from "./osearch_controller"
 application.register("osearch", OsearchController)

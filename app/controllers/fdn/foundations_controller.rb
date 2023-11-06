@@ -6,6 +6,9 @@ class Fdn::FoundationsController < ApplicationController
   end
 
   def dashboard
+    # @contributions = Contribution.organization_contributions(@foundation.organization_ids)
+    # @contributions_chart_data = @contributions.graph_contributions
+    # @top_donors_chart_data = @foundation.donors.top_donors
     render turbo_stream: [
       turbo_stream.replace("sidebar", partial: "layouts/sidebar", locals: {foundation: @foundation} ),      
       turbo_stream.replace("sidebar-button", partial: "layouts/sidebar_button", locals: { name: @foundation.short_name }),

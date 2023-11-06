@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   include Pundit::Authorization
-  include Navigation
+
   before_action :set_current_request_details
   before_action :authenticate
 
@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
 
   def current_user
     Current.user
+  end
+
+  def goto_dashboard(foundation)
+    render turbo_stream: [
+      turbo_stream.replace("username", partial: "layouts/username"), 
+      turbo_stream.replace("messages", partial: "layouts/messages"), 
+      turbo_stream.replace("main_content", partial: "pages/dashboard", locals: { foundation: foundation })
+    ]
   end
 
   private

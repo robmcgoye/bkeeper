@@ -62,12 +62,19 @@ class Fdn::Accounting::BankAccountsController < Fdn::BaseController
   end
 
   def destroy
-    @bank_account.destroy
-    flash.now[:notice] = "Bank account was successfully deleted."
-    render turbo_stream: [
-      turbo_stream.replace("bank_account_main", partial: "main_empty"),
-      turbo_stream.replace("messages", partial: "layouts/messages")
-    ]
+    if @bank_account.destroy
+      flash.now[:notice] = "Bank account was successfully deleted."
+      render turbo_stream: [
+        turbo_stream.replace(BankAccount.new, partial: "new_button", locals: {bank_accounts: @foundation.bank_accounts} ),
+        turbo_stream.replace("bank_account_main", partial: "main_empty"),
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    else
+      flash.now[:notice] = "Bank account cannot be deleted. Because it has transactions"
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    end
   end
 
   private

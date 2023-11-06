@@ -3,6 +3,19 @@
       data-pages-sidebar-outlet="#sidebar-controller">
   <h4><%= @foundation.long_name %></h4>
   <div class="container">
-    This will contain items such as the upcoming commitments, the top donors for the month the top contributions for the month.
+    
+    <div class="row">
+      <div class="col">
+        <h5>Contributions made the last 3 months</h5>
+        <%= line_chart foundation_charts_contribution_time_line_path(@foundation), width: "50%",
+                          ytitle: "Contributions" %>
+      </div>
+      <div class="col">
+        <h5>Top Donors of the last 3 months</h5>
+        <%= column_chart foundation_charts_top_donors_path(@foundation), width: '50%', 
+                          ytitle: "Total Contributions", xtitle: "Donors" %>
+      </div>
+    </div>
+    
   </div>
 </div>
