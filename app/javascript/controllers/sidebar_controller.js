@@ -14,25 +14,25 @@ export default class extends Controller {
     // console.log("Yo... hello!")
   }
 
-  organization(e) {
-    this.selectedValue = 1;
-    e.preventDefault();
-  }
+  // organization(e) {
+  //   this.selectedValue = 1;
+  //   e.preventDefault();
+  // }
 
-  contribution(e) {
-    this.selectedValue = 2;
-    e.preventDefault();
-  }
+  // contribution(e) {
+  //   this.selectedValue = 2;
+  //   e.preventDefault();
+  // }
 
-  accounting(e) {
-    this.selectedValue = 3;
-    e.preventDefault();
-  }
+  // accounting(e) {
+  //   this.selectedValue = 3;
+  //   e.preventDefault();
+  // }
 
-  report(e) {
-    this.selectedValue = 4;
-    e.preventDefault();
-  }
+  // report(e) {
+  //   this.selectedValue = 4;
+  //   e.preventDefault();
+  // }
 
   selectedValueChanged() {
     this.setButtonState();

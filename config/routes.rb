@@ -18,14 +18,14 @@ Rails.application.routes.draw do
 
   scope module: 'fdn' do
     get "foundation/cancel", to: "foundations#cancel"
-
+    # charts
+    get "foundation/:foundation_id/charts/top-donors", to: "charts#top_donors", as: "charts_top_donors"
+    get "foundation/:foundation_id/charts/contribution-time-line", to: "charts#contribution_time_line", as: "charts_contribution_time_line"
+    # reports
+    get "foundation/:foundation_id/reports/dashboard", to: "reports#dashboard", as: "reports_dashboard"
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
-      namespace :charts do
-        get "top-donors"
-        get "contribution-time-line"
-      end
       # get "organizations/filter", to: "organizations#filter"
       get "organizations/sort", to: "organizations#sort"
       resources :organizations do

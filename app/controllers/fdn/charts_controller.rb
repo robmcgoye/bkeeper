@@ -1,4 +1,4 @@
-class Fdn::Charts::FoundationsController < Fdn::BaseController
+class Fdn::ChartsController < Fdn::BaseController
 
   def top_donors
     render json: @foundation.donors.top_donors
