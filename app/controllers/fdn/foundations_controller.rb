@@ -62,7 +62,7 @@ class Fdn::FoundationsController < ApplicationController
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         turbo_stream.replace("sidebar-button", partial: "layouts/sidebar_button", locals: { name: @foundation.short_name }),
         turbo_stream.replace("foundations-nav-list", partial: "layouts/foundations_list", locals: {foundations: Foundation.all} ),
-        turbo_stream.replace(@foundation, partial: "settings/show_foundation")
+        turbo_stream.replace(@foundation, partial: "fdn/settings/show_foundation")
       ]
     else
       render :edit, status: :unprocessable_entity
@@ -84,6 +84,6 @@ class Fdn::FoundationsController < ApplicationController
     end
 
     def foundation_params
-      params.require(:foundation).permit(:short_name, :long_name)
+      params.require(:foundation).permit(:short_name, :long_name, :image_logo, :image_header)
     end
 end

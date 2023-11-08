@@ -1,7 +1,10 @@
 <div id="main_content" data-controller="pages" 
       data-pages-sbnum-value="0"
       data-pages-sidebar-outlet="#sidebar-controller">
-  <h4><%= @foundation.long_name %></h4>
+  <h4>
+    <%= image_tag(@foundation.resize_image_logo(50,50)) if @foundation.image_logo.attached? %>
+    <%= @foundation.long_name %>
+  </h4>
   <div class="container">
     
     <div class="row">
