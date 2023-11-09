@@ -19,4 +19,9 @@ class Foundation < ApplicationRecord
   def resize_image_logo(width, height)
     image_logo.variant(resize_to_limit: [width, height]).processed
   end
+
+  def resize_image_header(width, height)
+    image_header.variant(resize_to_limit: [width, height]).processed
+  end
+
 end

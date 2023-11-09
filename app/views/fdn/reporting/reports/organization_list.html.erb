@@ -1,0 +1,7 @@
+<% provide(:title, "#{@foundation.short_name} Organizations List") %>
+
+<div class="py-2">
+  <% @foundation.organizations.sort_name_up.each do |organization| %>
+    <%= organization.name %><br/>
+  <% end %>
+</div>

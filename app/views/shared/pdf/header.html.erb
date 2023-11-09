@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td>
+      <%= image_tag(@foundation.resize_image_header(500, 80)) if @foundation.image_header.attached? %>
+    </td>
+    <td class="text-btm text-end">
+      <%= title %>
+    </td>
+  </tr>
+</table>
+<hr class="border pt-0">
