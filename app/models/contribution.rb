@@ -30,12 +30,12 @@ class Contribution < ApplicationRecord
 
   def self.graph_contributions
     # contributions = self.select('checks.amount_cents, organizations.name, checks.transaction_at')
-    contributions = self.select('SUM(checks.amount_cents) as total, checks.transaction_at')
+    contributions = self.select('SUM(checks.amount_cents) AS total, checks.transaction_at')
           .joins(:check).joins(:organization)
           .where('checks.transaction_at >= ? AND checks.transaction_at <= ?', 3.month.ago, Time.current)
           .group('checks.transaction_at')
           .order('checks.transaction_at DESC')
-          formated_contributions = contributions.pluck('checks.transaction_at as date', 'checks.amount_cents as total')
+          formated_contributions = contributions.pluck('checks.transaction_at as date', 'SUM(checks.amount_cents) as total')
           # formated_contributions = contributions.pluck( 'checks.transaction_at as date', 'organizations.name as name', 'checks.amount_cents as total')
           # formated_contributions.map! {|item| [ item[0], item[1], Money.from_cents(item[2]).format(symbol: nil) ]}
           formated_contributions.map! {|item| [ item[0], Money.from_cents(item[1]).format(symbol: nil) ]}
