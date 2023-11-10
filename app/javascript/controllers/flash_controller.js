@@ -21,7 +21,7 @@ export default class extends Controller {
       //     node.innerHTML="";
       //   });
       // });
-    }, 2000);
+    }, 4000);
   }
 
   animateCSS(animation) {

@@ -1,4 +1,8 @@
 
+div.alwaysbreak { page-break-before: always; }
+div.nobreak:before { clear:both; }
+div.nobreak { page-break-inside: avoid; }
+
 table {
   width: 100%;
   border: 0px;
@@ -28,9 +32,18 @@ table {
   padding-top: 20px;
 }
 
+.mb-2 {
+  margin-bottom: 20px;
+}
+
 .py-2 {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.py-1 {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .fs-small {

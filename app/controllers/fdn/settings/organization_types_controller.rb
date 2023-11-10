@@ -44,8 +44,8 @@ class Fdn::Settings::OrganizationTypesController < Fdn::BaseController
   end
 
   def destroy
-    if !@organization_type.organizations.present?
-      @organization_type.destroy
+    # if !@organization_type.organizations.present?
+    if @organization_type.destroy
       flash.now[:notice] = "Organization type was successfully deleted."
       render turbo_stream: [
         turbo_stream.remove(@organization_type),

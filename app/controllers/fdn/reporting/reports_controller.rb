@@ -17,8 +17,8 @@ class Fdn::Reporting::ReportsController < Fdn::BaseController
               },
       footer: { content: render_to_string(template: "shared/pdf/footer", 
                   formats: [:html], 
-                  layout: "pdf_section"), 
-                  right: "[page] of [topage]" 
+                  layout: "pdf_section") 
+                  # right: "[page] of [topage]" 
               }
     )
     send_data(pdf, filename: "organization_list", type: "application/pdf", disposition: :inline)  

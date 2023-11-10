@@ -43,12 +43,18 @@ class Fdn::Settings::DonorsController < Fdn::BaseController
   end
 
   def destroy
-    @donor.destroy
-    flash.now[:notice] = "Donor was successfully deleted."
-    render turbo_stream: [
-      turbo_stream.remove(@donor),
-      turbo_stream.replace("messages", partial: "layouts/messages")
-    ]
+    if @donor.destroy
+      flash.now[:notice] = "Donor was successfully deleted."
+      render turbo_stream: [
+        turbo_stream.remove(@donor),
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    else
+      flash.now[:alert] = "Error this donor has contributions and or commitments."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]      
+    end
   end
 
   private

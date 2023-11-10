@@ -43,12 +43,18 @@ class Fdn::Settings::FundingSourcesController < Fdn::BaseController
   end
 
   def destroy
-    @funding_source.destroy
-    flash.now[:notice] = "Funding source was successfully deleted."
-    render turbo_stream: [
-      turbo_stream.remove(@funding_source),
-      turbo_stream.replace("messages", partial: "layouts/messages")
-    ]
+    if @funding_source.destroy
+      flash.now[:notice] = "Funding source was successfully deleted."
+      render turbo_stream: [
+        turbo_stream.remove(@funding_source),
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    else
+      flash.now[:alert] = "Error this fund has contribution(s)."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]   
+    end
   end
 
   private

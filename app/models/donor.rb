@@ -8,6 +8,8 @@ class Donor < ApplicationRecord
             length: { minimum: 2, maximum: 3 }, 
             uniqueness: { scope: :foundation_id } 
 
+  before_destroy :validate_before_destroy
+
   scope :sort_full_name_up, -> { order(:full_name) } 
 
   def self.top_donors
@@ -21,4 +23,13 @@ class Donor < ApplicationRecord
     formated_donors.map! {|item| [ item[0], Money.from_cents(item[1]).format(symbol: nil) ]}
   end
 
+  private
+
+    def validate_before_destroy
+      if Contribution.where(donor_id: id).count > 0 || Commitment.where(donor_id: id).count > 0
+        errors.add(:base, "Cannot delete this Donor because they have Contributions and or Commitments!")
+        throw(:abort)
+      end      
+    end
+  
 end

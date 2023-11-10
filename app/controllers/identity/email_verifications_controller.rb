@@ -11,7 +11,10 @@ class Identity::EmailVerificationsController < ApplicationController
   def create
     send_email_verification
     flash.now[:notice] = "We sent a verification email to your email address."
-    goto_dashboard
+    render turbo_stream: [
+      turbo_stream.replace("messages", partial: "layouts/messages")
+    ]
+    # goto_dashboard
     # redirect_to root_path, notice: "We sent a verification email to your email address"
   end
 
