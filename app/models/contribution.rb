@@ -6,6 +6,10 @@ class Contribution < ApplicationRecord
   belongs_to :funding_source
   belongs_to :commitment, optional: true
 
+  validate :prevent_edits_when_cleared
+  validate :check_commitment_total
+
+  after_save :check_if_commitment_completed
   before_destroy :validate_before_destroy
   after_destroy :remove_check
   
@@ -14,8 +18,6 @@ class Contribution < ApplicationRecord
   
   enum :in_kind, { na: 0, househld_effects: 1, personal_effects: 2, securities: 3 }, default: :na
   
-  validate :prevent_edits_when_cleared
-
   scope :organization_contributions, -> (organization_ids) { where(organization_id: organization_ids) }
   scope :cleared_contributions, ->() { joins(:check).where( "checks.cleared = true" ) }
   scope :open_contributions, ->() { joins(:check).where( "checks.cleared = false" ) }
@@ -43,6 +45,18 @@ class Contribution < ApplicationRecord
 
   private
 
+    def check_if_commitment_completed
+      if commitment_id.present? && commitment.amount_due == 0
+        commitment.update(completed: true)
+      end
+    end
+
+    def check_commitment_total
+      if commitment_id.present? && (commitment.amount_due - check.amount_cents) < 0
+        errors.add(:base, "Payment exceeds the commitment total") 
+      end
+    end
+
     def prevent_edits_when_cleared
       if check.cleared?
         errors.add(:base, "Cannot make changes after it is cleared")
@@ -58,5 +72,8 @@ class Contribution < ApplicationRecord
 
     def remove_check
       check.destroy
+      if commitment_id.present? && commitment.completed && commitment.amount_due > 0
+        commitment.update(completed: false)
+      end
     end
 end

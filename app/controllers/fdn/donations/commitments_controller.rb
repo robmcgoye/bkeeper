@@ -1,61 +1,60 @@
 class Fdn::Donations::CommitmentsController < Fdn::BaseController
-  before_action :set_commitment, only: %i[ show edit update destroy ]
+  # index, cancel, sort, new_contribution, new_next, show, new, edit, edit_contribution, create_contribution, create, 
+  # update, update_contribution, destroy, destroy_contribution
+  
+  before_action :set_commitment, except: %i[ index, cancel, sort, new_next, new, create ]
+  before_action :set_contribution, only: [ :edit_contribution, :update_contribution, :destroy_contribution ]
 
   def index
     @pagy, @commitments = pagy(Commitment.none)
-    # @commitments = Commitment.organization_commitments(@foundation.organization_ids)
     render turbo_stream: [
       turbo_stream.replace("main_content", partial: "index")
     ]      
   end
 
   def cancel
-    if params[:id].to_i != -1
-      set_commitment
-      render turbo_stream: [
-        params[:show].to_i == 0 ? turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment}) : turbo_stream.replace(@commitment, partial: "show")
-      ]
+    if params[:contribution].present?
+
+      if params[:contribution].to_i  == -1
+        render turbo_stream: [
+          turbo_stream.replace(helpers.dom_id(Contribution.new, :commitment), partial: "new_contribution_placeholder")
+        ]        
+      else
+        @contribution = Contribution.find(params[:contribution])
+        render turbo_stream: [
+          turbo_stream.replace(helpers.dom_id(@contribution, :commitment), partial:"contribution", locals: {contribution: @contribution})
+        ]
+      end
     else
-      flash.now[:notice] = "New Commitment Wizard canceled."
-      render turbo_stream: [
-        turbo_stream.replace("messages", partial: "layouts/messages"), 
-        turbo_stream.replace(Commitment.new, partial: "new_placeholder")
-      ]
+      if params[:id].to_i != -1
+        set_commitment
+        render turbo_stream: [
+          params[:show].to_i == 0 ? turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment}) : turbo_stream.replace(@commitment, partial: "show_commitment")
+        ]
+      else
+        flash.now[:notice] = "New Commitment Wizard canceled."
+        render turbo_stream: [
+          turbo_stream.replace("messages", partial: "layouts/messages"), 
+          turbo_stream.replace(Commitment.new, partial: "new_placeholder")
+        ]
+      end
     end
   end
 
   def sort
-    commitments = Commitment.organization_commitments(@foundation.organization_ids)
-    if params[:by].to_i == 1
-      if params[:dir].to_i == 2
-        @pagy, @commitments = pagy(commitments.sort_end_date_down)
-      else
-        @pagy, @commitments = pagy(commitments.sort_end_date_up)
-      end 
-    elsif params[:by].to_i == 2
-      if params[:dir].to_i == 2
-        @pagy, @commitments = pagy(commitments.sort_payment_down)
-      else
-        @pagy, @commitments = pagy(commitments.sort_payment_up)
-      end 
-    elsif params[:by].to_i == 3
-      if params[:dir].to_i == 2
-        @pagy, @commitments = pagy(commitments.sort_organization_down)
-      else
-        @pagy, @commitments = pagy(commitments.sort_organization_up)
-      end 
-    else
-      if params[:dir].to_i == 2
-        @pagy, @commitments = pagy(commitments.sort_start_date_down)
-      else
-        @pagy, @commitments = pagy(commitments.sort_start_date_up)
-      end
-    end
+    set_filter_params
+    @pagy, @commitments = pagy(CommitmentsFilter.new.process_request(Commitment.organization_commitments(@foundation.organization_ids), @by, @dir))
     render turbo_stream: [
       turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: @commitments})
     ] 
   end
 
+  def new_contribution
+    @contribution = @commitment.contributions.new
+    @contribution.organization = @commitment.organization
+    @contribution.build_check
+  end
+  
   def new_next
     if !params[:organization_id].blank?
       @organization = @foundation.organizations.where(id: params[:organization_id].to_i).take
@@ -85,6 +84,25 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
     @param_show = params[:show].to_i
   end
 
+  def edit_contribution
+  end
+
+  def create_contribution
+    @contribution = Contribution.new(contribution_params)
+    if @contribution.save
+      @commitment.reload
+      flash.now[:notice] = "Payment was successfully applied to #{@contribution.commitment.code.truncate(10)}."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace("commitments-main", partial: "show"),
+        turbo_stream.replace("commitment-payments", partial: "contributions_list", locals: {contributions: @commitment.contributions}),
+        turbo_stream.replace(helpers.dom_id(Contribution.new, :commitment), partial: "new_contribution_placeholder")
+      ]
+    else
+      render :new_contribution, status: :unprocessable_entity
+    end
+  end
+
   def create
     @commitment = Commitment.new(commitment_params)
     if @commitment.save
@@ -106,33 +124,92 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
       render turbo_stream: [
         turbo_stream.replace("messages", partial: "layouts/messages"), 
         params[:commitment][:show] == "1" ? 
-        turbo_stream.replace(@commitment, partial: "show") : turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment})
+        turbo_stream.replace(@commitment, partial: "show_commitment") : turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment})
       ]
     else
+      @param_show = params[:commitment][:show].to_i
       render :edit, status: :unprocessable_entity
     end
   end
 
+  def update_contribution
+    if @contribution.update(contribution_params)
+      # @commitment.reload
+      flash.now[:notice] = "Contribution was successfully updated."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        turbo_stream.replace(@commitment, partial: "show_commitment"),
+        turbo_stream.replace(helpers.dom_id(@contribution, :commitment), partial:"contribution", locals: {contribution: @contribution})
+      ]
+    else
+      render :edit_contribution, status: :unprocessable_entity
+    end    
+  end
+
   def destroy
-    @commitment.destroy
-    @commitments = Commitment.organization_commitments(@foundation.organization_ids)
-    flash.now[:notice] = "Commitment was successfully destroyed."
-    render turbo_stream: [
-      turbo_stream.replace("messages", partial: "layouts/messages"), 
-      params[:show].to_i == 1 ? 
-      turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: @commitments})
-    ] 
+    if @commitment.destroy
+      @pagy, @commitments = pagy(Commitment.organization_commitments(@foundation.organization_ids))
+      flash.now[:notice] = "Commitment was successfully destroyed."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        params[:show].to_i == 1 ? 
+        turbo_stream.replace("main_content", partial: "index") : turbo_stream.replace("commitment-list", partial: "commitment_list", locals: {commitments: @commitments})
+      ] 
+    else 
+      flash.now[:notice] = "Commitment cannot be destroyed since some payments have already been cleared."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    end
+  end
+
+  def destroy_contribution
+    if @contribution.destroy
+      @commitment.reload
+      flash.now[:notice] = "Contribution was successfully destroyed."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"), 
+        turbo_stream.replace("commitments-main", partial: "show"),
+        turbo_stream.replace("commitment-payments", partial: "contributions_list", locals: {contributions: @commitment.contributions.reload})
+      ]       
+    else
+      flash.now[:alert] = "Contribution is already cleared cannot be deleted."
+      render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages")
+      ]
+    end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_commitment
-      @commitment = Commitment.find(params[:id])
+      if params[:commitment_id].present?
+        @commitment = Commitment.find(params[:commitment_id])
+      elsif params[:id].present?
+        @commitment = Commitment.find(params[:id])
+      end
+    end
+    
+    def set_contribution
+      @contribution = Contribution.find(params[:id])
+    end
+
+    def set_filter_params
+      params[:page].blank? ? @page = "1" : @page = params[:page]
+      params[:by].blank? ? @by = APP_CONSTANTS.commitment.sort.start_date : @by = params[:by].to_i
+      params[:dir].blank? ? @dir = APP_CONSTANTS.commitment.sort_direction.up : @dir = params[:dir].to_i
     end
 
     # Only allow a list of trusted parameters through.
     def commitment_params
       params.require(:commitment).permit( :organization_id, :start_at, :end_at, 
         :number_payments, :amount, :code )
+    end
+
+    def contribution_params
+      params.require(:contribution).permit(:donor_id, :funding_source_id, :organization_id, :commitment_id,
+        check_attributes: [ 
+            :id, :check_number, :transaction_at, :description, :amount, :bank_account_id
+            ])
     end
 end

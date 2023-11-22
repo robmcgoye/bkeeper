@@ -1,9 +1,11 @@
+<%# locals: (commitments:) -%>
 <%=turbo_frame_tag "commitment-list" do %>
   <div class="border-bottom">
     <% if commitments.blank? %>
       No records found...
     <% else %>
-      <%= render commitments, page: @pagy.page %>
+      <%= render commitments %>
+      <%# , page: @pagy.page %>
     <% end %>
   </div>
   <% if @pagy.pages > 1 %>

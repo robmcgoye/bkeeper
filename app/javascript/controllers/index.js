@@ -4,7 +4,6 @@
 
 import { application } from "./application"
 
-
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
@@ -31,3 +30,6 @@ application.register("sidebar", SidebarController)
 
 import SortmgmtController from "./sortmgmt_controller"
 application.register("sortmgmt", SortmgmtController)
+
+import ToggleController from "./toggle_controller"
+application.register("toggle", ToggleController)

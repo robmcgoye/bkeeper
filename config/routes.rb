@@ -17,12 +17,11 @@ Rails.application.routes.draw do
   root "fdn/foundations#index"
 
   scope module: 'fdn' do
-    get "foundation/cancel", to: "foundations#cancel"
     # charts
     get "foundation/:foundation_id/charts/top-donors", to: "charts#top_donors", as: "charts_top_donors"
     get "foundation/:foundation_id/charts/contribution-time-line", to: "charts#contribution_time_line", as: "charts_contribution_time_line"
-    # reports
-    # get "foundation/:foundation_id/reports/dashboard", to: "reports#dashboard", as: "reports_dashboard"
+
+    get "foundation/cancel", to: "foundations#cancel"
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
@@ -30,7 +29,6 @@ Rails.application.routes.draw do
         get "dashboard", to: "reports#dashboard"
         get "organization_list", to: "reports#organization_list"
       end
-      # get "organizations/filter", to: "organizations#filter"
       get "organizations/sort", to: "organizations#sort"
       resources :organizations do
         get "cancel", on: :member
@@ -56,6 +54,11 @@ Rails.application.routes.draw do
         end
         resources :commitments do
           get "cancel", on: :member
+          get "contribution/new", to: "commitments#new_contribution"
+          post "contributions", to: "commitments#create_contribution"
+          get "contribution/:id", to: "commitments#edit_contribution", as: "contribution"
+          patch "contribution/:id", to: "commitments#update_contribution"
+          delete "contribution/:id", to: "commitments#destroy_contribution"
         end
       end
       namespace :settings do

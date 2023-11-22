@@ -11,6 +11,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
   
   def cancel
     if params[:id].to_i != -1
+      set_contribution
       render turbo_stream: [
         params[:show].to_i ==  APP_CONSTANTS.contribution.show.false ? 
         turbo_stream.replace(@contribution, partial: "contribution", locals: {contribution: @contribution}) : turbo_stream.replace(@contribution, partial: "show")

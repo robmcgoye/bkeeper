@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_07_135313) do
+ActiveRecord::Schema[7.1].define(version: 2023_11_14_235847) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -74,8 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_135313) do
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contribution_id"
-    t.index ["contribution_id"], name: "index_commitments_on_contribution_id"
+    t.boolean "completed", default: false
     t.index ["organization_id"], name: "index_commitments_on_organization_id"
   end
 
@@ -91,7 +90,9 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_07_135313) do
     t.integer "non_deductible_cents", limit: 8, default: 0, null: false
     t.datetime "non_deductible_check_on"
     t.string "non_deductible_check_number"
+    t.integer "commitment_id"
     t.index ["check_id"], name: "index_contributions_on_check_id"
+    t.index ["commitment_id"], name: "index_contributions_on_commitment_id"
     t.index ["donor_id"], name: "index_contributions_on_donor_id"
     t.index ["funding_source_id"], name: "index_contributions_on_funding_source_id"
     t.index ["organization_id"], name: "index_contributions_on_organization_id"
