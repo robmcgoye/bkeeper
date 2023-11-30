@@ -12,13 +12,13 @@
         <div class="col"><h5>Organization Types list</h5></div>
       </div>
 
-      <div class="container-fluid mt-3">
+      <div class="container-fluid mt-3 px-0">
        
         <%# Table Header %>
         <div class="row tb-header pt-1">
-          <div class="col-sm-4">Code</div>
-          <div class="col-sm-6">Description</div>
-          <div class="col-sm-2 text-center">Actions</div>
+          <div class="col-4">Code</div>
+          <div class="col-7">Description</div>
+          <div class="d-none d-sm-block col-sm-2 text-center">Actions</div>
         </div>
         <%= turbo_frame_tag "new-organization-type-form", src: new_foundation_settings_organization_type_path(@foundation) %>
         <%# Table Content %>

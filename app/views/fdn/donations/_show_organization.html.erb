@@ -2,7 +2,7 @@
 <div class="col border-start border-warning">
 
   <div class="row">          
-    <div class="col">
+    <div class="col fs-5">
       <%= organization.contact %>
     </div>
     <div class="col">
@@ -11,11 +11,11 @@
     </div>
   </div>
   <div class="row">
-    <div class="col"><hr class="my-1 text-warning"></div>
+    <div class="col"><hr class="m-2 my-hr bg-warning"></div>
   </div>
-  <div class="row">
+  <div class="row ">
     <div class="col">
-      <%= organization.name %><br>
+      <b><%= organization.name %></b><br>
       <span class="my-text-small">
         <%= organization.address_1 %><br>
         <% if !organization.address_2.blank? %>

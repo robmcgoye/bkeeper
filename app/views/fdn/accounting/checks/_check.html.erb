@@ -1,16 +1,16 @@
 <%# locals: (check:, check_counter: 0, check_iteration: 1) -%>
 <%= turbo_frame_tag check do %>
-  <div class="row my-table-row mx-2">
-    <div class="col-sm-2 px-1 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0">
+  <div class="row my-table-row mx-0">
+    <div class="col-4 col-md-2 px-0 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0">
       <%= check.transaction_at.strftime("%m/%d/%Y") %>
     </div>
-    <div class="col-sm-4 px-1 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0">
+    <div class="d-none d-md-block col-md-4 px-1 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0">
       <%= check.description %>
     </div>
-    <div class="col-sm-4 px-1 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0 text-end">
+    <div class="col-5 col-md-4 px-1 pt-1 my-0 border border-secondary-subtle border-end-0 border-start-0 text-end">
       <%= check.amount.format %>
     </div>
-    <div class="col-sm-2 px-1 my-0 text-center">
+    <div class="col-3 col-md-2 px-1 my-0 text-center">
       <div class="btn-group">
         <%= link_to edit_check_path(check), class: "btn btn-sm btn-outline-secondary" do %>
           <i class="bi bi-pencil-square pe-1"></i>

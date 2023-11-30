@@ -27,6 +27,7 @@ $my-light-contrast:  #E8D5B5;
 
 .primary-main {
   background-color: $dark-blue-color;
+  // min-width: 600px;
   // background-color: $gray-100;
   // height: 100vh;
 }
@@ -51,6 +52,10 @@ $my-light-contrast:  #E8D5B5;
   // opacity: 0.3;
 }
 
+.my-hr {
+  height: 2px;
+  border: none;
+}
 /*------------------------------------*\
   #GENERIC
 \*------------------------------------*/
@@ -113,6 +118,13 @@ $my-light-contrast:  #E8D5B5;
 .my-dropdown-toggle::after {
   content: none;
 }
+
+.my-content{
+  min-width: 400px;
+}
+// .my-table-row {
+//   min-width: 500px;
+// }
 
 .my-table-row:hover{
   background-color: $light-purple-color;

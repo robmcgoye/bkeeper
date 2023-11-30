@@ -14,14 +14,14 @@
   <div class="container">
     
     <div class="row">
-      <div class="col-sm-12 col-lg-6 pb-3">
+      <div class="col-12 col-lg-6 pb-3">
         <h5>Contributions made the last 3 months</h5>
-        <%= line_chart charts_contribution_time_line_path(@foundation), width: "80%",
+        <%= line_chart charts_contribution_time_line_path(@foundation), width: "68%",
                           ytitle: "Contributions" %>
       </div>
-      <div class="col-sm-12 col-lg-6 pb-3">
+      <div class="col-12 col-lg-6 pb-3">
         <h5>Top Donors of the last 3 months</h5>
-        <%= column_chart charts_top_donors_path(@foundation), width: '80%', 
+        <%= column_chart charts_top_donors_path(@foundation), width: '68%', 
                           ytitle: "Total Contributions", xtitle: "Donors" %>
       </div>
     </div>

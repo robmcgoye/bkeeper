@@ -27,7 +27,7 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
       end
     else
       if params[:id].to_i != -1
-        set_commitment
+        # @commitment.reload
         render turbo_stream: [
           params[:show].to_i == 0 ? turbo_stream.replace(@commitment, partial: "commitment", locals: {commitment: @commitment}) : turbo_stream.replace(@commitment, partial: "show_commitment")
         ]
@@ -185,7 +185,7 @@ class Fdn::Donations::CommitmentsController < Fdn::BaseController
     def set_commitment
       if params[:commitment_id].present?
         @commitment = Commitment.find(params[:commitment_id])
-      elsif params[:id].present?
+      elsif params[:id].present? && params[:id].to_i != -1
         @commitment = Commitment.find(params[:id])
       end
     end

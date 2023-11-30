@@ -1,19 +1,19 @@
 <%# locals: (bank_account:) -%>
 <%= turbo_frame_tag bank_account do %>  
-  <div class="row align-items-center">
-    <div class="col-sm-10">
-      <div class="card border bg-success bg-opacity-10 border-success p-2 position-relative">
+  <div class="row align-items-center mx-1">
+    <div class="col-9 col-md-10 pe-0">
+      <div class="card border bg-success bg-opacity-10 border-success ps-1 py-2 position-relative">
         <div class="row align-items-center">
-          <div class="col-md-2">
+          <div class="col-3 col-md-2">
             <span class="badge rounded-pill bg-success">Bank : </span>
           </div>
-          <div class="col-md-4">
+          <div class="col-9 col-md-4 text-center">
             <%= bank_account.full_name %>
           </div>
-          <div class="col-md-2">
+          <div class="col-3 col-md-2">
             <span class="badge rounded-pill bg-success">Balance : </span>
           </div>
-          <div class="col-md-4">
+          <div class="col-9 col-md-4 text-center">
             <%= bank_account.balance.format %>
           </div>
         </div>
@@ -24,15 +24,15 @@
         <% end %>
       </div>    
     </div>
-    <div class="col-sm-2">
-      <div class="btn-group">
-        <%= link_to edit_foundation_bank_account_path(@foundation, bank_account), class: "btn btn-sm btn-outline-secondary" do %>
-          <i class="bi bi-pencil-square pe-1"></i>
+    <div class="col-2">
+      <div class="btn-group flex-wrap">
+        <%= button_to edit_foundation_bank_account_path(@foundation, bank_account), method: :get, class: "btn btn-sm btn-outline-secondary" do %>
+          <i class="bi bi-pencil-square"></i>
         <% end %>
         <%= button_to foundation_bank_account_path(@foundation, bank_account), method: :delete, 
               class: "btn btn-sm btn-outline-danger #{ "disabled" if bank_account.checks.size > 0 }", 
               form: {data: {turbo_confirm: 'Are you sure?'}} do %>
-          <i class="bi bi-trash pe-1"></i>
+          <i class="bi bi-trash"></i>
         <% end %>        
       </div>
     </div>

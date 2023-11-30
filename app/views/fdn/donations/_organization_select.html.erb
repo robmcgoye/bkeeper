@@ -27,9 +27,9 @@
           <%= form_with url: next_page_url, method: :get do |form| %>
             <div class="px-0 container-fluid">
               <div class="mx-0 row tb-header">
-                <div class="col-sm-5 offset-1">Name</div>
-                <div class="col-sm-4">Contact</div>
-                <div class="col-sm-2">Type</div>
+                <div class="col-11 col-sm-5 offset-1">Name</div>
+                <div class="d-none d-sm-block col-sm-4">Contact</div>
+                <div class="d-none d-sm-block col-sm-2">Type</div>
               </div>
               <div class="container-fluid scroll bg-light">
                 <%= turbo_frame_tag "organizations-filter" do %>

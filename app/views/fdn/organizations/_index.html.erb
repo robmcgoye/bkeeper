@@ -9,7 +9,7 @@
         <div class="col text-center"><h5 class="mb-0">Organizations</h5></div>
       </div>
     </div>
-    <div class="card-body pb-0">
+    <div class="card-body pb-0 px-0">
       <div class="container-fluid" id="organization-controller" data-controller="sortmgmt" 
             data-sortmgmt-url-value="<%= foundation_organizations_sort_path(@foundation, page: page, by: by) %>" 
             data-sortmgmt-dir-value="<%= dir %>" 
@@ -19,7 +19,7 @@
 
         <%= render "search", create: false %>
         <div class="row tb-header py-1 align-items-center">
-          <div class="col-sm-5">
+          <div class="col-10 col-sm-5">
             <a href="#" data-action="sortmgmt#sort" 
                 data-value="<%= APP_CONSTANTS.organization.sort.name %>" 
                 data-url="<%= foundation_organizations_sort_path(@foundation, by: APP_CONSTANTS.organization.sort.name) %>" 
@@ -27,7 +27,7 @@
               Name<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
             </a>
           </div>
-          <div class="col-sm-3">
+          <div class="d-none d-sm-block col-sm-3">
             <a href="#" data-action="sortmgmt#sort" 
                 data-value="<%= APP_CONSTANTS.organization.sort.contact %>" 
                 data-url="<%= foundation_organizations_sort_path(@foundation, by: APP_CONSTANTS.organization.sort.contact) %>" 
@@ -35,7 +35,7 @@
               Contact<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
             </a>
           </div>
-          <div class="col-sm-3">
+          <div class="d-none d-sm-block col-sm-3">
             <a href="#" data-action="sortmgmt#sort" 
                 data-value="<%= APP_CONSTANTS.organization.sort.type %>" 
                 data-url="<%= foundation_organizations_sort_path(@foundation, by: APP_CONSTANTS.organization.sort.type) %>" 
@@ -43,7 +43,7 @@
               Type<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
             </a>
           </div>
-          <div class="col-sm-1 px-0">
+          <div class="col-1 px-0">
             <%= link_to new_foundation_organization_path(@foundation), class: "btn btn-sm btn-outline-success py-0", data: { turbo_frame: "new_organization" } do %>
               New
             <% end %>

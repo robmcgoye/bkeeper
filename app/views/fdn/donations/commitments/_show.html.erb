@@ -7,17 +7,27 @@
           <div class="col text-start">Commitment</div>
           <div class="col text-end">
             <div class="btn-group">
+              <%= link_to foundation_commitments_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
+              <div class="row text-center px-2">
+                  <div class="col-auto px-1"><i class="bi bi-box-arrow-left"></i></div>
+                  <div class="d-none d-md-block col ps-0">Back</div>
+              </div>
+              <% end %>
+              <%= button_to foundation_commitment_path(@foundation, @commitment, :show => "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
+                <div class="row text-center px-2">
+                    <div class="col-auto px-1"><i class="bi bi-trash"></i></div>
+                    <div class="d-none d-md-block col ps-0">Delete</div>
+                </div>
+              <% end %>
               <%= link_to edit_foundation_commitment_path(@foundation, @commitment, :show => "1"), 
                           class: "btn btn-sm btn-outline-secondary", 
                           data: { turbo_frame: dom_id(@commitment) }  do %>
-                Edit
+                <div class="row text-center px-2">
+                  <div class="col-auto px-1"><i class="bi bi-pencil"></i></div>
+                  <div class="d-none d-md-block col ps-0">Edit</div>
+              </div>
               <% end %>
-              <%= button_to foundation_commitment_path(@foundation, @commitment, :show => "1"), method: :delete, class: "btn btn-sm btn-outline-danger", form: {data: {turbo_confirm: 'Are you sure?'}} do %>
-                <i class="bi bi-trash pe-1"></i>Delete
-              <% end %>
-              <%= link_to foundation_commitments_path(@foundation), class: "btn btn-sm btn-outline-secondary" do %>
-              Back to commitments
-              <% end %>
+
             </div>
           </div>
         </div>
@@ -32,22 +42,22 @@
     <div class="card-body px-0">
       <%= render "new_contribution_placeholder" %>
       <div class="row mx-0 tb-header py-1">
-        <div class="col-sm-2">
+        <div class="col-5 col-sm-2">
           Date
         </div>
-        <div class="col-sm-2">
+        <div class="d-none d-sm-block col-sm-2">
           Check #
         </div>
-        <div class="col-sm-2 text-center">
+        <div class="col-5 col-sm-2">
           Amt
         </div>
-        <div class="col-sm-2">
+        <div class="d-none d-sm-block col-sm-2">
           Fund
         </div>
-        <div class="col-sm-3">
+        <div class="d-none d-sm-block col-sm-3">
           Bank
         </div>
-        <div class="col-sm-1 px-0">
+        <div class="col-2 col-sm-1 ps-0 pe-1">
           <%= link_to foundation_commitment_contribution_new_path(@foundation, @commitment), class: "py-0 btn btn-sm btn-outline-success", data: { turbo_frame: dom_id(Contribution.new, :commitment) } do %>
             New
           <% end %>

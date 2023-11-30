@@ -1,15 +1,15 @@
 <%= turbo_frame_tag organization do %>
   <div class="row my-1 my-table-row align-items-center">
-    <div class="col-sm-5">
+    <div class="col-10 col-sm-5">
       <%= organization.name %>
     </div>
-    <div class="col-sm-3">
+    <div class="d-none d-sm-block col-sm-3">
       <%= organization.contact %>
     </div>
-    <div class="col-sm-3">
+    <div class="d-none d-sm-block col-sm-3">
       <%= organization.organization_type.code %>
     </div>
-    <div class="col-sm-1">
+    <div class="col-1">
       <div class="dropstart" role="group">
         <button type="button" class="px-1 btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-three-dots-vertical"></i>

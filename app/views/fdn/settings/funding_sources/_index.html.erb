@@ -12,14 +12,14 @@
         <div class="col"><h5>Funding Sources list</h5></div>
       </div>
 
-      <div class="container-fluid mt-3">
+      <div class="container-fluid mt-3 px-0">
        
         <%# Table Header %>
-        <div class="row tb-header pt-1">
-          <div class="col-sm-2">Code</div>
-          <div class="col-sm-3">Short Name</div>
-          <div class="col-sm-5">Full Name</div>
-          <div class="col-sm-2 text-center">Actions</div>
+        <div class="row tb-header pt-1 align-items-center">
+          <div class="col-4 col-sm-2">Code</div>
+          <div class="d-none d-sm-block col-sm-3">Short Name</div>
+          <div class="col-7 col-sm-5">Full Name</div>
+          <div class="d-none d-sm-block col-sm-2 text-center">Actions</div>
         </div>
         <%= turbo_frame_tag "new-funding-source-form", src: new_foundation_settings_funding_source_path(@foundation) %>
         <%# Table Content %>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag @bank_account do %>
-  <div class="card bg-primary bg-opacity-10 border-primary">
+  <div class="card bg-primary bg-opacity-10 border-primary mx-1">
     <div class="card-body py-1">
       <%= render "form", bank_account: @bank_account, form_url: foundation_bank_account_path(@foundation, @bank_account) %>
     </div>

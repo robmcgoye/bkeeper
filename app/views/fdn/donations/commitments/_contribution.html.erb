@@ -1,22 +1,22 @@
 <%= turbo_frame_tag dom_id(contribution, :commitment) do %>
   <div class="row my-1 my-table-row ps-1">
     <div class="row align-items-center mx-0">
-      <div class="col-sm-2 px-0">
+      <div class="col-5 col-sm-2 px-0">
         <%= contribution.check.transaction_at.strftime("%m/%d/%Y") %>
       </div>
-      <div class="col-sm-2">
+      <div class="d-none d-sm-block col-sm-2">
         <%= contribution.check.check_number %>
       </div>
-      <div class="col-sm-2 pe-3 text-end">
+      <div class="col-6 col-sm-2 pe-3 text-end">
         <%= contribution.check.amount.format %>
       </div>
-      <div class="col-sm-2">
+      <div class="d-none d-sm-block col-sm-2">
         <%= contribution.funding_source.code %>
       </div>
-      <div class="col-sm-3">
+      <div class="d-none d-sm-block col-sm-3">
         <%= contribution.check.bank_account.full_name %>
       </div>
-      <div class="col-sm-1">
+      <div class="d-none d-sm-block col-sm-1">
         <button class="btn btn-outline-secondary py-0 px-1 bi-chevron-left" type="button" 
                 data-bs-toggle="collapse" 
                 data-controller="toggle"

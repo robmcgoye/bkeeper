@@ -1,6 +1,7 @@
 class Fdn::FoundationsController < ApplicationController
-  before_action :set_foundation, only: %i[ edit update destroy settings dashboard ]
-  before_action :check_permissions, only: %i[ new create edit update destroy ]
+  before_action :set_foundation, only: %i[ edit update destroy settings dashboard remove_image_logo remove_image_header ]
+  before_action :check_permissions, only: %i[ new create edit update destroy remove_image_logo remove_image_header ]
+
   def index
     @foundations = Foundation.all
   end
@@ -30,7 +31,7 @@ class Fdn::FoundationsController < ApplicationController
     target = request.headers["Turbo-Frame"]
     if target.start_with? "foundation_"
       partial = "fdn/settings/show_foundation"
-      @foundation = Foundation.find(target[11].to_i)
+      @foundation = Foundation.find(target[11, target.length].to_i)
     else
       partial = "create"
     end
@@ -74,9 +75,33 @@ class Fdn::FoundationsController < ApplicationController
     redirect_to root_url, notice: "Foundation was successfully destroyed."
   end
 
+  def remove_image_logo
+    @foundation.image_logo.purge
+    @foundation.reload
+    flash.now[:notice] = "Removed logo"
+    render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace(@foundation, partial: "fdn/settings/show_foundation")
+    ]
+  end
+
+  def remove_image_header
+    @foundation.image_header.purge
+    @foundation.reload
+    flash.now[:notice] = "Removed header"
+    render turbo_stream: [
+        turbo_stream.replace("messages", partial: "layouts/messages"),
+        turbo_stream.replace(@foundation, partial: "fdn/settings/show_foundation")
+    ]
+  end
+
   private
     def set_foundation
-      @foundation = Foundation.find(params[:id])
+      if params[:foundation_id].present?
+        @foundation = Foundation.find(params[:foundation_id])
+      else
+        @foundation = Foundation.find(params[:id])
+      end
     end
 
     def check_permissions

@@ -2,15 +2,15 @@
 <%= turbo_frame_tag commitment do %>
   <div class="row my-1 my-table-row align-items-center">
 
-      <div class="col-sm-2"><%= commitment.start_at.strftime("%m/%d/%Y") %></div>
-      <div class="col-sm-2"><%= commitment.end_at.strftime("%m/%d/%Y") %></div>
-      <div class="col-sm-3">
+      <div class="col-5 col-sm-2"><%= commitment.start_at.strftime("%m/%d/%Y") %></div>
+      <div class="d-none d-sm-block col-sm-2"><%= commitment.end_at.strftime("%m/%d/%Y") %></div>
+      <div class="col-5 col-sm-3">
         <%= commitment.amount.format %>
         <span class="fw-medium text-primary"> X 
         <%= commitment.number_payments %></span>
       </div>
-      <div class="col-sm-4"><%= commitment.organization.name %></div>
-      <div class="col-sm-1 pb-1">
+      <div class="d-none d-sm-block col-sm-4"><%= commitment.organization.name %></div>
+      <div class="col-2 col-sm-1 pb-1">
         <div class="dropstart" role="group">
           <button type="button" class="px-1 btn btn-sm btn-outline-dark my-dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-three-dots-vertical"></i>

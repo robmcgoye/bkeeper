@@ -10,7 +10,7 @@
     <%= render "new_placeholder" %> 
       <%# Table Header %>
       <div class="row tb-header py-1 pe-1 align-items-center">
-        <div class="col-sm-2">
+        <div class="col-5 col-sm-2">
           <a href="#" data-action="sortmgmt#sort"
               data-value="0"  
               data-url="<%= foundation_commitments_sort_path(@foundation, :by => "0") %>" 
@@ -18,7 +18,7 @@
             Start<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
           </a>
         </div>
-        <div class="col-sm-2">
+        <div class="d-none d-sm-block col-sm-2">
           <a href="#" data-action="sortmgmt#sort"
               data-value="1"  
               data-url="<%= foundation_commitments_sort_path(@foundation, :by => "1") %>" 
@@ -26,7 +26,7 @@
             End<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
           </a>
         </div>
-        <div class="col-sm-3">
+        <div class="col-5 col-sm-3">
           <a href="#" data-action="sortmgmt#sort"
               data-value="2"  
               data-url="<%= foundation_commitments_sort_path(@foundation, :by => "2") %>" 
@@ -34,7 +34,7 @@
             Payment<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
           </a>
         </div>
-        <div class="col-sm-4">
+        <div class="d-none d-sm-block col-sm-4">
           <a href="#" data-action="sortmgmt#sort"
               data-value="3"  
               data-url="<%= foundation_commitments_sort_path(@foundation, :by => "3") %>" 
@@ -42,7 +42,7 @@
             Organization<i class="ps-1 bi" data-sortmgmt-target="sort_icon"></i>
           </a>        
         </div>
-        <div class="px-0 col-sm-1 text-nowrap">
+        <div class="px-0 col-2 col-sm-1 text-nowrap">
           <%= link_to new_foundation_commitment_path(@foundation), class: "btn btn-sm btn-outline-success py-0", data: { turbo_frame: "new_commitment" } do %>
             New
           <% end %>

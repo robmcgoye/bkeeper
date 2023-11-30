@@ -20,11 +20,13 @@ Rails.application.routes.draw do
     # charts
     get "foundation/:foundation_id/charts/top-donors", to: "charts#top_donors", as: "charts_top_donors"
     get "foundation/:foundation_id/charts/contribution-time-line", to: "charts#contribution_time_line", as: "charts_contribution_time_line"
-
+    
     get "foundation/cancel", to: "foundations#cancel"
     resources :foundations, except: [:show] do
       get "dashboard", on: :member
       get "settings", on: :member
+      delete "remove-image-logo", to: "foundations#remove_image_logo", as: "remove_image_logo"
+      delete "remove-image-header", to: "foundations#remove_image_header", as: "remove_image_header"
       namespace "reporting" do
         get "dashboard", to: "reports#dashboard"
         get "organization_list", to: "reports#organization_list"
