@@ -25,6 +25,9 @@ application.register("pages", PagesController)
 import ReconciliationController from "./reconciliation_controller"
 application.register("reconciliation", ReconciliationController)
 
+import ReportsController from "./reports_controller"
+application.register("reports", ReportsController)
+
 import SidebarController from "./sidebar_controller"
 application.register("sidebar", SidebarController)
 

@@ -1,6 +1,6 @@
 class Fdn::OrganizationsController < Fdn::BaseController
   before_action :set_organization, only: %i[ show edit update destroy contributions commitments ]
-  before_action :set_filter_params, only: %i[ index sort show create destroy cancel update]
+  before_action :set_organization_filter_params, only: %i[ index sort show create destroy cancel update]
   
   def index
     render_main 
@@ -114,12 +114,12 @@ class Fdn::OrganizationsController < Fdn::BaseController
       end
     end
 
-    def set_filter_params
-      params[:page].blank? ? @page = "1" : @page = params[:page]
-      params[:by].blank? ? @by = APP_CONSTANTS.organization.sort.name : @by = params[:by].to_i
-      params[:dir].blank? ? @dir = APP_CONSTANTS.organization.sort_direction.up : @dir = params[:dir].to_i
-      params[:query].blank? ? @query = "" : @query = params[:query]
-    end
+    # def set_filter_params
+    #   params[:page].blank? ? @page = "1" : @page = params[:page]
+    #   params[:by].blank? ? @by = APP_CONSTANTS.organization.sort.name : @by = params[:by].to_i
+    #   params[:dir].blank? ? @dir = APP_CONSTANTS.organization.sort_direction.up : @dir = params[:dir].to_i
+    #   params[:query].blank? ? @query = "" : @query = params[:query]
+    # end
 
     def set_organization
       @organization = Organization.find(params[:id])

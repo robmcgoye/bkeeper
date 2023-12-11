@@ -11,16 +11,77 @@
     </div>
 
     <div class="container pt-2">
-      <ul>
-        <li>
-          
-    <%= link_to foundation_reporting_organization_list_path(@foundation, format: :pdf), target: "_blank" do %>
-      <i class="bi bi-file-pdf pe-1"></i>Organization list
-    <% end %>
-        </li>
-        <li>Open Commitments</li>
-        <li>Outstanding Contributions</li>
-      </ul>
+
+
+<p class="d-inline-flex gap-1 mb-2">
+  <a class="btn btn-sm btn-outline-secondary" data-bs-toggle="collapse" href="#collapseCommitmentReport" role="button" aria-expanded="false" aria-controls="collapseCommitmentReport">
+    Commitment Report
+  </a>
+</p>
+<div class="collapse" id="collapseCommitmentReport">
+  <div class="card small py-1 mb-1" data-controller="reports">
+    <%# data: { turbo: "false" },  %>
+    <%= form_with model: CommitmentReportForm.new, url: foundation_reporting_commitment_report_path(@foundation), html: {id: "commitment_report"} do |f| %>            
+      <div class="card-body py-1">
+
+        <span class="badge text-bg-secondary">Report Format</span>
+        <div class="card my-1 px-1">
+          <div class="form-check pt-1">
+            <%= f.radio_button :format, "summary", { checked: true, class: "form-check-input" }  %>
+            <%= f.label :format_summary, "Summary Report", class: "form-check-label" %>
+          </div>          
+          <div class="form-check">
+            <%= f.radio_button :format, "detailed", class: "form-check-input"  %>
+            <%= f.label :format_detailed, "Detailed Report", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <span class="badge text-bg-secondary">What to print</span>
+        <div class="card my-1 px-1">
+          <div class="form-check pt-1 ">
+            <%= f.radio_button :state, "open", { checked: true, class: "form-check-input" }  %>
+            <%= f.label :state_open, "Open Commitments", class: "form-check-label" %>
+          </div>          
+          <div class="form-check">
+            <%= f.radio_button :state, "closed", class: "form-check-input"  %>
+            <%= f.label :state_closed, "Closed Commitments", class: "form-check-label" %>
+          </div>
+        </div>
+
+        <span class="badge text-bg-secondary">Sort report by</span>
+        <div class="card my-1 px-1">
+          <div class="row pt-1">
+            <div class="col">
+              <div class="form-check">
+                <%= f.radio_button :sort, "alpha", { checked: true, class: "form-check-input" } %>
+                <%= f.label :sort_alpha, "Alpha", class: "form-check-label" %>
+              </div>                
+            </div>
+            <div class="col">
+              <div class="form-check">
+                <%= f.radio_button :sort, "date", class: "form-check-input"  %>
+                <%= f.label :sort_date, "Date", class: "form-check-label" %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 d-grid gap-1">
+    <button type="button" class="btn btn-outline-secondary btn-sm" 
+             
+            data-action="click->reports#print_commitment">
+      <i class="bi bi-printer pe-1"></i>Print Report
+    </button>          
+          <%#= f.button class: "btn btn-sm btn-secondary" do %>
+            
+          <%# end %>  
+        </div>          
+      </div>
+    <% end %>  
+  </div>
+</div>
+
+
     </div>
     
   </div>

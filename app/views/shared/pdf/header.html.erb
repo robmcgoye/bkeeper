@@ -1,14 +1,11 @@
-<table>
-  <tr>
-    <td>
-      <%= image_tag(@foundation.resize_image_header(500, 80)) if @foundation.image_header.attached? %>
-    </td>
-    <td class="text-btm text-end">
-      <%= title %>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2"><hr class="border pt-0 mb-2"></td>
-  </tr>
-</table>
-
+<%# locals: (title: "", additional_header: nil) -%>
+<div class="table">
+  <div class="row">
+    <div class="col w-50p"><%= image_tag(@foundation.resize_image_header(500, 80)) if @foundation.image_header.attached? %></div>
+    <div class="col w-45p text-btm text-end"><%= title %></div>
+  </div>
+  <div class="row">
+    <div class="col w-100p"><hr class="black-line pt-0 mb-2"></div>
+  </div>
+  <%= render additional_header unless additional_header.nil? %>
+</div>

@@ -14,6 +14,7 @@ class Commitment < ApplicationRecord
   before_destroy :validate_before_destroy
   
   scope :not_completed, -> { where(completed: false) }
+  scope :completed, -> { where(completed: true) }
   scope :sort_organization_up, -> { includes(:organization).order("organizations.name") }
   scope :sort_organization_down, -> { includes(:organization).order("organizations.name desc") }
   scope :sort_start_date_up, -> { order(:start_at) }

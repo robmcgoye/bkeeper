@@ -20,6 +20,9 @@ $my-light-contrast:  #E8D5B5;
 /*------------------------------------*\
   #UNAUTHENTICATED PAGES
 \*------------------------------------*/
+button > * {
+  pointer-events: none;
+}
 
 .secondary-main {
   background-color: $blue-900;

@@ -72,7 +72,7 @@ export default class extends Controller {
     }
   }
   
-  #get_query(){
+  #get_query() {
     if (this.hasQueryTarget){
       this.#query = this.queryTarget.value;
       return this.queryTarget.value;
@@ -81,8 +81,22 @@ export default class extends Controller {
     }
   }
 
+  get_query_url() {
+    return `${this.urlValue}&dir=${this.#sort_dirs[this.selectedValue]}&query=${this.#get_query()}`;
+  }
+
+  get_filter() {
+    let search = "";
+    let url = this.get_query_url();
+    let search_starting_position = url.indexOf("?");
+    if ((search_starting_position > 0) && ((search_starting_position + 1) < url.length)) {
+      search = url.slice((search_starting_position + 1), url.length);
+    }
+    return search;
+  }
+
   selectedValueChanged() {
-    const url = `${this.urlValue}&dir=${this.#sort_dirs[this.selectedValue]}&query=${this.#get_query()}`;
+    const url = this.get_query_url();
     // const url = `${this.urlValue}&dir=${this.#sort_dirs[this.selectedValue]}`;
     this.#turbo_get(url);
     this.#set_sort_icon();

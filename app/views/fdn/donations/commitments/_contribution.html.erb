@@ -2,6 +2,11 @@
   <div class="row my-1 my-table-row ps-1">
     <div class="row align-items-center mx-0">
       <div class="col-5 col-sm-2 px-0">
+                <% if contribution.check.cleared? %>
+                  <i class="bi bi-check2-circle"></i>
+                <% else %>
+                  <i class="bi bi-circle"></i>
+                <% end %>
         <%= contribution.check.transaction_at.strftime("%m/%d/%Y") %>
       </div>
       <div class="d-none d-sm-block col-sm-2">
@@ -46,6 +51,7 @@
           </table>
         </div>
         <div class="col-sm-2 text-end">
+          <% if !contribution.check.cleared? %>
           <div class="btn-group">
             <%= link_to foundation_commitment_contribution_path(@foundation, contribution.commitment, contribution), class: "btn btn-sm btn-outline-secondary" do %>
               <i class="bi bi-pencil-square pe-1"></i>
@@ -54,7 +60,8 @@
                 form: {data: {turbo_confirm: 'Are you sure?'}} do %>
               <i class="bi bi-trash pe-1"></i>
             <% end %>        
-          </div>        
+          </div>  
+          <% end %>      
         </div>
       </div>
     </div>

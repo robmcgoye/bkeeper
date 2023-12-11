@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       namespace "reporting" do
         get "dashboard", to: "reports#dashboard"
         get "organization_list", to: "reports#organization_list"
+        post "commitment_report", to: "reports#commitment"
       end
       get "organizations/sort", to: "organizations#sort"
       resources :organizations do
