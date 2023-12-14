@@ -11,6 +11,8 @@ class FundingSource < ApplicationRecord
   
   before_destroy :validate_before_destroy
 
+  scope :sort_code_up, -> { order("code") }
+
   private
     
     def validate_before_destroy

@@ -8,7 +8,8 @@ class Organization < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :foundation_id }
   
   before_destroy :validate_before_destroy
-
+  
+  scope :types, -> (type_ids) { where(organization_type_id: type_ids).pluck(:id) }
   scope :sort_name_up, -> { order(:name) }
   scope :sort_name_down, -> { order(name: :desc) }
   scope :sort_contact_down, -> { order(contact: :desc) }

@@ -23,8 +23,8 @@ class CommitmentReportForm
     false
   end
 
-  def filter(foundation)
+  # def filter(foundation)
     
-  end
+  # end
 
 end

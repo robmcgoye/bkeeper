@@ -29,6 +29,9 @@ class Contribution < ApplicationRecord
   scope :sort_amt_down, -> { includes(:check).order("checks.amount_cents desc") }
   scope :sort_organization_up, -> { includes(:organization).order("organizations.name") }
   scope :sort_organization_down, -> { includes(:organization).order("organizations.name desc") }
+  scope :transactions_during, ->(starting_at, ending_at) { joins(:check).where("checks.transaction_at >= ? and checks.transaction_at <= ?", starting_at, ending_at) }
+  scope :funds, -> (fund_ids) { where(funding_source_id: fund_ids)}
+  scope :donors, -> (donor_ids) { where(donor_id: donor_ids)}
 
   def self.graph_contributions
     # contributions = self.select('checks.amount_cents, organizations.name, checks.transaction_at')
@@ -37,11 +40,15 @@ class Contribution < ApplicationRecord
           .where('checks.transaction_at >= ? AND checks.transaction_at <= ?', 3.month.ago, Time.current)
           .group('checks.transaction_at')
           .order('checks.transaction_at DESC')
-          formated_contributions = contributions.pluck('checks.transaction_at as date', 'SUM(checks.amount_cents) as total')
-          # formated_contributions = contributions.pluck( 'checks.transaction_at as date', 'organizations.name as name', 'checks.amount_cents as total')
-          # formated_contributions.map! {|item| [ item[0], item[1], Money.from_cents(item[2]).format(symbol: nil) ]}
-          formated_contributions.map! {|item| [ item[0], Money.from_cents(item[1]).format(symbol: nil) ]}
-        end
+    formated_contributions = contributions.pluck('checks.transaction_at as date', 'SUM(checks.amount_cents) as total')
+    # formated_contributions = contributions.pluck( 'checks.transaction_at as date', 'organizations.name as name', 'checks.amount_cents as total')
+    # formated_contributions.map! {|item| [ item[0], item[1], Money.from_cents(item[2]).format(symbol: nil) ]}
+    formated_contributions.map! {|item| [ item[0], Money.from_cents(item[1]).format(symbol: nil) ]}
+  end
+
+  # def self.transactions_during(starting_at, ending_at)
+    
+  # end
 
   private
 

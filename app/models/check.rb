@@ -23,7 +23,7 @@ class Check < ApplicationRecord
 
   scope :open_transactions, -> () { where(cleared: false).order(:transaction_at) }
   scope :open_deposits, -> () { where(cleared: false).where(transaction_type: :credit).order(transaction_at: :desc) }
-
+  
 
   private
 
