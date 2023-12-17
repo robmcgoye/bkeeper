@@ -16,7 +16,7 @@ class Contribution < ApplicationRecord
   monetize :non_deductible_cents
   accepts_nested_attributes_for :check
   
-  enum :in_kind, { na: 0, househld_effects: 1, personal_effects: 2, securities: 3 }, default: :na
+  enum :in_kind, { n_a: 0, househld_effects: 1, personal_effects: 2, securities: 3 }, default: :n_a
   
   scope :organization_contributions, -> (organization_ids) { where(organization_id: organization_ids) }
   scope :cleared_contributions, ->() { joins(:check).where( "checks.cleared = true" ) }

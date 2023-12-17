@@ -58,6 +58,17 @@
           <%= f.collection_select :donor_id, @foundation.donors.sort_full_name_up, :id, :full_name,  
             {include_blank: 'Choose...'}, {class: "form-select form-select-sm"}  %>
         </div>
+        <div class="col-sm-2 text-end">
+          <%= f.label :in_kind, class: "badge text-bg-primary" %>
+        </div>
+        <div class="col-sm-4 px-0">
+          <%= f.select :in_kind, options_for_select(
+                                  Contribution.in_kinds.map { 
+                                    |key, value| [(key.humanize).titleize, key] 
+                                  }, [(contribution.in_kind.humanize).titleize, contribution.in_kind]
+                                ), 
+                              {}, {class: "form-select form-select-sm"} %>          
+        </div>
       </div>
 
       <div class="row">

@@ -120,7 +120,7 @@ class Fdn::Donations::ContributionsController < Fdn::BaseController
     end
 
     def contribution_params
-      params.require(:contribution).permit(:donor_id, :funding_source_id, :organization_id, 
+      params.require(:contribution).permit(:donor_id, :funding_source_id, :organization_id, :in_kind,
         check_attributes: [ 
             :id, :check_number, :transaction_at, :description, :amount, :bank_account_id
             ])
